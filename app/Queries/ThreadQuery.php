@@ -4,6 +4,7 @@ namespace App\Queries;
 
 use App\Models\Channel;
 use App\Filters\ThreadFilter;
+use App\Models\Thread;
 use Emberfuse\Blaze\Queries\Query;
 use Illuminate\Database\Eloquent\Builder;
 
