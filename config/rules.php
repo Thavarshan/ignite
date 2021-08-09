@@ -72,23 +72,30 @@ return [
         ],
     ],
 
-    /*
-     * Thread Validation Rules.
+     /*
+     * User Threads Validation Rules.
      */
     'thread' => [
         'title' => ['required', 'string', 'max:255'],
-        'body' => ['required', 'string'],
-        'channel_id' => ['required', 'numeric', 'exists:channels,id'],
+        'body' => ['required'],
         'user_id' => ['required', 'numeric', 'exists:users,id'],
-        'locked' => ['nullable'],
+        'channel_id' => ['required', 'numeric', 'exists:channels,id'],
     ],
 
     /*
-     * Thread Validation Rules.
-     */
+   * Threads Replies Validation Rules.
+   */
     'reply' => [
-        'body' => ['required', 'string'],
-        'thread_id' => ['required', 'numeric', 'exists:threads,id'],
+        'body' => ['required'],
         'user_id' => ['required', 'numeric', 'exists:users,id'],
+        'thread_id' => ['required', 'numeric', 'exists:threads,id'],
+    ],
+
+    /*
+  * Threads Channels Validation Rules.
+  */
+    'channel' => [
+        'name' => ['required', 'string', 'max:255'],
+        'slug' => ['required', 'string', 'max:255'],
     ],
 ];

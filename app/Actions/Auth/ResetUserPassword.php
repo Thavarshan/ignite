@@ -51,7 +51,8 @@ class ResetUserPassword implements ResetsUserPasswords
     public function reset(array $data)
     {
         return $this->broker->reset(
-            $data, $this->resetPasswordCallback($data['password'])
+            $data,
+            $this->resetPasswordCallback($data['password'])
         );
     }
 

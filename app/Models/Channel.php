@@ -2,22 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Emberfuse\Blaze\Models\Traits\Directable;
 use Emberfuse\Blaze\Models\Traits\Sluggable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Channel extends Model
 {
     use HasFactory;
     use Sluggable;
+    use Directable;
 
     /**
-     * The attributes that aren't mass assignable.
+     * Mass assignable attributes.
      *
-     * @var string[]|bool
+     * @var array
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+    ];
 
     /**
      * Get the route key for the model.

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateThreadsTable extends Migration
 {
@@ -16,15 +16,9 @@ class CreateThreadsTable extends Migration
         Schema::create('threads', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('slug')->unique();
-            $table->foreignId('channel_id')
-                ->constrained('channels')
-                ->cascadeOnDelete();
-            $table->foreignId('user_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
-            $table->text('body')->nullable();
-            $table->boolean('locked')->default(false);
+            $table->mediumText('body');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('channel_id')->constrained('channels');
             $table->timestamps();
         });
     }

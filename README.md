@@ -22,46 +22,10 @@ Switch to the repo folder
 cd ignite
 ```
 
-Install all the dependencies using composer
+Run the setup script.
 
 ```bash
-composer install
-```
-
-Copy the example env file and make the required configuration changes in the .env file
-
-```bash
-cp .env.example .env
-```
-
-Generate a new application key
-
-```bash
-php artisan key:generate
-```
-
-Run the database migrations (**Set the database connection in .env before migrating**)
-
-```bash
-php artisan migrate
-```
-
-Start the local development server
-
-```bash
-php artisan serve
-```
-
-You can now access the server at http://localhost:8000
-
-**TL;DR command list**
-
-```bash
-git clone https://github.com/Thavarshan/ignite.git
-cd ignite
-composer install
-cp .env.example .env
-php artisan key:generate
+chmod +x ./bin/setup.sh && ./bin/setup.sh
 ```
 
 **Make sure you set the correct database connection information before running the migrations** [Environment variables](#environment-variables)

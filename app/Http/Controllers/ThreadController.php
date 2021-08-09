@@ -2,66 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
-use App\Models\Thread;
-use App\Models\Channel;
-use App\Queries\ThreadQuery;
-use App\Filters\ThreadFilter;
+use App\Filters\ThreadFilters;
 use App\Http\Requests\ThreadRequest;
-use App\Actions\Threads\DeleteThread;
-use App\Actions\Threads\UpdateThread;
-use App\Http\Responses\ThreadResponse;
-use App\Actions\Threads\CreateNewThread;
+use App\Models\Channel;
+use App\Models\Thread;
 
 class ThreadController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * @param Channel|null $channel
+     * @param ThreadFilters $filters
      *
-     * @param \App\Models\Channel       $channel
-     * @param \App\Queries\ThreadQuery  $query
-     * @param \App\Filters\ThreadFilter $filters
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Channel $channel, ThreadQuery $query, ThreadFilter $filters)
+    public function index(?Channel $channel = null, ThreadFilters $filters)
     {
-        return Inertia::render('Threads/Index', [
-            'thread' => $query->make($channel, $filters)->paginate(),
-        ]);
+        return response()->json((! is_null($channel)) ? $channel->threads->all() : Thread::filter($filters)->get());
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @param \App\Models\Thread $thread
-     *
      * @return \Illuminate\Http\Response
      */
-    public function create(Channel $channel)
+    public function create()
     {
-        return Inertia::render('Threads/Create', compact('channel'));
+        $this->response('Thread Creation');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\ThreadRequest     $request
-     * @param \App\Models\Channel                  $channel
-     * @param \App\Actions\Threads\CreateNewThread $creator
+     * @param ThreadRequest $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(
-        ThreadRequest $request,
-        Channel $channel,
-        CreateNewThread $creator
-    ) {
-        $thread = $creator->create(
-            $request->validated(), ['channel' => $channel]
-        );
+    public function store(ThreadRequest $request)
+    {
+        $thread = Thread::create($request->validated());
 
-        return ThreadResponse::dispatch($thread->fresh());
+        return response()->json($thread, 201);
     }
 
     /**
@@ -70,63 +51,55 @@ class ThreadController extends Controller
      * @param \App\Models\Channel $channel
      * @param \App\Models\Thread  $thread
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Channel $channel, Thread $thread)
     {
-        return Inertia::render('Threads/Show', [
-            'thread' => $thread->load('replies'),
-            'related' => $channel->threads(),
-        ]);
+        return response()->json($thread);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Channel $channel
-     * @param \App\Models\Thread  $thread
+     * @param \App\Models\Thread $thread
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Channel $channel, Thread $thread)
+    public function edit(Thread $thread)
     {
-        return Inertia::render('Threads/Edit', compact('thread'));
+        $this->response('Thread Edit View');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\ThreadRequest  $request
-     * @param \App\Models\Channel               $channel
-     * @param \App\Models\Thread                $thread
-     * @param \App\Actions\Threads\UpdateThread $updater
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Thread       $thread
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(
-        ThreadRequest $request,
-        Channel $channel,
-        Thread $thread,
-        UpdateThread $updater
-    ) {
-        $updater->update($thread, $request->validated());
+    public function update(ThreadRequest $request, Thread $thread)
+    {
+        $this->authorize('update', $thread);
 
-        return ThreadResponse::dispatch($thread->fresh());
+        $thread->update($request->validated());
+
+        return response()->json($thread);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Channel               $channel
-     * @param \App\Models\Thread                $thread
-     * @param \App\Actions\Threads\DeleteThread $deleter
+     * @param \App\Models\Thread $thread
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Channel $channel, Thread $thread, DeleteThread $deleter)
+    public function destroy(Thread $thread)
     {
-        $deleter->delete($thread);
+        $this->authorize('update', $thread);
 
-        return ThreadResponse::dispatch($channel);
+        $thread->delete();
+
+        return response()->json();
     }
 }

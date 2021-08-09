@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Emberfuse\Scorch\Http\Requests\Request;
-use Illuminate\Foundation\Http\FormRequest;
 
 class ThreadRequest extends Request
 {
@@ -14,11 +13,7 @@ class ThreadRequest extends Request
      */
     public function authorize(): bool
     {
-        if ($thread = $this->route('thread')) {
-            return $this->isAllowed('manage', $thread, false);
-        }
-
-        return $this->isAuthenticated();
+        return true;
     }
 
     /**

@@ -60,8 +60,8 @@ class User extends Authenticatable implements ApiTokenContract
     protected $casts = [
         'email_verified_at' => 'datetime',
         'two_factor_enabled' => 'boolean',
-        'settings' => 'object',
-        'address' => 'object',
+        'settings' => 'array',
+        'address' => 'array',
     ];
 
     /**
@@ -74,24 +74,4 @@ class User extends Authenticatable implements ApiTokenContract
         'sessions',
         'two_factor_enabled',
     ];
-
-    /**
-     * Get all threads that belong to this user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function threads(): HasMany
-    {
-        return $this->hasMany(Thread::class);
-    }
-
-    /**
-     * Get all replies that belong to this user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function replies(): HasMany
-    {
-        return $this->hasMany(Thread::class);
-    }
 }
