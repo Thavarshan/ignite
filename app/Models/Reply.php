@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Traits\LikableTrait;
+use App\Http\Traits\RecordActivityTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,7 @@ class Reply extends Model
 {
     use HasFactory;
     use LikableTrait;
+    use RecordActivityTrait;
 
     /**
      * Mass assignable attributes.

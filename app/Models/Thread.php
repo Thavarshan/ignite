@@ -3,18 +3,19 @@
 namespace App\Models;
 
 use App\Http\Traits\LikableTrait;
+use App\Http\Traits\RecordActivityTrait;
 use Emberfuse\Blaze\Models\Traits\Directable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use phpDocumentor\Reflection\Utils;
 
 class Thread extends Model
 {
     use HasFactory;
     use Directable;
     use LikableTrait;
+    use RecordActivityTrait;
 
     /**
      * Mass assignable attributes.
