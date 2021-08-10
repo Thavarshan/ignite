@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
-class ActivityTest extends TestCase
+class CreateActivityTest extends TestCase
 {
     use RefreshDatabase;
 

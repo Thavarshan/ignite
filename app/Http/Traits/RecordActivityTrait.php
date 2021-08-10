@@ -10,6 +10,7 @@ trait RecordActivityTrait
     /**
      * trigger this on initiating the model
      *
+     * @return void
      */
     protected static function bootRecordActivityTrait()
     {
@@ -17,7 +18,7 @@ trait RecordActivityTrait
             return;
         }
         foreach (self::getRecordingEvents() as $event) {
-            static::created(function ($model) use ($event) {
+            static::$event(function ($model) use ($event) {
                 $model->recordActivity($event);
             });
         }
