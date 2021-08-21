@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -12,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Ignite'),
+    'name' => env('APP_NAME', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -136,7 +137,7 @@ return [
     'providers' => [
 
         /*
-         * Ignite Framework Service Providers...
+         * Laravel Framework Service Providers...
          */
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
@@ -175,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ScorchServiceProvider::class,
         App\Providers\BlazeServiceProvider::class,
+
     ],
 
     /*
@@ -228,5 +230,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
     ],
+
 ];

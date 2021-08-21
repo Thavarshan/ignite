@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Emberfuse\Scorch\Models\Traits\HasApiTokens;
 use Emberfuse\Scorch\Models\Traits\HasProfilePhoto;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Emberfuse\Scorch\Models\Concerns\InteractsWithSessions;
