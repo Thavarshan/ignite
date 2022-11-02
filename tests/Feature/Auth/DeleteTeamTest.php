@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Auth;
 
 use App\Models\Team;
 use App\Models\User;
@@ -20,7 +20,8 @@ class DeleteTeamTest extends TestCase
         ]));
 
         $team->users()->attach(
-            $otherUser = User::factory()->create(), ['role' => 'test-role']
+            $otherUser = User::factory()->create(),
+            ['role' => 'test-role']
         );
 
         $response = $this->delete('/teams/'.$team->id);

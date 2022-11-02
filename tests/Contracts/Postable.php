@@ -1,6 +1,6 @@
 <?php
 
-namespace Emberfuse\Blaze\Testing\Contracts;
+namespace Tests\Contracts;
 
 interface Postable
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Emberfuse\Blaze\Testing\Concerns;
+namespace Tests\Concerns;
 
 use ReflectionClass;
 
