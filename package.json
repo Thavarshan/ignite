@@ -1,0 +1,27 @@
+{
+    "name": "ignite",
+    "version": "0.0.0",
+    "private": true,
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "lint": "turbo run lint",
+        "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+        "pre-commit": "turbo run lint && turbo run build && turbo run test",
+        "upgrade": "chmod +x ./bin/upgrade.sh && ./bin/upgrade.sh"
+    },
+    "devDependencies": {
+        "eslint-config-custom": "*",
+        "prettier": "latest",
+        "turbo": "latest"
+    },
+    "engines": {
+        "node": ">=14.0.0"
+    },
+    "dependencies": {},
+    "packageManager": "yarn@1.22.19"
+}
