@@ -1,29 +1,43 @@
 import User from '@/users/contracts/user.contract';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { addHours } from 'date-fns';
-import { Model } from 'mongoose';
 import { v4 } from 'uuid';
+import { JwtService } from '@nestjs/jwt';
 import UserRepository from '@/users/repositories/user.repository';
-import Cryptr from 'cryptr';
 import Verification from '@/auth/enums/verification.enum';
-import CreateUserDto from '../dto/create-user.dto';
+import CreateUserDto from '@/auth/dto/create-user.dto';
+import LocalAuth from '@/auth/authenticators/local.auth';
+import Credentials from '@/auth/contracts/credentials.contract';
+import { tap } from '@/utils/helpers';
 
 @Injectable()
 export default class AuthService {
-    protected cryptr?: Cryptr;
-
     constructor (
-        @InjectModel('User') protected model: Model<User>,
-        protected repository: UserRepository
-    ) {
-        // this.cryptr = new Cryptr(process.env.APP_KEY);
+        protected auth: LocalAuth,
+        protected repository: UserRepository,
+        protected jwt: JwtService
+    ) { }
+
+    public async authenticate (
+        credentials: Credentials
+    ): Promise<{ [key: string]: string; }> {
+        await this.auth.authenticate(credentials);
+
+        const accessToken = tap(this.auth.user(), (user: User) => {
+            return this.jwt.sign({ username: user.email, sub: user._id });
+        });
+
+        return { accessToken };
     }
 
     public async create (dto: CreateUserDto): Promise<User> {
-        await this.isEmailUnique(dto.email);
+        let user = await this.repository.findByEmail(dto.email);
 
-        const user = await this.repository.create(
+        if (user && user.verified === true) {
+            throw new BadRequestException('Email must be unique.');
+        }
+
+        user = await this.repository.create(
             this.setRegistrationInfo(dto)
         );
 
@@ -38,13 +52,5 @@ export default class AuthService {
         );
 
         return dto;
-    }
-
-    protected async isEmailUnique (email: string): Promise<void> {
-        const user = await this.model.findOne({ email, verified: true });
-
-        if (user) {
-            throw new BadRequestException('Email must be unique.');
-        }
     }
 }

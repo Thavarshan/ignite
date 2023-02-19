@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 import validator from 'validator';
 import * as bcrypt from 'bcrypt';
 import HookNextFunction from '@/users/contracts/hook.contract';
+import Role from '@/users/enums/roles.enum';
 
 const { Schema } = mongoose;
 
@@ -38,7 +39,7 @@ const UserSchema = new Schema({
 
     roles: {
         type: [String],
-        default: ['user'],
+        default: [Role.USER],
     },
 
     verification: {

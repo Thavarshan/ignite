@@ -14,7 +14,7 @@ async function bootstrap () {
 
     await app.listen(PORT);
 
-    info(`APP IS LISTENING TO PORT ${PORT}`);
+    info(`➜ App URL accessible on http://localhost:${PORT}`);
 }
 
 bootstrap();
