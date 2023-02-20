@@ -25,7 +25,7 @@ import LocalStrategy from '@/auth/strategies/local.strategy';
             }
         ]),
         JwtModule.register({
-            secret: '38b060a751ac96384cd9327eb1b1e',
+            secret: process.env.JWT_SECRET,
             signOptions: { expiresIn: '30m' },
         }),
     ],
@@ -41,4 +41,4 @@ import LocalStrategy from '@/auth/strategies/local.strategy';
         LocalStrategy
     ]
 })
-export class AuthModule { }
+export default class AuthModule { }
