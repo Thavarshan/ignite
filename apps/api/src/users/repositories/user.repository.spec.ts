@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import UserRepository from './user.repository';
 import { Model } from 'mongoose';
 import User from '../contracts/user.contract';
+import UserEnum from '../enums/user.enum';
 import mockModel from '../models/mock.model';
 import { getModelToken } from '@nestjs/mongoose';
 
@@ -14,7 +15,7 @@ describe('UserRepository', () => {
             providers: [
                 UserRepository,
                 {
-                    provide: getModelToken('User'),
+                    provide: getModelToken(UserEnum.MODEL),
                     useValue: {
                         new: jest.fn().mockResolvedValue(mockModel),
                         constructor: jest.fn().mockResolvedValue(mockModel),
@@ -27,7 +28,7 @@ describe('UserRepository', () => {
         }).compile();
 
         repository = module.get<UserRepository>(UserRepository);
-        model = module.get<Model<User>>(getModelToken('User'));
+        model = module.get<Model<User>>(getModelToken(UserEnum.MODEL));
     });
 
     it('should be defined', () => {
@@ -41,7 +42,7 @@ describe('UserRepository', () => {
                 email: 'ws@wxample.com',
                 password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
                 phone: '1234567890'
-            }),
+            } as User),
         );
 
         const user = await repository.create({
@@ -51,6 +52,6 @@ describe('UserRepository', () => {
             phone: '1234567890'
         });
 
-        expect(user).toEqual(mockModel);
+        expect(user).toStrictEqual(mockModel);
     });
 });

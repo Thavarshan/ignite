@@ -1,12 +1,11 @@
-import * as mongoose from 'mongoose';
+import { Schema } from 'mongoose';
 import validator from 'validator';
-import * as bcrypt from 'bcrypt';
+import { hash } from 'bcrypt';
 import HookNextFunction from '@/users/contracts/hook.contract';
 import Role from '@/users/enums/roles.enum';
+import UserContract from '@/users/contracts/user.contract';
 
-const { Schema } = mongoose;
-
-const UserSchema = new Schema({
+const UserSchema = new Schema<UserContract>({
     name: {
         type: String,
         minlength: 6,
@@ -69,20 +68,31 @@ const UserSchema = new Schema({
 }, {
     versionKey: false,
     timestamps: true,
+    toJSON: {
+        virtuals: true,
+    },
 });
 
-UserSchema.pre('save', async function (next: HookNextFunction) {
+export const preSaveHook = async function (next: HookNextFunction) {
     try {
         if (!this.isModified('password')) {
             return next();
         }
 
-        this['password'] = await bcrypt.hash(this['password'], 10);
+        this.set('password', await hash(this.password, 12));
 
         return next();
     } catch (error) {
         return next(error);
     }
+};
+
+UserSchema.pre('save', preSaveHook);
+
+UserSchema.virtual('posts', {
+    ref: 'Post', // must be changed
+    localField: '_id',
+    foreignField: 'userId',
 });
 
 export default UserSchema;

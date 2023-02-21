@@ -5,6 +5,7 @@ export default interface User extends Document {
     email: string;
     password: string;
     phone?: string;
+    roles?: string[];
     verification: string;
     verified: boolean;
     verificationExpires: Date;

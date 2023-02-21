@@ -1,13 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import UserDto from '@/users/dto/user.dto';
+import UserEnum from '@/users/enums/user.enum';
 import { InjectModel } from '@nestjs/mongoose';
 import User from '@/users/contracts/user.contract';
 
 @Injectable()
 export default class UserRepository {
     constructor (
-        @InjectModel('User') protected model: Model<User>
+        @InjectModel(UserEnum.MODEL) protected model: Model<User>
     ) { }
 
     public async create (dto: UserDto): Promise<User> {

@@ -3,6 +3,7 @@ import UsersModule from '@/users/users.module';
 import AppController from '@/app.controller';
 import AppService from '@/app.service';
 import { MongooseModule } from '@nestjs/mongoose';
+import { User } from './user/user';
 import ConfigModule from '@/config/config.module';
 import MailModule from '@/mail/mail.module';
 import DatabaseModule from '@/database/database.module';
@@ -23,6 +24,6 @@ import LoggerModule from '@/logger/logger.module';
 
     controllers: [AppController],
 
-    providers: [AppService],
+    providers: [AppService, User],
 })
 export default class AppModule { }
