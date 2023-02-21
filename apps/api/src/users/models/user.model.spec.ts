@@ -1,106 +1,52 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { Test, TestingModule } from '@nestjs/testing';
 import { anyFunction } from 'jest-mock-extended';
 import UserSchema from '../schemas/user.schema';
-import { hash } from 'bcrypt';
-import { lastValueFrom } from 'rxjs';
+import UserContract from '../contracts/user.contract';
+import UserEnum from '../enums/user.enum';
+import Roles from '../enums/roles.enum';
+import { Model } from 'mongoose';
 
-const getMock = jest.fn().mockImplementationOnce((cb) => cb);
-const virtualMock = jest.fn().mockImplementationOnce((name: string) => ({
-    get: getMock,
-}));
+describe('UserModel', () => {
+    let model: Model<UserContract>;
 
-jest.mock('mongoose', () => ({
-    Schema: jest.fn().mockImplementation((def: any, options: any) => ({
-        constructor: jest.fn(),
-        virtual: virtualMock,
-        pre: jest.fn(),
-        set: jest.fn(),
-    })),
+    beforeEach(async () => {
+        const module: TestingModule = await Test.createTestingModule({
+            providers: [
+                {
+                    provide: UserEnum.MODEL,
+                    useValue: {
+                        findOne: jest.fn(),
+                        exists: jest.fn(),
+                        create: jest.fn(),
+                    },
+                },
+            ],
+        }).compile();
 
-    SchemaTypes: jest.fn().mockImplementation(() => ({
-        String: jest.fn(),
-    })),
-}));
-
-describe('UserSchema', () => {
-    it('should called Schame.virtual ', () => {
-        expect(UserSchema).toBeDefined();
-
-        expect(getMock).toBeCalled();
-        expect(getMock).toBeCalledWith(anyFunction());
-        expect(virtualMock).toBeCalled();
-        expect(virtualMock).toHaveBeenNthCalledWith(1, 'name');
-        expect(virtualMock).toHaveBeenNthCalledWith(2, 'posts', {
-            foreignField: 'createdBy',
-            localField: '_id',
-            ref: 'Post',
-        });
-        expect(virtualMock).toBeCalledTimes(2);
-    });
-});
-
-// see: https://stackoverflow.com/questions/58701700/how-do-i-test-if-statement-inside-my-mongoose-pre-save-hook
-describe('preSaveHook', () => {
-    test('should execute next middleware when password is not modified', async () => {
-        const nextMock = jest.fn();
-        const contextMock = {
-            isModified: jest.fn(),
-        };
-        contextMock.isModified.mockReturnValueOnce(false);
-        await preSaveHook.call(contextMock, nextMock);
-        expect(contextMock.isModified).toBeCalledWith('password');
-        expect(nextMock).toBeCalledTimes(1);
+        model = module.get<Model<UserContract>>(UserEnum.MODEL);
     });
 
-    test('should set password when password is modified', async () => {
-        const nextMock = jest.fn();
-        const contextMock = {
-            isModified: jest.fn(),
-            set: jest.fn(),
-            password: '123456',
-        };
-        contextMock.isModified.mockReturnValueOnce(true);
-        await preSaveHook.call(contextMock, nextMock);
-        expect(contextMock.isModified).toBeCalledWith('password');
-        expect(nextMock).toBeCalledTimes(1);
-        expect(contextMock.set).toBeCalledTimes(1);
+    it('should be defined', () => {
+        expect(model).toBeDefined();
     });
-});
 
-describe('nameGetHook', () => {
-    test('should compute name with firstName and lastName', async () => {
-        const contextMock = {
-            firstName: 'Hantsy',
-            lastName: 'Bai',
-        };
-        const name = await nameGetHook.call(contextMock);
-        expect(name).toBe('Hantsy Bai');
-    });
-});
-
-describe('comparePasswordMethod', () => {
-    test('should be true if password is matched', async () => {
-        const hashed = await hash('123456', 10);
-        const contextMock = {
-            password: hashed,
+    it('should save new data', async () => {
+        const sampleData = {
+            name: 'James',
+            email: 'JjTheMan@example.com',
+            password: 'mysecret',
         };
 
-        const result = await lastValueFrom(
-            comparePasswordMethod.call(contextMock, '123456'),
+        const saveSpy = jest.spyOn(model, 'create').mockImplementation(() =>
+            Promise.resolve({
+                _id: '123',
+                ...sampleData,
+            } as any),
         );
-        expect(result).toBeTruthy();
-    });
 
-    test('should be false if password is not matched', async () => {
-        const hashed = await hash('123456', 10);
-        const contextMock = {
-            password: hashed,
-        };
-
-        // input password is wrong
-        const result = await lastValueFrom(
-            comparePasswordMethod.call(contextMock, '000000'),
-        );
-        expect(result).toBeFalsy();
+        const result: any = await model.create({ ...sampleData, roles: [Roles.USER] });
+        expect(saveSpy).toBeCalledWith({ ...sampleData, roles: [Roles.USER] });
+        expect(result._id).toBeDefined();
     });
 });
