@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import AppModule from '../src/app.module';
 
@@ -12,7 +12,13 @@ describe('AppController (e2e)', () => {
         }).compile();
 
         app = moduleFixture.createNestApplication();
+        app.enableShutdownHooks();
+        app.useGlobalPipes(new ValidationPipe());
         await app.init();
+    });
+
+    afterAll(async () => {
+        await app.close();
     });
 
     it('/ (GET)', () => {

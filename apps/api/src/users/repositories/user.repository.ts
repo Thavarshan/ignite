@@ -4,6 +4,7 @@ import UserDto from '@/users/dto/user.dto';
 import UserEnum from '@/users/enums/user.enum';
 import { InjectModel } from '@nestjs/mongoose';
 import User from '@/users/contracts/user.contract';
+import _ from 'lodash';
 
 @Injectable()
 export default class UserRepository {
@@ -33,11 +34,14 @@ export default class UserRepository {
         return user;
     }
 
-    public async findByVerification (verification: string): Promise<User> {
+    public async findByVerification (
+        verification: string,
+        expires?: Date
+    ): Promise<User> {
         const user = await this.model.findOne({
             verification,
             verified: false,
-            verificationExpires: { $gt: new Date() }
+            verificationExpires: { $gt: expires || new Date() }
         }).exec();
 
         if (!user) {
@@ -45,6 +49,12 @@ export default class UserRepository {
         }
 
         return user;
+    }
+
+    public async existsByEmail (email: string): Promise<boolean> {
+        const results = await this.model.exists({ email }).exec();
+
+        return !_.isNull(results);
     }
 
     public async update (id: string, dto: UserDto): Promise<any> {
