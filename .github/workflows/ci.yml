@@ -24,7 +24,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [19.x]
+        node-version: [18.x]
 
     steps:
       - name: Check out code
