@@ -1,28 +1,43 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import UsersService from '@/users/services/user.service';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+    UseGuards,
+    HttpCode,
+    HttpStatus
+} from '@nestjs/common';
+import UserService from '@/users/services/user.service';
 import UserDto from '@/users/dto/user.dto';
 import User from '@/users/contracts/user.contract';
-import { AuthGuard } from '@nestjs/passport';
+import JwtAuthGuard from '@/auth/guards/jwt-auth.guard';
 
 @Controller('users')
 export default class UsersController {
-    constructor (protected readonly service: UsersService) { }
+    constructor (protected readonly service: UserService) { }
 
+    @HttpCode(HttpStatus.CREATED)
     @Post()
     public async create (@Body() dto: UserDto): Promise<User> {
         return this.service.create(dto);
     }
 
+    // @UseGuards(JwtAuthGuard)
     @Get()
     public async findAll (): Promise<User[]> {
         return await this.service.findAll();
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     public async findOne (@Param('id') id: string): Promise<User> {
         return await this.service.findOne(id);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch(':id')
     public async update (
         @Param('id') id: string,
@@ -31,6 +46,8 @@ export default class UsersController {
         return await this.service.update(id, dto);
     }
 
+    @HttpCode(HttpStatus.NO_CONTENT)
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     public async remove (@Param('id') id: string): Promise<void> {
         await this.service.remove(id);

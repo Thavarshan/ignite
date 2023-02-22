@@ -1,7 +1,7 @@
-import User from '@/users/contracts/user.contract';
+import UserContract from '@/users/contracts/user.contract';
+import UserEnum from '@/users/enums/user.enum';
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
 export default abstract class BaseAuth {
@@ -10,16 +10,18 @@ export default abstract class BaseAuth {
      *
      * @var {User}
      */
-    protected authUser?: User;
+    protected authUser?: UserContract;
 
     /**
      * Create new BaseGuard instance.
      *
-     * @param   {Model<User>}  model
+     * @param   {Model<UserContract>}  model
      *
      * @return  {void}
      */
-    constructor (@InjectModel('User') protected model: Model<User>) { }
+    constructor (
+        @Inject(UserEnum.MODEL) protected model: Model<UserContract>
+    ) { }
 
     /**
     * Authenticate the user using the provided credentials.
@@ -33,9 +35,9 @@ export default abstract class BaseAuth {
     /**
      * Get the currently authenticated user.
      *
-     * @return  {User|undefined|null}
+     * @return  {UserContract|undefined|null}
      */
-    public user (): User | undefined {
+    public user (): UserContract | undefined {
         return this.authUser;
     }
 }

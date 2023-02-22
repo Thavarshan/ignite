@@ -1,9 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import * as request from 'supertest';
+import request from 'supertest';
+import mongoose from 'mongoose';
 import AppModule from '../src/app.module';
 
 describe('AppController (e2e)', () => {
+    let server: any;
     let app: INestApplication;
 
     beforeEach(async () => {
@@ -21,10 +23,9 @@ describe('AppController (e2e)', () => {
         await app.close();
     });
 
-    it('/ (GET)', () => {
-        return request(app.getHttpServer())
+    it('/ (GET)', async () => {
+        return await request(app.getHttpServer())
             .get('/')
-            .expect(200)
-            .expect('Hello World!');
+            .expect(200);
     });
 });

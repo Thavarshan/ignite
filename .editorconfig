@@ -11,3 +11,12 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = false
 quote_type = single
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[docker-compose.yml]
+indent_size = 4

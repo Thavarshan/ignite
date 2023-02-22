@@ -5,7 +5,6 @@ import { Model } from 'mongoose';
 import User from '../contracts/user.contract';
 import UserEnum from '../enums/user.enum';
 import mockModel from '../models/mock.model';
-import { getModelToken } from '@nestjs/mongoose';
 
 describe('UserRepository', () => {
     let repository: UserRepository;
@@ -16,7 +15,7 @@ describe('UserRepository', () => {
             providers: [
                 UserRepository,
                 {
-                    provide: getModelToken(UserEnum.MODEL),
+                    provide: UserEnum.MODEL,
                     useValue: {
                         new: jest.fn().mockResolvedValue(mockModel),
                         constructor: jest.fn().mockResolvedValue(mockModel),
@@ -24,6 +23,7 @@ describe('UserRepository', () => {
                         findById: jest.fn(),
                         create: jest.fn(),
                         findOneAndUpdate: jest.fn(),
+                        deleteOne: jest.fn(),
                         exists: jest.fn(),
                         exec: jest.fn(),
                     }
@@ -32,7 +32,7 @@ describe('UserRepository', () => {
         }).compile();
 
         repository = module.get<UserRepository>(UserRepository);
-        model = module.get<Model<User>>(getModelToken(UserEnum.MODEL));
+        model = module.get<Model<User>>(UserEnum.MODEL);
     });
 
     it('should be defined', () => {
@@ -192,8 +192,7 @@ describe('UserRepository', () => {
             phone: '1234567890'
         };
 
-        const updateSpy = jest
-            .spyOn(model, 'findOneAndUpdate')
+        jest.spyOn(model, 'findOneAndUpdate')
             .mockImplementation((filter: any) => {
                 return {
                     exec: jest.fn().mockResolvedValue(userData),
@@ -208,5 +207,17 @@ describe('UserRepository', () => {
             { _id: 'Wade Solman' },
             userData
         );
+    });
+
+    it('should delete an existing user', async () => {
+        jest.spyOn(model, 'deleteOne')
+            .mockImplementation((filter: any) => {
+                return { exec: jest.fn() } as any;
+            });
+
+        const user = await repository.remove('Wade Solman');
+
+        expect(model.deleteOne).toBeCalledTimes(1);
+        expect(model.deleteOne).lastCalledWith({ _id: 'Wade Solman' });
     });
 });

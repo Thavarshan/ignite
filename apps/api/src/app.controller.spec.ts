@@ -1,22 +1,30 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import AppController from './app.controller';
 import AppService from './app.service';
+import { Request } from 'express';
 
 describe('AppController', () => {
-    let appController: AppController;
+    let controller: AppController;
 
     beforeEach(async () => {
         const app: TestingModule = await Test.createTestingModule({
             controllers: [AppController],
-            providers: [AppService],
+            providers: [AppService, {
+                provide: 'LoggerServiceAppService',
+                useValue: {
+                    log: jest.fn()
+                }
+            }],
         }).compile();
 
-        appController = app.get<AppController>(AppController);
+        controller = app.get<AppController>(AppController);
     });
 
     describe('root', () => {
-        it('should return "Hello World!"', () => {
-            expect(appController.getHello()).toBe('Hello World!');
+        it('should return request IP', async () => {
+            const request = { ip: '127.0.0.1' } as Request;
+
+            expect(await controller.index(request)).toBe('127.0.0.1');
         });
     });
 });

@@ -1,9 +1,9 @@
-const Web = () => {
+const Home = () => {
     return (
-        <div>
-            <h1 className="text-xl font-bolf text-red-500">Web</h1>
+        <div className="p-6">
+            <h1 className="text-xl font-bolf text-blue-500">Hello</h1>
         </div>
     );
 };
 
-export default Web;
+export default Home;

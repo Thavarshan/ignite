@@ -2,16 +2,25 @@ import LoggerModule from '@/logger/logger.module';
 import ConfigModule from '@/config/config.module';
 import dbConfig from '@/config/database.config';
 import { Module } from '@nestjs/common';
-import ConnectionProvider from './providers/connection.provider';
+import connectionProvider from './providers/connection.provider';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
     imports: [
-        LoggerModule,
-        ConfigModule.forFeature(dbConfig)
+        LoggerModule.forRoot(),
+        ConfigModule.forFeature(dbConfig),
+        MongooseModule.forRootAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: async (config: ConfigService) => ({
+                uri: config.get<string>('DB_URI')
+            }),
+        })
     ],
 
-    providers: [...ConnectionProvider],
+    providers: [...connectionProvider],
 
-    exports: [...ConnectionProvider],
+    exports: [...connectionProvider],
 })
 export default class DatabaseModule { }

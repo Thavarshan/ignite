@@ -4,11 +4,25 @@ import { Request } from 'express';
 
 @Controller()
 export default class AppController {
+    /**
+     * Create new AppController instance.
+     *
+     * @param   {AppService}  service
+     *
+     * @return  {void}
+     */
     constructor (protected readonly service: AppService) { }
 
+    /**
+     * The first page of the app.
+     *
+     * @param {Request} request
+     *
+     * @return {Promise<string>}
+     */
     @HttpCode(HttpStatus.OK)
     @Get()
-    public async index (@Req() request: Request): Promise<void> {
-        this.service.logIp(request);
+    public async index (@Req() request: Request): Promise<string> {
+        return this.service.logIp(request);
     }
 }

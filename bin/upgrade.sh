@@ -1,3 +1,4 @@
+#!/bin/sh
 STRING="README.md"
 shopt -s nullglob
 for dir in ./apps/*

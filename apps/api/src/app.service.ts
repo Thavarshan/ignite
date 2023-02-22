@@ -5,9 +5,26 @@ import { Request } from 'express';
 
 @Injectable()
 export default class AppService {
+    /**
+     * Create new AppService instance.
+     *
+     * @param {LoggerService} logger
+     *
+     *
+     * @return {void}
+     */
     constructor (@Logger('AppService') protected logger: LoggerService) { }
 
-    public logIp (request: Request): void {
+    /**
+     * Log request IP address.
+     *
+     * @param   {Request}  request
+     *
+     * @return  {string}
+     */
+    public logIp (request: Request): string {
         this.logger.log(request.ip);
+
+        return request.ip;
     }
 }

@@ -8,11 +8,14 @@
     ],
     "scripts": {
         "build": "turbo run build",
+        "clean": "turbo run clean",
         "dev": "turbo run dev",
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
         "pre-commit": "turbo run lint && turbo run build && turbo run test",
-        "upgrade": "chmod +x ./bin/upgrade.sh && ./bin/upgrade.sh"
+        "upgrade": "chmod +x ./bin/upgrade.sh && ./bin/upgrade.sh",
+        "docker": "chmod +x ./bin/docker.sh && ./bin/docker.sh",
+        "docker-kill": "chmod +x ./bin/docker-kill.sh && ./bin/docker-kill.sh"
     },
     "devDependencies": {
         "eslint-config-custom": "*",

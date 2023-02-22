@@ -2,6 +2,7 @@
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Connection, createConnection } from 'mongoose';
+import LoggerModule from '../../logger/logger.module';
 import mongodbConfig from '../../config/database.config';
 import connectionProvider from './connection.provider';
 import DB from '../enums/db.enum';
@@ -28,7 +29,11 @@ describe('DatabaseConnectionProviders', () => {
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            imports: [ConfigModule.forFeature(mongodbConfig)],
+            imports: [
+                ConfigModule.forFeature(mongodbConfig),
+                LoggerModule.forRoot()
+            ],
+
             providers: [...connectionProvider],
         }).compile();
 

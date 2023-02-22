@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Test, TestingModule } from '@nestjs/testing';
-import { anyFunction } from 'jest-mock-extended';
-import UserSchema from '../schemas/user.schema';
 import UserContract from '../contracts/user.contract';
 import UserEnum from '../enums/user.enum';
 import Roles from '../enums/roles.enum';

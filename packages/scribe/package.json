@@ -1,0 +1,41 @@
+{
+    "name": "@cratespace/scribe",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/scribe.umd.js",
+    "module": "./dist/scribe.es.js",
+    "types": "./types/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/scribe.es.js",
+            "require": "./dist/scribe.umd.js"
+        }
+    },
+    "scripts": {
+        "dev": "echo \"No development servers available\"",
+        "build": "tsc && vite build",
+        "lint": "eslint . --ext=.ts",
+        "test": "vitest run"
+    },
+    "dependencies": {
+        "@types/core-js": "^2.5.5",
+        "@types/node": "^18.11.18",
+        "core-js": "^3.27.2",
+        "lodash": "^4.17.21",
+        "ts-node": "^10.9.1"
+    },
+    "devDependencies": {
+        "@types/lodash": "^4.14.191",
+        "eslint-config-custom": "*",
+        "jsdom": "^21.1.0",
+        "tsconfig": "*",
+        "typescript": "^4.9.5",
+        "vite": "^4.1.1",
+        "vite-plugin-dts": "^1.7.2",
+        "vitest": "^0.28.4"
+    }
+}

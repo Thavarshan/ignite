@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: db_mongo
+    environment:
+      - MONGODB_DATABASE='ignite'
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+    networks:
+      - ignite
+
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - ignite
+
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    restart: always
+    ports:
+      - 3001:3001
+    environment:
+      - NODE_ENV=production
+      - DB_URI='mongodb://db_mongo/ignite'
+      - PORT=3001
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+    networks:
+      - ignite
+
+volumes:
+  mongodb_data_container:
+
+networks:
+  ignite:
+    external: true

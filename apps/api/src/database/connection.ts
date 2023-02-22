@@ -28,7 +28,7 @@ export default class Connection extends MongoDdConnection {
      */
     constructor (
         protected readonly configs: ConfigType<typeof dbConfig>,
-        @Logger('DatabaseService') protected logger: LoggerService
+        @Logger('DatabaseConnection') protected logger: LoggerService
     ) {
         super();
     }

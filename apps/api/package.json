@@ -12,7 +12,7 @@
         "start:debug": "nest start --debug --watch",
         "start:prod": "node dist/main",
         "lint": "eslint \"{src,apps,libs,tests}/**/*.ts\" --fix",
-        "test": "jest && jest --config ./tests/jest-e2e.json",
+        "test": "jest && jest --config ./tests/jest-e2e.json --runInBand --detectOpenHandles --forceExit",
         "test:watch": "jest --watch",
         "test:cov": "jest --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
@@ -41,6 +41,7 @@
         "reflect-metadata": "^0.1.13",
         "request-ip": "^3.3.0",
         "rxjs": "^7.8.0",
+        "supertest": "^6.3.3",
         "validator": "^13.9.0"
     },
     "devDependencies": {

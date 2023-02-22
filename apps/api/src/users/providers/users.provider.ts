@@ -1,17 +1,22 @@
-import Connection from '@/database/connection';
 import DB from '@/database/enums/db.enum';
-import User from '@/users/models/user.model';
+import Connection from '@/database/connection';
 import UserSchema from '@/users/schemas/user.schema';
 import UserEnum from '@/users/enums/user.enum';
+import { Provider } from '@nestjs/common';
+import User from '../models/user.model';
 
-export default {
-    provide: UserEnum.MODEL,
+const usersProvider: Provider[] = [
+    {
+        provide: UserEnum.MODEL,
 
-    useFactory: (connection: Connection) => {
-        const model = new User(connection, UserSchema);
+        useFactory: (connection: Connection) => {
+            const model = new User(connection, UserSchema);
 
-        return model.newInstance();
-    },
+            return model.newInstance();
+        },
 
-    inject: [DB.KEY],
-};
+        inject: [DB.KEY],
+    }
+];
+
+export default usersProvider;
