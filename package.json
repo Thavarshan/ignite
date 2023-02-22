@@ -10,6 +10,7 @@
         "build": "turbo run build",
         "clean": "turbo run clean",
         "dev": "turbo run dev",
+        "test": "turbo run test",
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
         "pre-commit": "turbo run lint && turbo run build && turbo run test",
@@ -23,7 +24,7 @@
         "turbo": "latest"
     },
     "engines": {
-        "node": "^19.4.0"
+        "node": "^18.4.0"
     },
     "dependencies": {},
     "packageManager": "yarn@1.22.19"
