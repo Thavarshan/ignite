@@ -58,7 +58,7 @@ jobs:
         run: yarn test
         env:
           APP_KEY: ${{ secrets.APP_KEY }}
-          DB_URI: "mongodb://db_mongo/ignite"
+          DB_URI: "mongodb://localhost/ignite"
           STRIPE_SECRET: ${{ secrets.STRIPE_SECRET }}
           STRIPE_KEY: ${{ secrets.STRIPE_KEY }}
           STRIPE_ACCOUNT: ${{ secrets.STRIPE_ACCOUNT }}
