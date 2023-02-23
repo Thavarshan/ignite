@@ -1,4 +1,4 @@
-(function(et,Pn){typeof exports=="object"&&typeof module<"u"?Pn(exports):typeof define=="function"&&define.amd?define(["exports"],Pn):(et=typeof globalThis<"u"?globalThis:et||self,Pn(et["@cratespace/scribe"]={}))})(this,function(et){"use strict";var Pn=typeof globalThis<"u"?globalThis:typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{},Bt={},fl={get exports(){return Bt},set exports(En){Bt=En}};/**
+(function(et,Pn){typeof exports=="object"&&typeof module<"u"?Pn(exports):typeof define=="function"&&define.amd?define(["exports"],Pn):(et=typeof globalThis<"u"?globalThis:et||self,Pn(et["@ignite/scribe"]={}))})(this,function(et){"use strict";var Pn=typeof globalThis<"u"?globalThis:typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{},Bt={},fl={get exports(){return Bt},set exports(En){Bt=En}};/**
  * @license
  * Lodash <https://lodash.com/>
  * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>

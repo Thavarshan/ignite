@@ -7,7 +7,7 @@ export default defineConfig({
     build: {
         lib: {
             entry: path.resolve(__dirname, './src/index.ts'),
-            name: '@cratespace/scribe',
+            name: '@ignite/scribe',
             fileName: format => `scribe.${format}.js`
         }
     },
