@@ -25,10 +25,12 @@ export default class UsersController {
         return this.service.create(dto);
     }
 
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Get()
-    public async findAll (): Promise<User[]> {
-        return await this.service.findAll();
+    public async findAll (): Promise<{ [key: string]: User[]; }> {
+        const data = await this.service.findAll();
+
+        return { data };
     }
 
     @UseGuards(JwtAuthGuard)

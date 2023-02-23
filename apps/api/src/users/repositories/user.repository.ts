@@ -57,7 +57,9 @@ export default class UserRepository {
     }
 
     public async update (id: string, dto: UserDto): Promise<any> {
-        return await this.model.findOneAndUpdate({ _id: id }, dto).exec();
+        return await this.model
+            .findOneAndUpdate({ _id: id }, dto, { new: true })
+            .exec();
     }
 
     public async remove (id: string): Promise<void> {

@@ -2,31 +2,30 @@ import { Module } from '@nestjs/common';
 import AuthService from './services/auth.service';
 import UsersModule from '@/users/users.module';
 import AuthController from './controllers/auth.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import UserSchema from '@/users/schemas/user.schema';
 import UserRepository from '@/users/repositories/user.repository';
 import LocalAuth from './authenticators/local.auth';
 import TokenAuth from './authenticators/token.auth';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule } from '@nestjs/config';
+import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
+import { ConfigModule, ConfigType } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import JwtStrategy from '@/auth/strategies/jwt.strategy';
 import LocalStrategy from '@/auth/strategies/local.strategy';
+import authConfig from '@/config/auth.config';
 
 @Module({
     imports: [
-        ConfigModule,
         UsersModule,
         PassportModule,
-        MongooseModule.forFeature([
-            {
-                name: 'User',
-                schema: UserSchema
+        ConfigModule.forFeature(authConfig),
+        JwtModule.registerAsync({
+            inject: [authConfig.KEY],
+            imports: [ConfigModule.forFeature(authConfig)],
+            useFactory: (config: ConfigType<typeof authConfig>) => {
+                return {
+                    secret: config.secretKey,
+                    signOptions: { expiresIn: config.expiresIn },
+                } as JwtModuleOptions;
             }
-        ]),
-        JwtModule.register({
-            secret: process.env.JWT_SECRET,
-            signOptions: { expiresIn: '30m' },
         }),
     ],
 

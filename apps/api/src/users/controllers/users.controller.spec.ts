@@ -3,7 +3,6 @@ import UsersController from './users.controller';
 import UserService from '../services/user.service';
 import UserRepository from '../repositories/user.repository';
 import UserEnum from '../enums/user.enum';
-import { getModelToken } from '@nestjs/mongoose';
 import mockModel from '../models/mock.model';
 
 describe('UsersController', () => {

@@ -1,11 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
-import mongoose from 'mongoose';
 import AppModule from '../src/app.module';
 
 describe('AppController (e2e)', () => {
-    let server: any;
     let app: INestApplication;
 
     beforeEach(async () => {

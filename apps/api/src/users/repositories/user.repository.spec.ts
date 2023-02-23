@@ -205,7 +205,8 @@ describe('UserRepository', () => {
         expect(model.findOneAndUpdate).toBeCalledTimes(1);
         expect(model.findOneAndUpdate).lastCalledWith(
             { _id: 'Wade Solman' },
-            userData
+            userData,
+            { new: true }
         );
     });
 
