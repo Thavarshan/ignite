@@ -69,7 +69,11 @@ describe('LocalAuth', () => {
         } catch (error) {
             expect(error).toBeInstanceOf(NotFoundException);
             expect(error.message).toBe('User with these credentials was not found.');
+
+            return;
         }
+
+        fail('Did not throw NotFoundException');
     });
 
     it('should throw unauthorized exception if user password is invalid', async () => {
