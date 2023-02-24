@@ -12,6 +12,10 @@ class User {
         public loginAttempts?: number,
         public blockExpires?: Date
     ) { }
+
+    public async save (): Promise<void> {
+        //
+    }
 }
 
 const user = new User(
