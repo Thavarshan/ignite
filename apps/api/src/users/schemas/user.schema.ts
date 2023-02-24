@@ -5,6 +5,7 @@ import HookNextFunction from '@/users/contracts/hook.contract';
 import Role from '@/users/enums/roles.enum';
 import UserContract from '@/users/contracts/user.contract';
 import { uniqueNamesGenerator, Config, starWars } from 'unique-names-generator';
+import slug from 'slug';
 
 const UserSchema = new Schema<UserContract>({
     name: {
@@ -84,9 +85,9 @@ const UserSchema = new Schema<UserContract>({
 export const preSaveHook = async function (next: HookNextFunction) {
     try {
         if (this.isModified('name')) {
-            this.set('username', uniqueNamesGenerator({
+            this.set('username', slug(uniqueNamesGenerator({
                 dictionaries: [starWars]
-            } as Config));
+            } as Config)));
         }
 
         if (this.isModified('password')) {
