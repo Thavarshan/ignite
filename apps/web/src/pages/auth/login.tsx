@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth/next';
@@ -9,13 +10,27 @@ import {
     FormLabel,
     Input,
     Button,
-    FormErrorMessage
+    FormErrorMessage,
+    useToast
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 import LoginForm from '@/forms/Login';
 
 const Login = () => {
+    const toast = useToast();
     const login = new LoginForm();
+
+    if (login.failed) {
+        console.log('Hit');
+
+        toast({
+            title: 'Login unauthorized.',
+            description: 'We were unable to authenticate you at this time. Please try again later.',
+            status: 'error',
+            duration: 9000,
+            isClosable: true
+        });
+    }
 
     return (
         <>

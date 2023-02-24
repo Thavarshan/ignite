@@ -4,6 +4,7 @@ import Layout from '@/layouts/default';
 import { ChakraProvider } from '@chakra-ui/react';
 import { SessionProvider } from 'next-auth/react';
 import { defineConfig } from '@ignite/scribe';
+import themeConfig from '../theme/config';
 
 defineConfig({
     apiUrl: process.env.NEXT_PUBLIC_API_URL
@@ -15,7 +16,7 @@ export default function MyApp ({
 }: AppProps) {
     return (
         <SessionProvider session={session}>
-            <ChakraProvider>
+            <ChakraProvider theme={themeConfig}>
                 <Layout>
                     <Component {...pageProps} />
                 </Layout>

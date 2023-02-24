@@ -6,6 +6,13 @@ import { signIn } from 'next-auth/react';
 
 export default class Login extends Form {
     /**
+     * Indicate user login process status.
+     *
+     * @var {boolean}
+     */
+    public failed = false;
+
+    /**
      * Initital form input values.
      *
      * @var {object}
@@ -47,7 +54,7 @@ export default class Login extends Form {
             helpers.setSubmitting(false);
 
             if (response?.error) {
-                // @TODO: Set error handler.
+                this.failed = true;
             }
 
             helpers.resetForm();
