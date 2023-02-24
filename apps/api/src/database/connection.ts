@@ -3,7 +3,7 @@ import {
     Connection as MongoDdConnection,
     createConnection
 } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { Logger } from '@/logger/decorators/logger.decorator';
 import LoggerService from '@/logger/services/logger.service';
@@ -27,7 +27,7 @@ export default class Connection extends MongoDdConnection {
      * @return  {void}
      */
     constructor (
-        protected readonly configs: ConfigType<typeof dbConfig>,
+        @Inject(dbConfig.KEY) protected readonly configs: ConfigType<typeof dbConfig>,
         @Logger('DatabaseConnection') protected logger: LoggerService
     ) {
         super();
