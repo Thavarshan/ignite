@@ -2,7 +2,6 @@ import { FormikHelpers } from 'formik';
 import InputError from '@/contratcs/forms/InputError';
 import _ from 'lodash';
 import Config from '@/contratcs/forms/config';
-import { apiUrl } from '@/utils/helpers';
 
 export default abstract class Form {
     /**

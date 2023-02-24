@@ -107,6 +107,7 @@ describe('Form', () => {
             photo: null
         });
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         form.data.photo = new File([new Uint8Array(10)], { type: 'image/png' });
 

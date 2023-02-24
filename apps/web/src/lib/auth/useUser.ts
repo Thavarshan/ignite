@@ -5,7 +5,7 @@ import User from '@/contratcs/auth/User';
 
 export default function useUser ({
     redirectTo = '',
-    redirectIfFound = false,
+    redirectIfFound = false
 } = {}) {
     const { data: user, mutate: mutateUser } = useSWR<User>('/api/user');
 

@@ -9,10 +9,10 @@ export default withAuth((request: NextRequestWithAuth) => {
     pages: {
         signIn: '/auth/login',
         signOut: '/',
-        error: '/api/auth/error',
+        error: '/api/auth/error'
     }
 });
 
 export const config = {
-    matcher: ['/users/:path*'],
+    matcher: ['/users/:path*']
 };

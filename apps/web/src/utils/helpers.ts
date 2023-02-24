@@ -13,7 +13,7 @@ export const apiUrl = (
     uri?: string,
     params?: { [key: string]: string; }
 ): string => {
-    let baseUrl = _.trimEnd(config('apiBaseUrl'), '/');
+    let baseUrl = _.trimEnd(config('apiUrl'), '/');
 
     if (uri) {
         baseUrl = `${baseUrl}/${_.trimStart(uri, '/')}`;

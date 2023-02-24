@@ -14,16 +14,15 @@ import {
     Table,
     Thead,
     Tbody,
-    Tfoot,
     Tr,
     Th,
     Td,
-    TableContainer,
+    TableContainer
 } from '@chakra-ui/react';
 import { signOut, useSession } from 'next-auth/react';
 
 const Home = () => {
-    const { data: session, status }: any = useSession();
+    const { data: session }: any = useSession();
     const router = useRouter();
     const { isOpen, onOpen, onClose } = useDisclosure();
     let authenticated = false;

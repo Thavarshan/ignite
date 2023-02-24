@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth/next';
 import {
@@ -92,7 +92,7 @@ export async function getServerSideProps (context: any) {
             redirect: {
                 destination: context.req.headers.referer || '/',
                 permanent: false
-            },
+            }
         };
     }
 
