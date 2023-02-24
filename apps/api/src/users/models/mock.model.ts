@@ -10,7 +10,7 @@ class User {
         public verified: boolean = false,
         public verificationExpires: Date = new Date(),
         public loginAttempts?: number,
-        public blockExpires?: Date
+        public blockedAt?: Date
     ) { }
 
     public async save (): Promise<void> {

@@ -70,9 +70,10 @@ const UserSchema = new Schema<UserContract>({
         default: 0,
     },
 
-    blockExpires: {
+    blockedAt: {
+        required: false,
         type: Date,
-        default: Date.now,
+        default: undefined,
     },
 }, {
     versionKey: false,

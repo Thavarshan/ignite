@@ -11,5 +11,5 @@ export default interface User extends Document {
     verified: boolean;
     verificationExpires: Date;
     loginAttempts?: number;
-    blockExpires?: Date;
+    blockedAt?: Date;
 }

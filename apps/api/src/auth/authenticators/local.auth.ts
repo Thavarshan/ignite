@@ -4,7 +4,6 @@ import BaseAuth from './base.auth';
 import Credentials from '@/auth/contracts/credentials.contract';
 import bcrypt from 'bcrypt';
 import Login from '@/auth/enums/login.enum';
-import { addHours } from 'date-fns';
 
 @Injectable()
 export default class LocalAuth extends BaseAuth {
@@ -60,7 +59,7 @@ export default class LocalAuth extends BaseAuth {
      * @return  {void}
      */
     protected determineUserIdAllowed (user: User): void {
-        if (user.blockExpires > new Date(Date.now())) {
+        if (user.blockedAt) {
             throw new ConflictException('User has been blocked from accessing account.');
         }
     }
@@ -87,7 +86,7 @@ export default class LocalAuth extends BaseAuth {
      * @return  {Promise<void>}
      */
     protected async blockUser (user: User): Promise<void> {
-        user.blockExpires = addHours(new Date(), Login.HOURS_TO_BLOCK);
+        user.blockedAt = new Date();
 
         await user.save();
     }
