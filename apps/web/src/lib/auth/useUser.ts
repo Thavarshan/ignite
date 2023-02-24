@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Router from 'next/router';
 import useSWR from 'swr';
-import User from '@/contratcs/auth/User';
+import User from '@/contracts/auth/User';
 
 export default function useUser ({
     redirectTo = '',

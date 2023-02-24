@@ -16,7 +16,11 @@ export default class UserService {
     }
 
     public async findOne (id: string): Promise<User> {
-        return await this.repository.findOne(id);
+        try {
+            return await this.repository.findById(id);
+        } catch (error) {
+            return await this.repository.findByUsername(id);
+        }
     }
 
     public async update (id: string, dto: UserDto): Promise<any> {

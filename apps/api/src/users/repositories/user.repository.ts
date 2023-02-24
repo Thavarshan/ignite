@@ -19,8 +19,14 @@ export default class UserRepository {
         return await this.model.find().exec();
     }
 
-    public async findOne (id: string): Promise<any> {
-        return await this.model.findById(id).exec();
+    public async findById (id: string): Promise<any> {
+        try {
+            const user = await this.model.findById(id).exec();
+
+            return user;
+        } catch (error) {
+            throw new NotFoundException('User not found.');
+        }
     }
 
     public async findByEmail (email: string): Promise<User> {
@@ -28,6 +34,16 @@ export default class UserRepository {
 
         if (!user) {
             throw new NotFoundException('Invalid email or password.');
+        }
+
+        return user;
+    }
+
+    public async findByUsername (username: string): Promise<User> {
+        const user = await this.model.findOne({ username }).exec();
+
+        if (!user) {
+            throw new NotFoundException('User not found.');
         }
 
         return user;

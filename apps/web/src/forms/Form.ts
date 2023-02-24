@@ -1,7 +1,7 @@
 import { FormikHelpers } from 'formik';
-import InputError from '@/contratcs/forms/InputError';
+import InputError from '@/contracts/forms/InputError';
 import _ from 'lodash';
-import Config from '@/contratcs/forms/config';
+import Config from '@/contracts/forms/config';
 
 export default abstract class Form {
     /**
@@ -70,7 +70,7 @@ export default abstract class Form {
     ): void {
         fetch(url, _.merge(this.config, { body: JSON.stringify(values) }))
             .then(response => action(response))
-            .catch(error => console.log(error));
+            .catch(error => { throw error; });
     }
 
     /**

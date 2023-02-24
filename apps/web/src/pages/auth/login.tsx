@@ -12,9 +12,11 @@ import {
     FormErrorMessage
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
-import { signIn } from 'next-auth/react';
+import LoginForm from '@/forms/Login';
 
 const Login = () => {
+    const login = new LoginForm();
+
     return (
         <>
             <Flex width='Full' align='center' justifyContent='center' p={10} bgColor='gray.100'>
@@ -25,27 +27,16 @@ const Login = () => {
 
                     <Box mt={8} textAlign='left'>
                         <Formik
-                            initialValues={{ email: '', password: '' }}
-                            onSubmit={async (values, actions) => {
-                                await signIn('credentials', {
-                                    email: values.email,
-                                    password: values.password,
-                                    redirect: true,
-                                    callbackUrl: '/users/James'
-                                });
-
-                                actions.setSubmitting(false);
-                                actions.resetForm();
-                            }}
-                        >
-                            {(props) => (
+                            initialValues={login.getInitialValues()}
+                            onSubmit={login.onSubmit()}>
+                            {({ isSubmitting }) => (
                                 <Form>
                                     <Box>
                                         <Field name='email'>
                                             {({ field, form }: any) => (
                                                 <FormControl isInvalid={form.errors.email && form.touched.email}>
                                                     <FormLabel>Email</FormLabel>
-                                                    <Input {...field} placeholder='Email' rounded='xl' />
+                                                    <Input {...field} placeholder='Email' rounded='xl' bgColor='gray.50' />
                                                     <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                                                 </FormControl>
                                             )}
@@ -57,7 +48,7 @@ const Login = () => {
                                             {({ field, form }: any) => (
                                                 <FormControl isInvalid={form.errors.password && form.touched.password}>
                                                     <FormLabel>Password</FormLabel>
-                                                    <Input {...field} placeholder='Password' rounded='xl' />
+                                                    <Input {...field} placeholder='Password' rounded='xl' bgColor='gray.50' />
                                                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                                                 </FormControl>
                                             )}
@@ -69,7 +60,7 @@ const Login = () => {
                                             w='full'
                                             rounded='xl'
                                             colorScheme='blue'
-                                            isLoading={props.isSubmitting}
+                                            isLoading={isSubmitting}
                                             type='submit'>
                                             Sign In
                                         </Button>

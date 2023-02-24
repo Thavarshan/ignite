@@ -1,4 +1,7 @@
+import Credentials from '@/contracts/auth/Credentials';
+import Session from '@/contracts/auth/Session';
 import NextAuth, { NextAuthOptions } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions: NextAuthOptions = {
@@ -13,13 +16,8 @@ export const authOptions: NextAuthOptions = {
             credentials: {},
 
             async authorize (credentials) {
-                const { email, password } = credentials as any;
-                // You need to provide your own logic here that takes the credentials
-                // submitted and returns either a object representing a user or value
-                // that is false/null if the credentials are invalid.
-                // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-                // You can also use the `req` object to obtain additional parameters
-                // (i.e., the request IP address)
+                const { email, password }: Credentials = credentials as any;
+
                 const response = await fetch('http://localhost:3001/login', {
                     method: 'POST',
                     body: JSON.stringify({ email, password }),
@@ -31,24 +29,17 @@ export const authOptions: NextAuthOptions = {
 
                 const token = await response.json();
 
-                // If no error and we have user data, return it
-                if (response.ok && token) {
-                    return token;
-                }
-
-                // Return null if user data could not be retrieved
-                return null;
+                return (response.ok && token) ? token : null;
             }
         })
     ],
 
     callbacks: {
-        async jwt ({ token, user }) {
+        async jwt ({ token, user }): Promise<JWT> {
             return { ...token, ...user };
         },
 
-        async session ({ session, token }: any) {
-            // Send properties to the client, like an access_token from a provider.
+        async session ({ session, token }: any): Promise<Session> {
             session.accessToken = token.accessToken;
 
             return session;

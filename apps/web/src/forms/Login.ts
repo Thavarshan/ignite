@@ -1,4 +1,5 @@
-import LoginValues from '@/contratcs/forms/Login';
+import LoginValues from '@/contracts/forms/Login';
+import Router from 'next/router';
 import Form from './Form';
 import { FormikHelpers } from 'formik';
 import { signIn } from 'next-auth/react';
@@ -10,7 +11,7 @@ export default class Login extends Form {
      * @var {object}
      */
     protected initialValues: LoginValues = {
-        uid: '',
+        email: '',
         password: ''
     };
 
@@ -36,14 +37,22 @@ export default class Login extends Form {
             values: { [key: string]: any; },
             helpers: FormikHelpers<LoginValues>
         ) => {
-            await signIn('credentials', {
-                uid: values.uid,
+            const response = await signIn('credentials', {
+                email: values.email,
                 password: values.password,
-                redirect: true,
+                redirect: false,
                 callbackUrl: '/'
             });
 
             helpers.setSubmitting(false);
+
+            if (response?.error) {
+                // @TODO: Set error handler.
+            }
+
+            helpers.resetForm();
+
+            Router.push('/users/profile');
         };
     }
 }

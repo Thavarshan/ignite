@@ -112,6 +112,31 @@ describe('UserRepository', () => {
         });
     });
 
+    it('findByUsername should return user', async () => {
+        jest.spyOn(model, 'findOne')
+            .mockImplementation((filter: any, callback: any) => {
+                return {
+                    exec: jest.fn().mockResolvedValue({
+                        name: 'James Silverman',
+                        username: 'james-silverman',
+                        email: 'monster@example.com',
+                        verification: '123'
+                    } as User),
+                } as any;
+            });
+
+        const user = await repository.findByUsername('james-silverman');
+
+        expect(model.findOne).toBeCalledTimes(1);
+        expect(user).toEqual({
+            name: 'James Silverman',
+            username: 'james-silverman',
+            email: 'monster@example.com',
+            verification: '123'
+        });
+        expect(model.findOne).lastCalledWith({ username: 'james-silverman' });
+    });
+
     it('return one result', async () => {
         jest.spyOn(model, 'findById')
             .mockImplementation(
@@ -125,7 +150,7 @@ describe('UserRepository', () => {
                 },
             );
 
-        const user = await repository.findOne('James Silverman');
+        const user = await repository.findById('James Silverman');
 
         expect(model.findById).lastCalledWith('James Silverman');
         expect(model.findById).toBeCalledTimes(1);
@@ -144,7 +169,7 @@ describe('UserRepository', () => {
             });
 
         try {
-            await repository.findOne('Private');
+            await repository.findById('Private');
         } catch (e) {
             expect(e).toBeDefined();
         }

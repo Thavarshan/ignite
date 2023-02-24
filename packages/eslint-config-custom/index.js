@@ -31,6 +31,7 @@ module.exports = {
         'no-html-link-for-pages': 'off',
         'react/jsx-key': 'off',
         'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
-        '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }]
+        '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
+        'no-console': 'error'
     }
 };

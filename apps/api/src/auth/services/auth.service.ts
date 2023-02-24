@@ -24,7 +24,10 @@ export default class AuthService {
         await this.auth.authenticate(credentials);
 
         const accessToken = tap(this.auth.user(), (user: User) => {
-            return this.jwt.sign({ username: user.email, sub: user._id });
+            return this.jwt.sign({
+                username: user.username || user.email,
+                sub: user._id
+            });
         });
 
         return { accessToken };

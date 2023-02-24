@@ -1,4 +1,4 @@
-import RequestEmailValues from '@/contratcs/forms/RequestEmail';
+import RequestEmailValues from '@/contracts/forms/RequestEmail';
 import Form from './Form';
 import { FormikHelpers } from 'formik';
 import { apiUrl, redirect } from '@/utils/helpers';

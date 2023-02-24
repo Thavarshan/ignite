@@ -1,4 +1,4 @@
-import RegisterValues from '@/contratcs/forms/Register';
+import RegisterValues from '@/contracts/forms/Register';
 import Form from './Form';
 import { FormikHelpers } from 'formik';
 import { apiUrl, redirect } from '@/utils/helpers';

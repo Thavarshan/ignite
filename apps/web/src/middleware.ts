@@ -2,8 +2,8 @@
 import { NextRequestWithAuth, withAuth } from 'next-auth/middleware';
 // import { NextResponse } from 'next/server';
 
-export default withAuth((request: NextRequestWithAuth) => {
-    console.log('token: ', request.nextauth.token);
+export default withAuth((_request: NextRequestWithAuth) => {
+    // console.log('token: ', request.nextauth.token);
 }, {
     callbacks: { authorized: ({ token }) => !!token },
     pages: {
