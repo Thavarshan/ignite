@@ -18,7 +18,7 @@ const UserSchema = new Schema<UserContract>({
         type: String,
         minlength: 6,
         maxlength: 255,
-        required: [true, 'USERNAME_IS_BLANK'],
+        required: false,
     },
 
     email: {
@@ -81,13 +81,17 @@ const UserSchema = new Schema<UserContract>({
     },
 });
 
-export const preSaveHookPassword = async function (next: HookNextFunction) {
+export const preSaveHook = async function (next: HookNextFunction) {
     try {
-        if (!this.isModified('password')) {
-            return next();
+        if (this.isModified('name')) {
+            this.set('username', uniqueNamesGenerator({
+                dictionaries: [starWars]
+            } as Config));
         }
 
-        this.set('password', await hash(this.password, 12));
+        if (this.isModified('password')) {
+            this.set('password', await hash(this.password, 12));
+        }
 
         return next();
     } catch (error) {
@@ -95,26 +99,7 @@ export const preSaveHookPassword = async function (next: HookNextFunction) {
     }
 };
 
-export const preSaveHookUsername = async function (next: HookNextFunction) {
-    try {
-        if (!this.isModified('name')) {
-            return next();
-        }
-
-        this.set('username', uniqueNamesGenerator({
-            dictionaries: [starWars]
-        } as Config));
-
-        return next();
-    } catch (error) {
-        return next(error);
-    }
-};
-
-UserSchema.pre('save', async (next: HookNextFunction) => {
-    await preSaveHookPassword(next);
-    await preSaveHookUsername(next);
-});
+UserSchema.pre('save', preSaveHook);
 
 UserSchema.virtual('posts', {
     ref: 'Post', // must be changed

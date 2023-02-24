@@ -11,6 +11,7 @@ import { PassportModule } from '@nestjs/passport';
 import JwtStrategy from '@/auth/strategies/jwt.strategy';
 import LocalStrategy from '@/auth/strategies/local.strategy';
 import authConfig from '@/config/auth.config';
+import RegisterController from './controllers/register.controller';
 
 @Module({
     imports: [
@@ -29,7 +30,7 @@ import authConfig from '@/config/auth.config';
         }),
     ],
 
-    controllers: [AuthController],
+    controllers: [AuthController, RegisterController],
 
     providers: [
         LocalAuth,

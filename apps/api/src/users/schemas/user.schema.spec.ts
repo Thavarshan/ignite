@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const virtualMock = jest.fn().mockImplementationOnce((name: string) => name);
 
-import UserSchema, { preSaveHookPassword, preSaveHookUsername } from './user.schema';
+import UserSchema, { preSaveHook } from './user.schema';
 
 jest.mock('mongoose', () => ({
     Schema: jest.fn().mockImplementation((def: any, options: any) => ({
@@ -28,14 +28,15 @@ describe('UserSchema', () => {
         expect(virtualMock).toBeCalledTimes(1);
     });
 
-    test('should execute next middleware when name is not modified', async () => {
+    test('should execute next middleware when name or password is not modified', async () => {
         const nextMock = jest.fn();
         const contextMock = { isModified: jest.fn() };
 
         contextMock.isModified.mockReturnValueOnce(false);
-        await preSaveHookUsername.call(contextMock, nextMock);
+        await preSaveHook.call(contextMock, nextMock);
 
         expect(contextMock.isModified).toBeCalledWith('name');
+        expect(contextMock.isModified).toBeCalledWith('password');
         expect(nextMock).toBeCalledTimes(1);
     });
 
@@ -48,22 +49,11 @@ describe('UserSchema', () => {
         };
 
         contextMock.isModified.mockReturnValueOnce(true);
-        await preSaveHookUsername.call(contextMock, nextMock);
+        await preSaveHook.call(contextMock, nextMock);
 
         expect(contextMock.isModified).toBeCalledWith('name');
         expect(nextMock).toBeCalledTimes(1);
         expect(contextMock.set).toBeCalledTimes(1);
-    });
-
-    test('should execute next middleware when password is not modified', async () => {
-        const nextMock = jest.fn();
-        const contextMock = { isModified: jest.fn() };
-
-        contextMock.isModified.mockReturnValueOnce(false);
-        await preSaveHookPassword.call(contextMock, nextMock);
-
-        expect(contextMock.isModified).toBeCalledWith('password');
-        expect(nextMock).toBeCalledTimes(1);
     });
 
     test('should set password when password is modified', async () => {
@@ -75,7 +65,7 @@ describe('UserSchema', () => {
         };
 
         contextMock.isModified.mockReturnValueOnce(true);
-        await preSaveHookPassword.call(contextMock, nextMock);
+        await preSaveHook.call(contextMock, nextMock);
 
         expect(contextMock.isModified).toBeCalledWith('password');
         expect(nextMock).toBeCalledTimes(1);

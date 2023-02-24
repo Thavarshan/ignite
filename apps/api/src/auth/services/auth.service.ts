@@ -1,5 +1,5 @@
 import User from '@/users/contracts/user.contract';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { addHours } from 'date-fns';
 import { v4 } from 'uuid';
 import { JwtService } from '@nestjs/jwt';
@@ -31,10 +31,18 @@ export default class AuthService {
     }
 
     public async create (dto: CreateUserDto): Promise<User> {
-        let user = await this.repository.findByEmail(dto.email);
+        let user: User;
 
-        if (user && user.verified === true) {
-            throw new BadRequestException('Email must be unique.');
+        try {
+            user = await this.repository.findByEmail(dto.email);
+
+            if (user && user.verified === true) {
+                throw new BadRequestException('Email must be unique.');
+            }
+        } catch (error) {
+            if (!(error instanceof NotFoundException)) {
+                throw error;
+            }
         }
 
         user = await this.repository.create(

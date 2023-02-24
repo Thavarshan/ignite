@@ -7,8 +7,8 @@ import AuthService from '@/auth/services/auth.service';
 export default class RegisterController {
     constructor (protected readonly service: AuthService) { }
 
-    @Post('register')
     @HttpCode(HttpStatus.CREATED)
+    @Post('register')
     public async register (@Body() dto: CreateUserDto): Promise<User> {
         return await this.service.create(dto);
     }
