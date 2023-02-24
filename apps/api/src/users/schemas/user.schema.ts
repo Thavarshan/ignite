@@ -4,6 +4,7 @@ import { hash } from 'bcrypt';
 import HookNextFunction from '@/users/contracts/hook.contract';
 import Role from '@/users/enums/roles.enum';
 import UserContract from '@/users/contracts/user.contract';
+import { uniqueNamesGenerator, Config, starWars } from 'unique-names-generator';
 
 const UserSchema = new Schema<UserContract>({
     name: {
@@ -11,6 +12,13 @@ const UserSchema = new Schema<UserContract>({
         minlength: 6,
         maxlength: 255,
         required: [true, 'NAME_IS_BLANK'],
+    },
+
+    username: {
+        type: String,
+        minlength: 6,
+        maxlength: 255,
+        required: [true, 'USERNAME_IS_BLANK'],
     },
 
     email: {
@@ -73,7 +81,7 @@ const UserSchema = new Schema<UserContract>({
     },
 });
 
-export const preSaveHook = async function (next: HookNextFunction) {
+export const preSaveHookPassword = async function (next: HookNextFunction) {
     try {
         if (!this.isModified('password')) {
             return next();
@@ -87,7 +95,26 @@ export const preSaveHook = async function (next: HookNextFunction) {
     }
 };
 
-UserSchema.pre('save', preSaveHook);
+export const preSaveHookUsername = async function (next: HookNextFunction) {
+    try {
+        if (!this.isModified('name')) {
+            return next();
+        }
+
+        this.set('username', uniqueNamesGenerator({
+            dictionaries: [starWars]
+        } as Config));
+
+        return next();
+    } catch (error) {
+        return next(error);
+    }
+};
+
+UserSchema.pre('save', async (next: HookNextFunction) => {
+    await preSaveHookPassword(next);
+    await preSaveHookUsername(next);
+});
 
 UserSchema.virtual('posts', {
     ref: 'Post', // must be changed
