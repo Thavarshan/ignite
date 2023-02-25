@@ -11,18 +11,34 @@ import User from '../../users/contracts/user.contract';
 import Role from '../../users/enums/roles.enum';
 
 describe('AuthService', () => {
-    let userRepository: UserRepository;
-    let teamRepository: TeamRepository;
+    let repository: UserRepository;
     let service: AuthService;
+    let auth: LocalAuth;
+    let jwt: JwtService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             providers: [
-                JwtService,
                 AuthService,
-                LocalAuth,
-                TeamRepository,
                 UserRepository,
+                TeamRepository,
+                {
+                    provide: JwtService,
+                    useValue: {
+                        new: jest.fn(),
+                        constructor: jest.fn(),
+                        sign: jest.fn(),
+                    }
+                },
+                {
+                    provide: LocalAuth,
+                    useValue: {
+                        new: jest.fn(),
+                        constructor: jest.fn(),
+                        authenticate: jest.fn(),
+                        user: jest.fn()
+                    }
+                },
                 {
                     provide: UserEnum.MODEL,
                     useValue: {
@@ -43,9 +59,10 @@ describe('AuthService', () => {
             ],
         }).compile();
 
-        userRepository = module.get<UserRepository>(UserRepository);
-        teamRepository = module.get<TeamRepository>(TeamRepository);
+        repository = module.get<UserRepository>(UserRepository);
         service = module.get<AuthService>(AuthService);
+        auth = module.get<LocalAuth>(LocalAuth);
+        jwt = module.get<JwtService>(JwtService);
     });
 
     it('should be defined', () => {
@@ -53,7 +70,7 @@ describe('AuthService', () => {
     });
 
     it('should register a new user', async () => {
-        jest.spyOn(userRepository, 'create')
+        jest.spyOn(repository, 'create')
             .mockImplementationOnce(() => Promise.resolve({
                 name: 'Wade Solman',
                 email: 'ws@wxample.com',
@@ -77,5 +94,28 @@ describe('AuthService', () => {
             phone: '1234567890',
             roles: [Role.USER]
         });
+    });
+
+    it('should authenticate a user', async () => {
+        jest.spyOn(auth, 'authenticate');
+        jest.spyOn(auth, 'user')
+            .mockImplementationOnce(() => ({
+                name: 'Wade Solman',
+                email: 'ws@wxample.com',
+                username: 'WadeSolman',
+                password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
+                phone: '1234567890',
+                roles: [Role.USER]
+            } as User));
+        jest.spyOn(jwt, 'sign')
+            .mockImplementationOnce(() => 'fake-jwt-token');
+
+        const token = await service.authenticate({
+            email: 'ws@wxample.com',
+            password: 'password', // password
+        });
+
+        expect(token).toStrictEqual({ accessToken: 'fake-jwt-token' });
+        expect(auth.authenticate).toBeCalled();
     });
 });
