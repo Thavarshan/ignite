@@ -1,4 +1,4 @@
-(function(Re,Qn){typeof exports=="object"&&typeof module<"u"?Qn(exports):typeof define=="function"&&define.amd?define(["exports"],Qn):(Re=typeof globalThis<"u"?globalThis:Re||self,Qn(Re["@cratespace/formlink"]={}))})(this,function(Re){"use strict";var Qn=typeof globalThis<"u"?globalThis:typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{},Y={},Lf={get exports(){return Y},set exports(u){Y=u}};/**
+(function(Re,Qn){typeof exports=="object"&&typeof module<"u"?Qn(exports):typeof define=="function"&&define.amd?define(["exports"],Qn):(Re=typeof globalThis<"u"?globalThis:Re||self,Qn(Re["@ignite/formlink"]={}))})(this,function(Re){"use strict";var Qn=typeof globalThis<"u"?globalThis:typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{},Y={},Lf={get exports(){return Y},set exports(u){Y=u}};/**
  * @license
  * Lodash <https://lodash.com/>
  * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
