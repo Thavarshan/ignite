@@ -1,16 +1,16 @@
-import { Controller, Get, HttpStatus, Req, HttpCode } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    HttpStatus,
+    Req,
+    HttpCode
+} from '@nestjs/common';
+import { HealthCheck } from '@nestjs/terminus';
 import AppService from './app.service';
 import { Request } from 'express';
 
 @Controller()
 export default class AppController {
-    /**
-     * Create new AppController instance.
-     *
-     * @param   {AppService}  service
-     *
-     * @return  {void}
-     */
     constructor (protected readonly service: AppService) { }
 
     /**
@@ -22,7 +22,8 @@ export default class AppController {
      */
     @HttpCode(HttpStatus.OK)
     @Get()
-    public async index (@Req() request: Request): Promise<string> {
-        return this.service.logIp(request);
+    @HealthCheck()
+    public async index (@Req() request: Request): Promise<any> {
+        return await this.service.check(request);
     }
 }

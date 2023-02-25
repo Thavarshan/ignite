@@ -1,7 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import AppService from './app.service';
 import LoggerService from './logger/services/logger.service';
+import HealthModule from './health/health.module';
 import { Request } from 'express';
+import HealthService from './health/services/health.service';
 
 describe('AppService', () => {
     let logger: LoggerService;
@@ -12,9 +14,18 @@ describe('AppService', () => {
             providers: [
                 AppService,
                 {
+                    provide: HealthService,
+                    useValue: {
+                        constructor: jest.fn(),
+                        new: jest.fn(),
+                        check: jest.fn()
+                    }
+                },
+                {
                     provide: 'LoggerServiceAppService',
                     useValue: {
                         constructor: jest.fn(),
+                        new: jest.fn(),
                         log: jest.fn()
                     }
                 }
@@ -34,9 +45,9 @@ describe('AppService', () => {
             console.log(message);
         });
 
-        const result = service.logIp({ ip: '127.0.0.1' } as Request);
+        const result = await service.check({ ip: '127.0.0.1' } as Request);
 
-        expect(result).toEqual('127.0.0.1');
+        expect(result).toEqual(undefined);
         expect(logger.log).toBeCalledWith('127.0.0.1');
     });
 });
