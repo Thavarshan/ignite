@@ -4,4 +4,5 @@ export default class UserDto {
     public email: string;
     public password: string;
     public phone?: string;
+    public role?: string;
 }

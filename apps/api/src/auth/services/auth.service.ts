@@ -37,7 +37,7 @@ export default class AuthService {
         return { accessToken };
     }
 
-    public async create (dto: CreateUserDto): Promise<User> {
+    public async register (dto: CreateUserDto): Promise<User> {
         let user: User;
 
         try {
@@ -52,11 +52,11 @@ export default class AuthService {
             }
         }
 
-        if (!_.includes(user.roles, Role.USER)) {
-            user = await this.userRepository.create(
-                this.setRegistrationInfo(dto)
-            );
+        user = await this.userRepository.create(
+            this.setRegistrationInfo(dto)
+        );
 
+        if (!_.includes(user.roles, Role.USER)) {
             const team = await this.teamRepository.create({
                 name: `${user.name}'s Team`,
                 email: user.email,

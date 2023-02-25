@@ -15,7 +15,7 @@ describe('RegisterController', () => {
                 useValue: {
                     new: jest.fn(),
                     constructor: jest.fn(),
-                    create: jest.fn(),
+                    register: jest.fn(),
                 }
             }]
         }).compile();
@@ -29,7 +29,7 @@ describe('RegisterController', () => {
     });
 
     it('should register a new user', async () => {
-        jest.spyOn(service, 'create').mockImplementationOnce(() =>
+        jest.spyOn(service, 'register').mockImplementationOnce(() =>
             Promise.resolve({
                 name: 'Wade Solman',
                 email: 'ws@wxample.com',

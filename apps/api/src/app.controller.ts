@@ -11,6 +11,13 @@ import { Request } from 'express';
 
 @Controller()
 export default class AppController {
+    /**
+     * Create new AppController instance.
+     *
+     * @param   {AppService}  service
+     *
+     * @return  {void}
+     */
     constructor (protected readonly service: AppService) { }
 
     /**

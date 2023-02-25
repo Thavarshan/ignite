@@ -10,6 +10,6 @@ export default class RegisterController {
     @HttpCode(HttpStatus.CREATED)
     @Post('register')
     public async register (@Body() dto: CreateUserDto): Promise<User> {
-        return await this.service.create(dto);
+        return await this.service.register(dto);
     }
 }
