@@ -1,7 +1,7 @@
-import { Schema } from 'mongoose';
+import { Schema, SchemaTypes } from 'mongoose';
 import validator from 'validator';
 import { hash } from 'bcrypt';
-import HookNextFunction from '@/users/contracts/hook.contract';
+import HookNextFunction from '@/contracts/hook.contract';
 import Role from '@/users/enums/roles.enum';
 import UserContract from '@/users/contracts/user.contract';
 import { uniqueNamesGenerator, Config, starWars } from 'unique-names-generator';
@@ -74,6 +74,12 @@ const UserSchema = new Schema<UserContract>({
         required: false,
         type: Date,
         default: undefined,
+    },
+
+    teamId: {
+        type: SchemaTypes.ObjectId,
+        ref: 'User',
+        required: false
     },
 }, {
     versionKey: false,

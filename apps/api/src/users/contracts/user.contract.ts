@@ -1,3 +1,4 @@
+import Team from '@/teams/models/team.model';
 import { Document } from 'mongoose';
 
 export default interface User extends Document {
@@ -12,4 +13,5 @@ export default interface User extends Document {
     verificationExpires: Date;
     loginAttempts?: number;
     blockedAt?: Date;
+    teamId: Partial<Team>;
 }

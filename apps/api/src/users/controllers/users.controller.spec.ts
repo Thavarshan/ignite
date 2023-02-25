@@ -66,7 +66,7 @@ describe('UsersController', () => {
                 } as any;
             });
 
-        const user = await service.findOne('James Silverman');
+        const user = await controller.findOne('James Silverman');
 
         expect(service.findOne).toBeCalledTimes(1);
         expect(service.findOne).lastCalledWith('James Silverman');
@@ -85,13 +85,15 @@ describe('UsersController', () => {
                 }] as any;
             });
 
-        const user = await service.findAll();
+        const user = await controller.findAll();
 
         expect(service.findAll).toBeCalledTimes(1);
-        expect(user).toEqual([{
-            name: 'James Silverman',
-            email: 'monster@example.com',
-        }]);
+        expect(user).toEqual({
+            data: [{
+                name: 'James Silverman',
+                email: 'monster@example.com',
+            }]
+        });
     });
 
     it('should update an existing user', async () => {
@@ -107,7 +109,7 @@ describe('UsersController', () => {
                 return userData as any;
             });
 
-        const user = await service.update('Wade Solman', userData);
+        const user = await controller.update('Wade Solman', userData);
 
         expect(user).toStrictEqual(userData);
         expect(service.update).toBeCalledTimes(1);
@@ -120,7 +122,7 @@ describe('UsersController', () => {
                 return null as any;
             });
 
-        await service.remove('Wade Solman');
+        await controller.remove('Wade Solman');
 
         expect(service.remove).toBeCalledTimes(1);
         expect(service.remove).lastCalledWith('Wade Solman');

@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import TeamsModule from '@/teams/teams.module';
 import UsersModule from '@/users/users.module';
 import AppController from '@/app.controller';
 import AppService from '@/app.service';
@@ -12,6 +13,7 @@ import LoggerModule from '@/logger/logger.module';
     imports: [
         AuthModule,
         UsersModule,
+        TeamsModule,
         DatabaseModule,
         ConfigModule,
         MailModule,
