@@ -59,9 +59,7 @@ const TeamSchema = new Schema<TeamContract>({
 export const preSaveHook = async function (next: HookNextFunction) {
     try {
         if (this.isModified('name')) {
-            this.set('slug', slug(uniqueNamesGenerator({
-                dictionaries: [starWars]
-            } as Config)));
+            this.set('slug', slug(this.name));
         }
 
         return next();

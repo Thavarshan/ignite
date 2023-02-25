@@ -9,12 +9,16 @@ import CreateUserDto from '@/auth/dto/create-user.dto';
 import LocalAuth from '@/auth/authenticators/local.auth';
 import Credentials from '@/auth/contracts/credentials.contract';
 import { tap } from '@/utils/helpers';
+import TeamRepository from '@/teams/repositories/team.repository';
+import _ from 'lodash';
+import Role from '@/users/enums/roles.enum';
 
 @Injectable()
 export default class AuthService {
     constructor (
         protected auth: LocalAuth,
-        protected repository: UserRepository,
+        protected userRepository: UserRepository,
+        protected teamRepository: TeamRepository,
         protected jwt: JwtService
     ) { }
 
@@ -37,7 +41,7 @@ export default class AuthService {
         let user: User;
 
         try {
-            user = await this.repository.findByEmail(dto.email);
+            user = await this.userRepository.findByEmail(dto.email);
 
             if (user && user.verified === true) {
                 throw new BadRequestException('Email must be unique.');
@@ -48,9 +52,21 @@ export default class AuthService {
             }
         }
 
-        user = await this.repository.create(
-            this.setRegistrationInfo(dto)
-        );
+        if (!_.includes(user.roles, Role.USER)) {
+            user = await this.userRepository.create(
+                this.setRegistrationInfo(dto)
+            );
+
+            const team = await this.teamRepository.create({
+                name: `${user.name}'s Team`,
+                email: user.email,
+                owner: _.get(user, '_id')
+            });
+
+            user.teamId = _.get(team, '_id');
+
+            await user.save();
+        }
 
         return user;
     }

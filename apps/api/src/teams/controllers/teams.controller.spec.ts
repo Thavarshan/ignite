@@ -42,15 +42,17 @@ describe('TeamsController', () => {
                 name: 'Wade Solman',
                 email: 'ws@wxample.com',
                 description: 'Wades Team',
-                phone: '1234567890'
-            } as Team),
+                phone: '1234567890',
+                owner: '63f9e922f9e75201ca9f9af3'
+            } as any),
         );
 
         const teamData = {
             name: 'Wade Solman',
             email: 'ws@wxample.com',
             description: 'Wades Team',
-            phone: '1234567890'
+            phone: '1234567890',
+            owner: '63f9e922f9e75201ca9f9af3'
         };
         const team = await controller.create(teamData);
 
@@ -101,7 +103,8 @@ describe('TeamsController', () => {
             name: 'Wade Solman',
             email: 'ws@wxample.com',
             description: 'Wades Team',
-            phone: '1234567890'
+            phone: '1234567890',
+            owner: '63f9e922f9e75201ca9f9af3'
         };
 
         jest.spyOn(service, 'update')

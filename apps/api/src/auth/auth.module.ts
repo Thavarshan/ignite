@@ -12,10 +12,12 @@ import JwtStrategy from '@/auth/strategies/jwt.strategy';
 import LocalStrategy from '@/auth/strategies/local.strategy';
 import authConfig from '@/config/auth.config';
 import RegisterController from './controllers/register.controller';
+import TeamsModule from '@/teams/teams.module';
 
 @Module({
     imports: [
         UsersModule,
+        TeamsModule,
         PassportModule,
         ConfigModule.forFeature(authConfig),
         JwtModule.registerAsync({

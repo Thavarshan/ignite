@@ -3,4 +3,5 @@ export default class TeamDto {
     public email: string;
     public phone?: string;
     public description?: string;
+    public owner: string;
 }

@@ -47,15 +47,17 @@ describe('TeamService', () => {
                 name: 'Wade Solman',
                 email: 'ws@wxample.com',
                 description: 'Wades Team',
-                phone: '1234567890'
-            } as Team),
+                phone: '1234567890',
+                owner: '63f9e922f9e75201ca9f9af3'
+            } as any),
         );
 
         const teamData = {
             name: 'Wade Solman',
             email: 'ws@wxample.com',
             description: 'Wades Team',
-            phone: '1234567890'
+            phone: '1234567890',
+            owner: '63f9e922f9e75201ca9f9af3'
         };
         const team = await service.create(teamData);
 
@@ -103,8 +105,9 @@ describe('TeamService', () => {
         const teamData = {
             name: 'Wade Solman',
             email: 'ws@wxample.com',
-            password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
-            phone: '1234567890'
+            description: 'Team description',
+            phone: '1234567890',
+            owner: '63f9e922f9e75201ca9f9af3'
         };
 
         jest.spyOn(repository, 'update')
