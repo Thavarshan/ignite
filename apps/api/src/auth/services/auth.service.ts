@@ -29,7 +29,7 @@ export default class AuthService {
 
         const accessToken = tap(this.auth.user(), (user: User) => {
             return this.jwt.sign({
-                username: user.username || user.email,
+                username: user.email,
                 sub: user._id
             });
         });

@@ -17,7 +17,7 @@ const UserSchema = new Schema<UserContract>({
 
     username: {
         type: String,
-        minlength: 6,
+        minlength: 3,
         maxlength: 255,
         required: false,
     },
