@@ -8,8 +8,7 @@ import {
     Delete,
     UseGuards,
     HttpCode,
-    HttpStatus,
-    Response
+    HttpStatus
 } from '@nestjs/common';
 import TeamService from '@/teams/services/team.service';
 import TeamDto from '@/teams/dto/team.dto';

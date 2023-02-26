@@ -33,6 +33,7 @@ describe('RegisterController', () => {
             Promise.resolve({
                 name: 'Wade Solman',
                 email: 'ws@wxample.com',
+                username: 'WadeSolman',
                 password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
                 phone: '1234567890'
             } as User),
@@ -41,6 +42,7 @@ describe('RegisterController', () => {
         const userData = {
             name: 'Wade Solman',
             email: 'ws@wxample.com',
+            username: 'WadeSolman',
             password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
             phone: '1234567890'
         };

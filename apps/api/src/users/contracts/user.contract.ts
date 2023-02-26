@@ -13,5 +13,5 @@ export default interface User extends Document {
     verificationExpires: Date;
     loginAttempts?: number;
     blockedAt?: Date;
-    teamId: Partial<Team>;
+    team: Partial<Team>;
 }

@@ -43,6 +43,7 @@ describe('UserRepository', () => {
         jest.spyOn(model, 'create').mockImplementationOnce(() =>
             Promise.resolve({
                 name: 'Wade Solman',
+                username: 'WadeSolman',
                 email: 'ws@wxample.com',
                 password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
                 phone: '1234567890'
@@ -51,6 +52,7 @@ describe('UserRepository', () => {
 
         const userData = {
             name: 'Wade Solman',
+            username: 'WadeSolman',
             email: 'ws@wxample.com',
             password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
             phone: '1234567890'
@@ -212,6 +214,7 @@ describe('UserRepository', () => {
     it('should update an existing user', async () => {
         const userData = {
             name: 'Wade Solman',
+            username: 'WadeSolman',
             email: 'ws@wxample.com',
             password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
             phone: '1234567890'

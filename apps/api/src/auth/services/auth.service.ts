@@ -44,7 +44,7 @@ export default class AuthService {
             user = await this.userRepository.findByEmail(dto.email);
 
             if (user && user.verified === true) {
-                throw new BadRequestException('Email must be unique.');
+                throw new BadRequestException('Email already in use.');
             }
         } catch (error) {
             if (!(error instanceof NotFoundException)) {
@@ -63,7 +63,7 @@ export default class AuthService {
                 owner: _.get(user, '_id')
             });
 
-            user.teamId = _.get(team, '_id');
+            user.team = _.get(team, '_id');
 
             await user.save();
         }
@@ -72,6 +72,11 @@ export default class AuthService {
     }
 
     protected setRegistrationInfo (dto: { [key: string]: any; }): any {
+        if (_.has(dto, 'role')) {
+            dto.roles = [dto.role];
+        }
+
+        dto.verified = true;
         dto.verification = v4();
         dto.verificationExpires = addHours(
             new Date(),

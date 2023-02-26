@@ -76,7 +76,7 @@ const UserSchema = new Schema<UserContract>({
         default: undefined,
     },
 
-    teamId: {
+    team: {
         type: SchemaTypes.ObjectId,
         ref: 'User',
         required: false

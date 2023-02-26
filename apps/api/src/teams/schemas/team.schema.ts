@@ -2,7 +2,6 @@ import { Schema, SchemaTypes } from 'mongoose';
 import validator from 'validator';
 import HookNextFunction from '@/contracts/hook.contract';
 import TeamContract from '@/teams/contracts/team.contract';
-import { uniqueNamesGenerator, Config, starWars } from 'unique-names-generator';
 import slug from 'slug';
 
 const TeamSchema = new Schema<TeamContract>({

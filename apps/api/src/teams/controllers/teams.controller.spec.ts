@@ -3,7 +3,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import TeamsController from './teams.controller';
 import TeamService from '../services/team.service';
 import mockModel from '../models/mock.model';
-import Team from '../contracts/team.contract';
 
 describe('TeamsController', () => {
     let service: TeamService;

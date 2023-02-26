@@ -49,6 +49,6 @@ describe('AuthController', () => {
         const request = { user: mockModel };
         const user = await controller.user(request);
 
-        expect(user).toStrictEqual(mockModel);
+        expect(user).toStrictEqual({ user: mockModel });
     });
 });

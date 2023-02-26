@@ -23,6 +23,10 @@ export default class UserRepository {
         try {
             const user = await this.model.findById(id).exec();
 
+            if (_.has(user, 'team')) {
+                user.populate('team');
+            }
+
             return user;
         } catch (error) {
             throw new NotFoundException('User not found.');

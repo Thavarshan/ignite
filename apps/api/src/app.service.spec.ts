@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import AppService from './app.service';
 import LoggerService from './logger/services/logger.service';
-import HealthModule from './health/health.module';
 import { Request } from 'express';
 import HealthService from './health/services/health.service';
 

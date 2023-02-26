@@ -1,12 +1,17 @@
-import { IsNotEmpty, MinLength, MaxLength, IsEmail, IsString } from 'class-validator';
+import {
+    IsNotEmpty,
+    MinLength,
+    MaxLength,
+    IsEmail,
+    IsString,
+    Matches
+} from 'class-validator';
 import Credentials from '@/auth/contracts/credentials.contract';
 
 export default class LoginUserDto implements Credentials {
     @IsNotEmpty()
-    @IsString()
-    @MinLength(5)
-    @MaxLength(255)
     @IsEmail()
+    @Matches(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)
     public readonly email: string;
 
     @IsNotEmpty()
