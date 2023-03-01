@@ -1,0 +1,28 @@
+{
+    "name": "docs",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev -p 3002",
+        "build": "next build",
+        "start": "next start -p 3002",
+        "lint": "eslint . --ext tsx,ts,jsx,js,md,mdx",
+        "test": "echo -n 'NO TESTS FOR DOCS'"
+    },
+    "dependencies": {
+        "@mdx-js/loader": "^2.3.0",
+        "@mdx-js/react": "^2.3.0",
+        "@next/mdx": "^13.2.1",
+        "next": "^13.1.6",
+        "nextra": "latest",
+        "nextra-theme-docs": "latest",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@types/node": "18.11.10",
+        "eslint-config-custom": "*",
+        "eslint-plugin-mdx": "^2.0.5",
+        "typescript": "^4.9.5"
+    }
+}

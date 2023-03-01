@@ -1,0 +1,24 @@
+{
+    "index": "Introduction",
+    "auth": "Authentication",
+    "users": "Users",
+    "teams": "Teams",
+    "demo": {
+        "title": "Demo",
+        "type": "page",
+        "href": "https://demo.ignite.xyz",
+        "newWindow": true
+    },
+    "about": {
+        "title": "About",
+        "type": "page",
+        "href": "https://twitter.com/shuding_",
+        "newWindow": false
+    },
+    "contact": {
+        "title": "Contact ↗",
+        "type": "page",
+        "href": "https://twitter.com/shuding_",
+        "newWindow": true
+    }
+}
