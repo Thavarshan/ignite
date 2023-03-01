@@ -3,6 +3,7 @@ import { v4 } from 'uuid';
 class User {
     constructor (
         public name: string,
+        public username: string,
         public email: string,
         public password: string,
         public phone?: string,
@@ -20,6 +21,7 @@ class User {
 
 const user = new User(
     'Wade Solman',
+    'WadeSolman',
     'ws@wxample.com',
     '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
     '1234567890'

@@ -16,7 +16,8 @@ module.exports = {
         'eslint:recommended',
         'next',
         'plugin:@typescript-eslint/eslint-recommended',
-        'plugin:@typescript-eslint/recommended'
+        'plugin:@typescript-eslint/recommended',
+        'plugin:mdx/recommended'
     ],
     rules: {
         indent: ['error', 4, { SwitchCase: 2 }],

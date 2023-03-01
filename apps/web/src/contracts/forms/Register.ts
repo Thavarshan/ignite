@@ -1,13 +1,9 @@
-export default interface Register {
+import InputValues from './InputValues';
+
+export default interface Register extends InputValues {
     name: string;
     email: string;
-    phone: string;
+    phone?: string;
     password: string;
-    passwordConfirmation: string;
-    line1: string;
-    line2: string;
-    city: string;
-    state: string;
-    country: string;
-    postalCode: string;
+    role?: string;
 }

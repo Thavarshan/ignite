@@ -1,19 +1,20 @@
+/* eslint-disable no-console */
+import useAuth from '@/hooks/useAuth';
 import { Box, Button, Card, CardBody, CardHeader, Heading } from '@chakra-ui/react';
-import { getServerSession } from 'next-auth/next';
-import { signOut } from 'next-auth/react';
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
-const Show = ({ user }: any) => {
+const Profile = () => {
+    const { user, logout } = useAuth({ middleware: 'auth' });
+
     return (
         <>
             <Box p={10}>
                 <Card>
                     <CardHeader>
-                        <Heading size='md'>{user.name}</Heading>
+                        <Heading size='md'>{user?.name}</Heading>
                     </CardHeader>
 
                     <CardBody>
-                        <Button onClick={() => signOut()}>
+                        <Button onClick={() => logout()}>
                             Sign out
                         </Button>
                     </CardBody>
@@ -23,17 +24,4 @@ const Show = ({ user }: any) => {
     );
 };
 
-export async function getServerSideProps (context: any) {
-    const session: any = await getServerSession(context.req, context.res, authOptions);
-    const response = await fetch('http://localhost:3001/user', {
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${session.accessToken}`
-        }
-    });
-    const user = await response.json();
-
-    return { props: { user } };
-}
-
-export default Show;
+export default Profile;

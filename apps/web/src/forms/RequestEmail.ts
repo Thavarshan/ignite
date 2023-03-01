@@ -1,10 +1,17 @@
 import RequestEmailValues from '@/contracts/forms/RequestEmail';
 import Form from './Form';
 import { FormikHelpers } from 'formik';
-import { apiUrl, redirect } from '@/utils/helpers';
+import OnSubmitOptions from '@/contracts/forms/OnSubmitOptions';
 // import { apiUrl, redirect } from '@/utils/helpers';
 
 export default class RequestEmail extends Form {
+    /**
+     * The URL the form is to submit data to.
+     *
+     * @var {string}
+     */
+    protected url = '/password-reset-request';
+
     /**
      * Initital form input values.
      *
@@ -26,23 +33,22 @@ export default class RequestEmail extends Form {
     /**
      * The action to perform on form submit event.
      *
+     * @param {RequestEmailValues}            values
+     * @param {FormikHelpers}             helpers
+     * @param {OnSubmitOptions|undefined} options
+     *
      * @return  {Promise}
      */
-    public onSubmit (): (
-        _values: { [key: string]: any; },
-        _helpers: FormikHelpers<RequestEmailValues>
-    ) => Promise<void> {
-        return async (
-            values: { [key: string]: any; },
-            helpers: FormikHelpers<RequestEmailValues>
-        ) => {
-            this.post(apiUrl('request-email'), values, (response) => {
-                if (response.status === 200) {
-                    helpers.setSubmitting(false);
-
-                    redirect('/');
-                }
-            });
-        };
+    public async onSubmit (
+        values: RequestEmailValues,
+        helpers: FormikHelpers<RequestEmailValues>,
+        options?: OnSubmitOptions
+    ): Promise<any> {
+        return await this.submit(
+            () => helpers.resetForm(),
+            values,
+            helpers,
+            options
+        );
     }
 }

@@ -5,7 +5,7 @@ const Document = () => {
         <Html lang="en" data-theme="light">
             <Head title="Ignite | Forum Platform Builder" />
 
-            <body className="antialiased leading-normal">
+            <body className="antialiased leading-normal h-screen overflow-x-hidden text-gray-600">
                 <Main />
 
                 <NextScript />

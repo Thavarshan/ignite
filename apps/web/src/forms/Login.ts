@@ -1,16 +1,16 @@
 import LoginValues from '@/contracts/forms/Login';
-import Router from 'next/router';
-import Form from './Form';
 import { FormikHelpers } from 'formik';
-import { signIn } from 'next-auth/react';
+import { setCookie } from 'cookies-next';
+import OnSubmitOptions from '../contracts/forms/OnSubmitOptions';
+import Form from './Form';
 
 export default class Login extends Form {
     /**
-     * Indicate user login process status.
+     * The URL the form is to submit data to.
      *
-     * @var {boolean}
+     * @var {string}
      */
-    public failed = false;
+    protected url = '/login';
 
     /**
      * Initital form input values.
@@ -34,32 +34,28 @@ export default class Login extends Form {
     /**
      * The action to perform on form submit event.
      *
+     * @param {LoginValues}               values
+     * @param {FormikHelpers}             helpers
+     * @param {OnSubmitOptions|undefined} options
+     *
      * @return  {Promise}
      */
-    public onSubmit (): (
-        _values: { [key: string]: any; },
-        _helpers: FormikHelpers<LoginValues>
-    ) => Promise<void> {
-        return async (
-            values: { [key: string]: any; },
-            helpers: FormikHelpers<LoginValues>
-        ) => {
-            const response = await signIn('credentials', {
-                email: values.email,
-                password: values.password,
-                redirect: false,
-                callbackUrl: '/'
-            });
+    public async onSubmit (
+        values: LoginValues,
+        helpers: FormikHelpers<LoginValues>,
+        options?: OnSubmitOptions
+    ): Promise<any> {
+        return await this.submit(
+            (response) => {
+                const { accessToken: token } = response.data;
 
-            helpers.setSubmitting(false);
+                setCookie('token', token, { sameSite: true });
 
-            if (response?.error) {
-                this.failed = true;
-            }
-
-            helpers.resetForm();
-
-            Router.push('/users/profile');
-        };
+                helpers.resetForm();
+            },
+            values,
+            helpers,
+            options
+        );
     }
 }

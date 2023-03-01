@@ -1,9 +1,6 @@
 /* eslint-disable no-console */
-import React from 'react';
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import { getServerSession } from 'next-auth/next';
+import React, { useState } from 'react';
 import {
-    Flex,
     Box,
     Heading,
     FormControl,
@@ -11,98 +8,180 @@ import {
     Input,
     Button,
     FormErrorMessage,
-    useToast
+    useToast,
+    UseToastOptions,
+    InputGroup,
+    InputRightElement,
+    IconButton,
+    Container,
+    Stack,
+    HStack,
+    Text,
+    Checkbox
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 import LoginForm from '@/forms/Login';
+import _ from 'lodash';
+import useAuth from '@/hooks/useAuth';
+import { HiEye, HiEyeOff } from 'react-icons/hi';
+import { NextPage } from 'next';
+import Layout from '@/layouts/auth';
+import type { NextPageWithLayout } from '../_app';
+import Logo from '@/components/Logo';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
 
-const Login = () => {
+const Login: NextPageWithLayout = () => {
+    const router = useRouter();
+    const { mutate } = useAuth({
+        middleware: 'guest',
+        redirectIfAuthenticated: '/users/profile'
+    });
+
     const toast = useToast();
     const login = new LoginForm();
 
-    if (login.failed) {
-        console.log('Hit');
+    const [showPassword, setShowPassword] = useState(false);
 
-        toast({
-            title: 'Login unauthorized.',
-            description: 'We were unable to authenticate you at this time. Please try again later.',
+    const errorToast = (title: string, description: string): UseToastOptions => {
+        return {
+            title: title,
+            description: description,
             status: 'error',
             duration: 9000,
-            isClosable: true
-        });
-    }
+            isClosable: true,
+            variant: 'subtle',
+            position: 'bottom-right'
+        };
+    };
 
     return (
         <>
-            <Flex width='Full' align='center' justifyContent='center' p={10} bgColor='gray.100'>
-                <Box px={6} py={5} maxW='xl' w='lg' borderWidth={1} borderRadius='2xl' bgColor='white' boxShadow='lg'>
-                    <Box textAlign='center'>
-                        <Heading size='md'>Sign in to your account</Heading>
-                    </Box>
+            <Head>
+                <title>Login | Ignite</title>
+            </Head>
 
-                    <Box mt={8} textAlign='left'>
-                        <Formik
-                            initialValues={login.getInitialValues()}
-                            onSubmit={login.onSubmit()}>
-                            {({ isSubmitting }) => (
-                                <Form>
-                                    <Box>
-                                        <Field name='email'>
-                                            {({ field, form }: any) => (
-                                                <FormControl isInvalid={form.errors.email && form.touched.email}>
-                                                    <FormLabel>Email</FormLabel>
-                                                    <Input {...field} placeholder='Email' rounded='xl' bgColor='gray.50' />
-                                                    <FormErrorMessage>{form.errors.email}</FormErrorMessage>
-                                                </FormControl>
-                                            )}
-                                        </Field>
-                                    </Box>
+            <Container maxW='lg' py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
+                <Stack spacing='8'>
+                    <Stack spacing='6'>
+                        <HStack justify='center'>
+                            <Logo href='/' />
+                        </HStack>
 
-                                    <Box mt='4'>
-                                        <Field name='password'>
-                                            {({ field, form }: any) => (
-                                                <FormControl isInvalid={form.errors.password && form.touched.password}>
-                                                    <FormLabel>Password</FormLabel>
-                                                    <Input {...field} placeholder='Password' rounded='xl' bgColor='gray.50' />
-                                                    <FormErrorMessage>{form.errors.password}</FormErrorMessage>
-                                                </FormControl>
-                                            )}
-                                        </Field>
-                                    </Box>
+                        <Stack spacing={{ base: '2', md: '3' }} textAlign='center'>
+                            <Heading size={{ base: 'sm', md: 'lg' }}>Log in to your account</Heading>
 
-                                    <Box mt='8'>
-                                        <Button
-                                            w='full'
-                                            rounded='xl'
-                                            colorScheme='blue'
-                                            isLoading={isSubmitting}
-                                            type='submit'>
-                                            Sign In
-                                        </Button>
-                                    </Box>
-                                </Form>
-                            )}
-                        </Formik>
-                    </Box>
-                </Box>
-            </Flex>
+                            <HStack spacing='1' justify='center'>
+                                <Text color='gray.600'>Don&apos;t have an account?</Text>
+                                <Button variant='link' colorScheme='blue' onClick={() => router.push('/auth/register')}>
+                                    Sign up
+                                </Button>
+                            </HStack>
+                        </Stack>
+
+                        <Box
+                            py={{ base: '0', sm: '8' }}
+                            px={{ base: '4', sm: '10' }}
+                            bg={{ base: 'transparent', sm: 'white' }}
+                            boxShadow={{ base: 'none', sm: 'md' }}
+                            borderRadius={{ base: 'none', sm: 'xl' }}
+                        >
+                            <Stack spacing='6'>
+                                <Formik
+                                    initialValues={login.getInitialValues()}
+                                    onSubmit={async (values, helpers) => {
+                                        await login.onSubmit(values, helpers, {
+                                            onSuccess: () => mutate(),
+                                            onFail: (error) => {
+                                                if (!error.response) {
+                                                    toast(errorToast('Login failed.', error.message));
+                                                }
+
+                                                const { message } = error.response.data;
+
+                                                if (_.isArray(message)) {
+                                                    _.forEach(message, (msg) => {
+                                                        toast(errorToast('Invalid inputs.', msg));
+                                                    });
+                                                } else {
+                                                    toast(errorToast('Login failed.', message));
+                                                }
+                                            }
+                                        });
+                                    }}>
+                                    {({ isSubmitting }) => (
+                                        <Form>
+                                            <Stack spacing='6'>
+                                                <Stack spacing="5">
+                                                    <Field name='email'>
+                                                        {({ field, form }: any) => (
+                                                            <FormControl isInvalid={form.errors.email && form.touched.email}>
+                                                                <FormLabel fontSize='sm' htmlFor='email'>Email</FormLabel>
+                                                                <Input id='email' {...field} placeholder='Email' rounded='xl' bgColor='gray.50' />
+                                                                <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                                                            </FormControl>
+                                                        )}
+                                                    </Field>
+                                                </Stack>
+
+                                                <Stack spacing='5'>
+                                                    <Field name='password'>
+                                                        {({ field, form }: any) => (
+                                                            <FormControl isInvalid={form.errors.password && form.touched.password}>
+                                                                <FormLabel fontSize='sm' htmlFor='password'>Password</FormLabel>
+                                                                <InputGroup>
+                                                                    <Input {...field} id='password' type={showPassword ? 'text' : 'password'} placeholder='Password' rounded='xl' bgColor='gray.50' autoComplete='current-password' />
+                                                                    <InputRightElement width='4.5rem'>
+                                                                        <IconButton
+                                                                            variant='link'
+                                                                            aria-label={showPassword ? 'Mask password' : 'Reveal password'}
+                                                                            icon={showPassword ? <HiEyeOff /> : <HiEye />}
+                                                                            onClick={() => setShowPassword(!showPassword)} />
+                                                                    </InputRightElement>
+                                                                </InputGroup>
+                                                                <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                                                            </FormControl>
+                                                        )}
+                                                    </Field>
+                                                </Stack>
+
+                                                <HStack justify='space-between'>
+                                                    <Checkbox defaultChecked>
+                                                        <Text fontSize='sm'>Remember me</Text>
+                                                    </Checkbox>
+
+                                                    <Button variant='link' colorScheme='blue' size='sm' onClick={() => router.push('/auth/forgot-password')}>
+                                                        Forgot password?
+                                                    </Button>
+                                                </HStack>
+
+                                                <Stack spacing='5'>
+                                                    <Button
+                                                        w='full'
+                                                        rounded='xl'
+                                                        colorScheme='blue'
+                                                        isLoading={isSubmitting}
+                                                        type='submit'>
+                                                        Sign in
+                                                    </Button>
+                                                </Stack>
+                                            </Stack>
+                                        </Form>
+                                    )}
+                                </Formik>
+                            </Stack>
+                        </Box>
+                    </Stack>
+                </Stack>
+            </Container>
         </>
     );
 };
 
-export async function getServerSideProps (context: any) {
-    const session: any = await getServerSession(context.req, context.res, authOptions);
-
-    if (session?.accessToken) {
-        return {
-            redirect: {
-                destination: context.req.headers.referer || '/',
-                permanent: false
-            }
-        };
-    }
-
-    return { props: { session } };
-}
+Login.getLayout = function getLayout (page: NextPage) {
+    return (
+        <Layout>{page}</Layout>
+    );
+};
 
 export default Login;

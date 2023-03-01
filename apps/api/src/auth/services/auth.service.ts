@@ -17,8 +17,8 @@ import Role from '@/users/enums/roles.enum';
 export default class AuthService {
     constructor (
         protected auth: LocalAuth,
-        protected userRepository: UserRepository,
-        protected teamRepository: TeamRepository,
+        protected users: UserRepository,
+        protected teams: TeamRepository,
         protected jwt: JwtService
     ) { }
 
@@ -41,7 +41,7 @@ export default class AuthService {
         let user: User;
 
         try {
-            user = await this.userRepository.findByEmail(dto.email);
+            user = await this.users.findByEmail(dto.email);
 
             if (user && user.verified === true) {
                 throw new BadRequestException('Email already in use.');
@@ -52,12 +52,10 @@ export default class AuthService {
             }
         }
 
-        user = await this.userRepository.create(
-            this.setRegistrationInfo(dto)
-        );
+        user = await this.users.create(this.setRegistrationInfo(dto));
 
         if (!_.includes(user.roles, Role.USER)) {
-            const team = await this.teamRepository.create({
+            const team = await this.teams.create({
                 name: `${user.name}'s Team`,
                 email: user.email,
                 owner: _.get(user, '_id')

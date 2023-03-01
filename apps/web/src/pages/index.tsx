@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import {
     Box,
     Button,
+    Text,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -19,16 +20,11 @@ import {
     Td,
     TableContainer
 } from '@chakra-ui/react';
-import { signOut, useSession } from 'next-auth/react';
 
 const Home = () => {
-    const { data: session }: any = useSession();
     const router = useRouter();
     const { isOpen, onOpen, onClose } = useDisclosure();
-    let authenticated = false;
-    if (session?.accessToken) {
-        authenticated = true;
-    }
+    const authenticated = false;
 
     return (
         <>
@@ -72,7 +68,7 @@ const Home = () => {
 
                 <Button onClick={() => router.push('/auth/login')} colorScheme='blue' ml={3}>Login</Button>
 
-                {authenticated && <Button onClick={() => signOut()} colorScheme='red' variant='outline' ml={3}>Sign out</Button>}
+                {authenticated && <Button onClick={() => ''} colorScheme='red' variant='outline' ml={3}>Sign out</Button>}
 
                 <Modal isOpen={isOpen} onClose={onClose}>
                     <ModalOverlay />
@@ -83,9 +79,9 @@ const Home = () => {
                         <ModalCloseButton />
 
                         <ModalBody>
-                            <p>
+                            <Text fontSize='sm' color='gray.500'>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a aliquam felis. Sed eu lobortis arcu. Nulla pulvinar, quam a vestibulum finibus, lacus libero vulputate enim, vel commodo nibh diam nec purus. Nunc commodo felis ultricies, egestas lacus at, pellentesque nisl. Aliquam erat volutpat. Maecenas quis nunc et nisl euismod porta et eget mi. Ut nibh risus, egestas sit amet interdum non, consectetur et odio.
-                            </p>
+                            </Text>
                         </ModalBody>
 
                         <ModalFooter>

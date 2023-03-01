@@ -76,13 +76,13 @@ export default class UserRepository {
         return !_.isNull(results);
     }
 
-    public async update (id: string, dto: UserDto): Promise<any> {
+    public async update (id: string, dto: UserDto | any): Promise<any> {
         return await this.model
-            .findOneAndUpdate({ _id: id }, dto, { new: true })
+            .findByIdAndUpdate(id, dto, { new: true })
             .exec();
     }
 
     public async remove (id: string): Promise<void> {
-        await this.model.deleteOne({ _id: id }).exec();
+        await this.model.findByIdAndDelete(id).exec();
     }
 }

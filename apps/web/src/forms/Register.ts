@@ -1,9 +1,17 @@
 import RegisterValues from '@/contracts/forms/Register';
 import Form from './Form';
 import { FormikHelpers } from 'formik';
-import { apiUrl, redirect } from '@/utils/helpers';
+import OnSubmitOptions from '@/contracts/forms/OnSubmitOptions';
+import Router from 'next/router';
 
 export default class Register extends Form {
+    /**
+     * The URL the form is to submit data to.
+     *
+     * @var {string}
+     */
+    protected url = '/register';
+
     /**
      * Initital form input values.
      *
@@ -12,41 +20,34 @@ export default class Register extends Form {
     protected initialValues: RegisterValues = {
         name: '',
         email: '',
-        phone: '',
+        phone: undefined,
         password: '',
-        passwordConfirmation: '',
-        line1: '',
-        line2: '',
-        city: '',
-        state: '',
-        country: '',
-        postalCode: ''
+        role: undefined
     };
 
     /**
      * The action to perform on form submit event.
      *
+     * @param {RegisterValues}            values
+     * @param {FormikHelpers}             helpers
+     * @param {OnSubmitOptions|undefined} options
+     *
      * @return  {Promise}
      */
-    public onSubmit (): (
-        _values: { [key: string]: any; },
-        _helpers: FormikHelpers<RegisterValues>
-    ) => Promise<void> {
-        return async (
-            values: { [key: string]: any; },
-            helpers: FormikHelpers<RegisterValues>
-        ) => {
-            this.post(
-                apiUrl('register', this.config?.queries),
-                values,
-                (response) => {
-                    if (response.status === 200) {
-                        helpers.setSubmitting(false);
+    public async onSubmit (
+        values: RegisterValues,
+        helpers: FormikHelpers<RegisterValues>,
+        options?: OnSubmitOptions
+    ): Promise<any> {
+        return await this.submit(
+            () => {
+                helpers.resetForm();
 
-                        redirect('/');
-                    }
-                }
-            );
-        };
+                Router.push('/auth/login');
+            },
+            values,
+            helpers,
+            options
+        );
     }
 }

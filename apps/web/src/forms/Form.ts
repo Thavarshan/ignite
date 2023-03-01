@@ -2,14 +2,32 @@ import { FormikHelpers } from 'formik';
 import InputError from '@/contracts/forms/InputError';
 import _ from 'lodash';
 import Config from '@/contracts/forms/config';
+import OnSubmitOptions from '../contracts/forms/OnSubmitOptions';
+import InputValues from '@/contracts/forms/InputValues';
+import axios from '@/utils/axios';
+import FormMethod from '@/contracts/forms/FormMethod';
 
 export default abstract class Form {
     /**
+     * The URL the form is to submit data to.
+     *
+     * @var {string}
+     */
+    protected url = '/';
+
+    /**
+     * The request method used when form is being submitted.
+     *
+     * @var {string}
+     */
+    protected method: FormMethod = 'post';
+
+    /**
      * Initital form input values.
      *
-     * @var {object}
+     * @var {InputValues}
      */
-    protected abstract initialValues: any;
+    protected initialValues: InputValues;
 
     /**
      * Form input configs.
@@ -23,6 +41,17 @@ export default abstract class Form {
             'Content-Type': 'application/json'
         }
     };
+
+    /**
+     * Create new Form instance.
+     *
+     * @param   {InputValues|undefined}  values
+     *
+     * @return  {void}
+     */
+    constructor (values?: InputValues) {
+        this.initialValues = _.merge(this.initialValues, values || {});
+    }
 
     /**
      * Set form input configs.
@@ -47,12 +76,61 @@ export default abstract class Form {
     /**
      * The action to perform on form submit event.
      *
+     * @param {LoginValues}               _values
+     * @param {FormikHelpers}             _helpers
+     * @param {OnSubmitOptions|undefined} _options
+     *
      * @return  {Promise}
      */
-    public abstract onSubmit (): (
-        _values: { [key: string]: any; },
-        _helpers: FormikHelpers<any>
-    ) => Promise<void>;
+    public abstract onSubmit (
+        _values: InputValues,
+        _helpers: FormikHelpers<InputValues>,
+        _options?: OnSubmitOptions
+    ): Promise<any>;
+
+    /**
+     * The action to perform on form submit event.
+     *
+     * @param {function}                  action
+     * @param {LoginValues}               values
+     * @param {FormikHelpers}             helpers
+     * @param {OnSubmitOptions|undefined} options
+     *
+     * @return  {Promise}
+     */
+    public async submit (
+        action: (_response: any) => any,
+        values: InputValues,
+        helpers: FormikHelpers<InputValues>,
+        options?: OnSubmitOptions
+    ): Promise<any> {
+        return axios[this.method](this.url, { ...values })
+            .then((response): any => {
+                const result = action(response);
+
+                if (result) {
+                    return result;
+                }
+
+                if (options?.onSuccess) {
+                    return options.onSuccess(response);
+                }
+            })
+            .catch(error => {
+                if (options?.onFail) {
+                    return options.onFail(error);
+                }
+
+                throw error;
+            })
+            .finally((): void => {
+                if (options?.onFinish) {
+                    options.onFinish();
+                }
+
+                helpers.setSubmitting(false);
+            });
+    }
 
     /**
      * Make post request to given URL with provided data.

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 
 module.exports = {
@@ -5,6 +6,6 @@ module.exports = {
     // transpilePackages: ['ui'],
     output: 'standalone',
     experimental: {
-        outputFileTracingRoot: path.join(__dirname, '../../'),
-    },
+        outputFileTracingRoot: path.join(__dirname, '../../')
+    }
 };

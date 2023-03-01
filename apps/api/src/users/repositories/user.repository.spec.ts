@@ -22,8 +22,8 @@ describe('UserRepository', () => {
                         findOne: jest.fn(),
                         findById: jest.fn(),
                         create: jest.fn(),
-                        findOneAndUpdate: jest.fn(),
-                        deleteOne: jest.fn(),
+                        findByIdAndUpdate: jest.fn(),
+                        findByIdAndDelete: jest.fn(),
                         exists: jest.fn(),
                         exec: jest.fn(),
                     }
@@ -220,7 +220,7 @@ describe('UserRepository', () => {
             phone: '1234567890'
         };
 
-        jest.spyOn(model, 'findOneAndUpdate')
+        jest.spyOn(model, 'findByIdAndUpdate')
             .mockImplementation((filter: any) => {
                 return {
                     exec: jest.fn().mockResolvedValue(userData),
@@ -230,23 +230,23 @@ describe('UserRepository', () => {
         const user = await repository.update('Wade Solman', userData);
 
         expect(user).toStrictEqual(userData);
-        expect(model.findOneAndUpdate).toBeCalledTimes(1);
-        expect(model.findOneAndUpdate).lastCalledWith(
-            { _id: 'Wade Solman' },
+        expect(model.findByIdAndUpdate).toBeCalledTimes(1);
+        expect(model.findByIdAndUpdate).lastCalledWith(
+            'Wade Solman',
             userData,
             { new: true }
         );
     });
 
     it('should delete an existing user', async () => {
-        jest.spyOn(model, 'deleteOne')
+        jest.spyOn(model, 'findByIdAndDelete')
             .mockImplementation((filter: any) => {
                 return { exec: jest.fn() } as any;
             });
 
         const user = await repository.remove('Wade Solman');
 
-        expect(model.deleteOne).toBeCalledTimes(1);
-        expect(model.deleteOne).lastCalledWith({ _id: 'Wade Solman' });
+        expect(model.findByIdAndDelete).toBeCalledTimes(1);
+        expect(model.findByIdAndDelete).lastCalledWith('Wade Solman');
     });
 });

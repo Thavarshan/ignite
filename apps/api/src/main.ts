@@ -3,6 +3,7 @@ import AppModule from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { info } from 'console';
 import LoggerService from '@/logger/services/logger.service';
+import corsConfig from '@/config/cors.config';
 
 async function bootstrap () {
     const app = await NestFactory.create(AppModule);
@@ -10,10 +11,11 @@ async function bootstrap () {
     app.enableShutdownHooks();
 
     app.useGlobalPipes(new ValidationPipe({
-        // disableErrorMessages: true,
+        disableErrorMessages: false,
     }));
 
-    app.enableCors();
+    app.enableCors(corsConfig);
+
     app.useLogger(new LoggerService());
 
     const PORT = process.env.PORT || 3001;
