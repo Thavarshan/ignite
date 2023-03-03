@@ -1,11 +1,11 @@
-import { Inject, NotFoundException } from '@nestjs/common';
-import _ from 'lodash';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import Team from '../contracts/team.contract';
 import TeamEnum from '../enums/team.enum';
 import TeamDto from '../dto/team.dto';
 
-export default class TeamRepository {
+@Injectable()
+export default class TeamsRepository {
     constructor (
         @Inject(TeamEnum.MODEL) protected model: Model<Team>
     ) { }
@@ -38,29 +38,13 @@ export default class TeamRepository {
         return team;
     }
 
-    public async findByTeamname (teamname: string): Promise<Team> {
-        const team = await this.model.findOne({ teamname }).exec();
-
-        if (!team) {
-            throw new NotFoundException('Team not found.');
-        }
-
-        return team;
-    }
-
-    public async existsByEmail (email: string): Promise<boolean> {
-        const results = await this.model.exists({ email }).exec();
-
-        return !_.isNull(results);
-    }
-
     public async update (id: string, dto: TeamDto): Promise<any> {
         return await this.model
-            .findOneAndUpdate({ _id: id }, dto, { new: true })
+            .findByIdAndUpdate(id, dto, { new: true })
             .exec();
     }
 
     public async remove (id: string): Promise<void> {
-        await this.model.deleteOne({ _id: id }).exec();
+        await this.model.findByIdAndDelete(id).exec();
     }
 }

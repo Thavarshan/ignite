@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Test, TestingModule } from '@nestjs/testing';
-import TeamRepository from './team.repository';
+import TeamRepository from './teams.repository';
 import { Model } from 'mongoose';
 import Team from '../contracts/team.contract';
 import TeamEnum from '../enums/team.enum';
@@ -22,8 +22,8 @@ describe('TeamRepository', () => {
                         findOne: jest.fn(),
                         findById: jest.fn(),
                         create: jest.fn(),
-                        findOneAndUpdate: jest.fn(),
-                        deleteOne: jest.fn(),
+                        findByIdAndUpdate: jest.fn(),
+                        findByIdAndDelete: jest.fn(),
                         exists: jest.fn(),
                         exec: jest.fn(),
                     }
@@ -123,40 +123,6 @@ describe('TeamRepository', () => {
         }
     });
 
-    it('exists method should return true if exists ', async () => {
-        const existsSpy = jest
-            .spyOn(model, 'exists')
-            .mockImplementation((filter: any) => {
-                return {
-                    exec: jest.fn().mockResolvedValue({
-                        _id: 'test',
-                    } as any),
-                } as any;
-            });
-
-        const result = await repository.existsByEmail('monster@example.com');
-
-        expect(existsSpy).toBeCalledWith({ email: 'monster@example.com' });
-        expect(existsSpy).toBeCalledTimes(1);
-        expect(result).toBeTruthy();
-    });
-
-    it('should return false if not exists ', async () => {
-        const existsSpy = jest
-            .spyOn(model, 'exists')
-            .mockImplementation((filter: any) => {
-                return {
-                    exec: jest.fn().mockResolvedValue(null),
-                } as any;
-            });
-
-        const result = await repository.existsByEmail('monster@example.com');
-
-        expect(existsSpy).toBeCalledWith({ email: 'monster@example.com' });
-        expect(existsSpy).toBeCalledTimes(1);
-        expect(result).toBeFalsy();
-    });
-
     it('should update an existing team', async () => {
         const teamData = {
             name: 'Wade Solman',
@@ -166,7 +132,7 @@ describe('TeamRepository', () => {
             owner: '63f9e922f9e75201ca9f9af3'
         };
 
-        jest.spyOn(model, 'findOneAndUpdate')
+        jest.spyOn(model, 'findByIdAndUpdate')
             .mockImplementation((filter: any) => {
                 return {
                     exec: jest.fn().mockResolvedValue(teamData),
@@ -176,23 +142,23 @@ describe('TeamRepository', () => {
         const team = await repository.update('Wade Solman', teamData);
 
         expect(team).toStrictEqual(teamData);
-        expect(model.findOneAndUpdate).toBeCalledTimes(1);
-        expect(model.findOneAndUpdate).lastCalledWith(
-            { _id: 'Wade Solman' },
+        expect(model.findByIdAndUpdate).toBeCalledTimes(1);
+        expect(model.findByIdAndUpdate).lastCalledWith(
+            'Wade Solman',
             teamData,
             { new: true }
         );
     });
 
     it('should delete an existing team', async () => {
-        jest.spyOn(model, 'deleteOne')
+        jest.spyOn(model, 'findByIdAndDelete')
             .mockImplementation((filter: any) => {
                 return { exec: jest.fn() } as any;
             });
 
         const team = await repository.remove('Wade Solman');
 
-        expect(model.deleteOne).toBeCalledTimes(1);
-        expect(model.deleteOne).lastCalledWith({ _id: 'Wade Solman' });
+        expect(model.findByIdAndDelete).toBeCalledTimes(1);
+        expect(model.findByIdAndDelete).lastCalledWith('Wade Solman');
     });
 });

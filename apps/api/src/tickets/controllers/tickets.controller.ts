@@ -1,34 +1,41 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import TicketsService from '../services/tickets.service';
 import TicketDto from '../dto/ticket.dto';
-import UpdateTicketDto from '../dto/update-ticket.dto';
+import Ticket from '../contracts/ticket.contract';
+import JwtAuthGuard from '@/auth/guards/jwt-auth.guard';
 
 @Controller('tickets')
 export default class TicketsController {
-    constructor (private readonly ticketsService: TicketsService) { }
+    constructor (protected readonly service: TicketsService) { }
 
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(HttpStatus.CREATED)
     @Post()
-    create (@Body() createTicketDto: TicketDto) {
-        return this.ticketsService.create(createTicketDto);
+    public async create (@Body() dto: TicketDto): Promise<Ticket> {
+        return await this.service.create(dto);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get()
-    findAll () {
-        return this.ticketsService.findAll();
+    public async findAll (): Promise<Ticket[]> {
+        return await this.service.findAll();
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
-    findOne (@Param('id') id: string) {
-        return this.ticketsService.findOne(+id);
+    public async findOne (@Param('id') id: string): Promise<Ticket> {
+        return await this.service.findOne(id);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch(':id')
-    update (@Param('id') id: string, @Body() updateTicketDto: UpdateTicketDto) {
-        return this.ticketsService.update(+id, updateTicketDto);
+    public async update (@Param('id') id: string, @Body() dto: TicketDto): Promise<Ticket> {
+        return await this.service.update(id, dto);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
-    remove (@Param('id') id: string) {
-        return this.ticketsService.remove(+id);
+    public async remove (@Param('id') id: string): Promise<void> {
+        return await this.service.remove(id);
     }
 }

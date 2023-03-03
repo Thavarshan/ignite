@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Test, TestingModule } from '@nestjs/testing';
 import UsersController from './users.controller';
-import UserService from '../services/user.service';
+import UsersService from '../services/users.service';
 import mockModel from '../models/mock.model';
 import User from '../contracts/user.contract';
 
 describe('UsersController', () => {
-    let service: UserService;
+    let service: UsersService;
     let controller: UsersController;
 
     beforeEach(async () => {
@@ -14,7 +14,7 @@ describe('UsersController', () => {
             controllers: [UsersController],
             providers: [
                 {
-                    provide: UserService,
+                    provide: UsersService,
                     useValue: {
                         new: jest.fn().mockResolvedValue(mockModel),
                         constructor: jest.fn().mockResolvedValue(mockModel),
@@ -28,7 +28,7 @@ describe('UsersController', () => {
             ],
         }).compile();
 
-        service = module.get<UserService>(UserService);
+        service = module.get<UsersService>(UsersService);
         controller = module.get<UsersController>(UsersController);
     });
 

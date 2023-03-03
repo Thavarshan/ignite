@@ -19,7 +19,7 @@ export default class UsersRepository {
         return await this.model.find().exec();
     }
 
-    public async findById (id: string): Promise<any> {
+    public async findById (id: string): Promise<User> {
         try {
             const user = await this.model.findById(id).exec();
 

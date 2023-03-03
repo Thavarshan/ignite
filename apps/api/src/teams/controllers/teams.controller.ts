@@ -10,14 +10,14 @@ import {
     HttpCode,
     HttpStatus
 } from '@nestjs/common';
-import TeamService from '@/teams/services/team.service';
+import TeamsService from '@/teams/services/teams.service';
 import TeamDto from '@/teams/dto/team.dto';
 import Team from '@/teams/contracts/team.contract';
 import JwtAuthGuard from '@/auth/guards/jwt-auth.guard';
 
 @Controller('teams')
 export default class TeamsController {
-    constructor (protected readonly service: TeamService) { }
+    constructor (protected readonly service: TeamsService) { }
 
     @HttpCode(HttpStatus.CREATED)
     @UseGuards(JwtAuthGuard)

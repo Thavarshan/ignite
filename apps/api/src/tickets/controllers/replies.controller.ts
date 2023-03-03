@@ -1,34 +1,44 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { RepliesService } from './replies.service';
-import { CreateReplyDto } from './dto/create-reply.dto';
-import { UpdateReplyDto } from './dto/update-reply.dto';
+import JwtAuthGuard from '@/auth/guards/jwt-auth.guard';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
+import ReplyDto from '../dto/reply.dto';
+import RepliesService from '../services/replies.service';
 
-@Controller('replies')
-export class RepliesController {
-  constructor(private readonly repliesService: RepliesService) {}
+@Controller('tickets/replies')
+export default class ReplysController {
+    constructor (protected readonly service: RepliesService) { }
 
-  @Post()
-  create(@Body() createReplyDto: CreateReplyDto) {
-    return this.repliesService.create(createReplyDto);
-  }
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(HttpStatus.CREATED)
+    @Post()
+    public async create (@Body() dto: ReplyDto): Promise<any> {
+        return await this.service.create(dto);
+    }
 
-  @Get()
-  findAll() {
-    return this.repliesService.findAll();
-  }
+    @UseGuards(JwtAuthGuard)
+    @Get()
+    public async findAll (): Promise<any> {
+        return await this.service.findAll();
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.repliesService.findOne(+id);
-  }
+    @UseGuards(JwtAuthGuard)
+    @Get(':id')
+    public async findOne (@Param('id') id: string): Promise<any> {
+        return await this.service.findOne(id);
+    }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReplyDto: UpdateReplyDto) {
-    return this.repliesService.update(+id, updateReplyDto);
-  }
+    @UseGuards(JwtAuthGuard)
+    @Patch(':id')
+    public async update (
+        @Param('id') id: string,
+        @Body() dto: ReplyDto
+    ): Promise<any> {
+        return await this.service.update(id, dto);
+    }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.repliesService.remove(+id);
-  }
+    @HttpCode(HttpStatus.NO_CONTENT)
+    @UseGuards(JwtAuthGuard)
+    @Delete(':id')
+    public async remove (@Param('id') id: string): Promise<any> {
+        return await this.service.remove(id);
+    }
 }

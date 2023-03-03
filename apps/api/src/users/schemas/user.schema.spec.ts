@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-const virtualMock = jest.fn().mockImplementationOnce((name: string) => name);
-
-import UserSchema, { preSaveHook } from './user.schema';
+const virtualMock = jest.fn();
 
 jest.mock('mongoose', () => ({
     Schema: jest.fn().mockImplementation((def: any, options: any) => ({
@@ -16,18 +14,9 @@ jest.mock('mongoose', () => ({
     })),
 }));
 
-describe('UserSchema', () => {
-    it('should called Schame.virtual ', () => {
-        expect(UserSchema).toBeDefined();
-        expect(virtualMock).toBeCalled();
-        expect(virtualMock).toHaveBeenNthCalledWith(1, 'posts', {
-            foreignField: 'userId',
-            localField: '_id',
-            ref: 'Post',
-        });
-        expect(virtualMock).toBeCalledTimes(1);
-    });
+import UserSchema, { preSaveHook } from './user.schema';
 
+describe('UserSchema', () => {
     test('should execute next middleware when name or password is not modified', async () => {
         const nextMock = jest.fn();
         const contextMock = { isModified: jest.fn() };
@@ -70,5 +59,24 @@ describe('UserSchema', () => {
         expect(contextMock.isModified).toBeCalledWith('password');
         expect(nextMock).toBeCalledTimes(1);
         expect(contextMock.set).toBeCalledTimes(1);
+    });
+
+    it('should called Schame.virtual for tickets', () => {
+        expect(UserSchema).toBeDefined();
+
+        expect(virtualMock).toBeCalled();
+        expect(virtualMock).toHaveBeenNthCalledWith(1, 'tickets', {
+            foreignField: 'user',
+            localField: '_id',
+            ref: 'Ticket',
+            justOne: false
+        });
+        expect(virtualMock).toHaveBeenNthCalledWith(2, 'ticketsAssigned', {
+            foreignField: 'agent',
+            localField: '_id',
+            ref: 'Ticket',
+            justOne: false
+        });
+        expect(virtualMock).toBeCalledTimes(2);
     });
 });

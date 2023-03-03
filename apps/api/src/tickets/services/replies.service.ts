@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { CreateReplyDto } from './dto/create-reply.dto';
-import { UpdateReplyDto } from './dto/update-reply.dto';
+import Reply from '../contracts/reply.contract';
+import ReplyDto from '../dto/reply.dto';
+import RepliesRepository from '../repositories/replies.repository';
 
 @Injectable()
-export class RepliesService {
-  create(createReplyDto: CreateReplyDto) {
-    return 'This action adds a new reply';
-  }
+export default class RepliesService {
+    constructor (protected readonly repository: RepliesRepository) { }
 
-  findAll() {
-    return `This action returns all replies`;
-  }
+    public async create (dto: ReplyDto): Promise<Reply> {
+        return await this.repository.create(dto);
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reply`;
-  }
+    public async findAll (): Promise<Reply[]> {
+        return await this.repository.findAll();
+    }
 
-  update(id: number, updateReplyDto: UpdateReplyDto) {
-    return `This action updates a #${id} reply`;
-  }
+    public async findOne (id: string): Promise<Reply> {
+        return await this.repository.findById(id);
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} reply`;
-  }
+    public async update (id: string, dto: ReplyDto): Promise<any> {
+        return await this.repository.update(id, dto);
+    }
+
+    public async remove (id: string): Promise<void> {
+        await this.repository.remove(id);
+    }
 }

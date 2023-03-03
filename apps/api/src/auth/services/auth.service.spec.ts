@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import AuthService from './auth.service';
 import LocalAuth from '../authenticators/local.auth';
-import UserRepository from '../../users/repositories/user.repository';
-import TeamRepository from '../../teams/repositories/team.repository';
+import UsersRepository from '../../users/repositories/users.repository';
+import TeamsRepository from '../../teams/repositories/teams.repository';
 import mockModel from '../../users/models/mock.model';
 import UserEnum from '../../users/enums/user.enum';
 import TeamEnum from '../../teams/enums/team.enum';
@@ -11,7 +11,7 @@ import User from '../../users/contracts/user.contract';
 import Role from '../../users/enums/roles.enum';
 
 describe('AuthService', () => {
-    let repository: UserRepository;
+    let repository: UsersRepository;
     let service: AuthService;
     let auth: LocalAuth;
     let jwt: JwtService;
@@ -20,8 +20,8 @@ describe('AuthService', () => {
         const module: TestingModule = await Test.createTestingModule({
             providers: [
                 AuthService,
-                UserRepository,
-                TeamRepository,
+                UsersRepository,
+                TeamsRepository,
                 {
                     provide: JwtService,
                     useValue: {
@@ -59,7 +59,7 @@ describe('AuthService', () => {
             ],
         }).compile();
 
-        repository = module.get<UserRepository>(UserRepository);
+        repository = module.get<UsersRepository>(UsersRepository);
         service = module.get<AuthService>(AuthService);
         auth = module.get<LocalAuth>(LocalAuth);
         jwt = module.get<JwtService>(JwtService);

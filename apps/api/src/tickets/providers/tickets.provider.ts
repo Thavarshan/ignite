@@ -13,23 +13,23 @@ import Reply from '../models/reply.model';
 
 const ticketsProvider: Provider[] = [
     {
-        provide: ChannelEnum.MODEL,
-
-        useFactory: (connection: Connection) => {
-            const channel = new Channel(connection, ChannelSchema);
-
-            return channel.newInstance();
-        },
-
-        inject: [DB.KEY],
-    },
-    {
         provide: TicketEnum.MODEL,
 
         useFactory: (connection: Connection) => {
             const ticket = new Ticket(connection, TicketSchema);
 
             return ticket.newInstance();
+        },
+
+        inject: [DB.KEY],
+    },
+    {
+        provide: ChannelEnum.MODEL,
+
+        useFactory: (connection: Connection) => {
+            const channel = new Channel(connection, ChannelSchema);
+
+            return channel.newInstance();
         },
 
         inject: [DB.KEY],

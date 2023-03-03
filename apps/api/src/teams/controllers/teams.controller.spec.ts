@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Test, TestingModule } from '@nestjs/testing';
 import TeamsController from './teams.controller';
-import TeamService from '../services/team.service';
+import TeamsService from '../services/teams.service';
 import mockModel from '../models/mock.model';
 
 describe('TeamsController', () => {
-    let service: TeamService;
+    let service: TeamsService;
     let controller: TeamsController;
 
     beforeEach(async () => {
@@ -13,7 +13,7 @@ describe('TeamsController', () => {
             controllers: [TeamsController],
             providers: [
                 {
-                    provide: TeamService,
+                    provide: TeamsService,
                     useValue: {
                         new: jest.fn().mockResolvedValue(mockModel),
                         constructor: jest.fn().mockResolvedValue(mockModel),
@@ -27,7 +27,7 @@ describe('TeamsController', () => {
             ],
         }).compile();
 
-        service = module.get<TeamService>(TeamService);
+        service = module.get<TeamsService>(TeamsService);
         controller = module.get<TeamsController>(TeamsController);
     });
 

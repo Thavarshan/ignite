@@ -16,6 +16,7 @@ const TeamSchema = new Schema<TeamContract>({
         type: String,
         minlength: 6,
         maxlength: 255,
+        slug: 'name',
         required: false,
     },
 
@@ -67,12 +68,12 @@ export const preSaveHook = async function (next: HookNextFunction) {
     }
 };
 
-TeamSchema.pre('save', preSaveHook);
+TeamSchema.pre<TeamContract>('save', preSaveHook);
 
 TeamSchema.virtual('members', {
-    ref: 'User', // must be changed
+    ref: 'User',
     localField: '_id',
-    foreignField: 'teamId',
+    foreignField: 'team',
 });
 
 export default TeamSchema;

@@ -1,20 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Test, TestingModule } from '@nestjs/testing';
-import TeamService from './team.service';
-import TeamRepository from '../repositories/team.repository';
+import TeamsService from './teams.service';
+import TeamsRepository from '../repositories/teams.repository';
 import mockModel from '../models/mock.model';
-import Team from '../contracts/team.contract';
 
-describe('TeamService', () => {
-    let service: TeamService;
-    let repository: TeamRepository;
+describe('TeamsService', () => {
+    let service: TeamsService;
+    let repository: TeamsRepository;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             providers: [
-                TeamService,
+                TeamsService,
                 {
-                    provide: TeamRepository,
+                    provide: TeamsRepository,
                     useValue: {
                         new: jest.fn().mockResolvedValue(mockModel),
                         constructor: jest.fn().mockResolvedValue(mockModel),
@@ -33,8 +32,8 @@ describe('TeamService', () => {
             ],
         }).compile();
 
-        service = module.get<TeamService>(TeamService);
-        repository = module.get<TeamRepository>(TeamRepository);
+        service = module.get<TeamsService>(TeamsService);
+        repository = module.get<TeamsRepository>(TeamsRepository);
     });
 
     it('should be defined', () => {

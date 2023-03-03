@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-const virtualMock = jest.fn().mockImplementationOnce((name: string) => name);
-
-import TeamSchema, { preSaveHook } from './team.schema';
+const virtualMock = jest.fn();
 
 jest.mock('mongoose', () => ({
     Schema: jest.fn().mockImplementation((def: any, options: any) => ({
@@ -16,12 +14,14 @@ jest.mock('mongoose', () => ({
     })),
 }));
 
+import TeamSchema, { preSaveHook } from './team.schema';
+
 describe('TeamSchema', () => {
     it('should called Schame.virtual ', () => {
         expect(TeamSchema).toBeDefined();
         expect(virtualMock).toBeCalled();
         expect(virtualMock).toHaveBeenNthCalledWith(1, 'members', {
-            foreignField: 'teamId',
+            foreignField: 'team',
             localField: '_id',
             ref: 'User',
         });

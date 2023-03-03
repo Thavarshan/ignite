@@ -59,7 +59,7 @@ const Login: NextPageWithLayout = () => {
 
                             <HStack spacing='1' justify='center'>
                                 <Text color='blue.300'>Don&apos;t have an account?</Text>
-                                <Button variant='link' colorScheme='blue' onClick={() => redirect('/auth/register')}>
+                                <Button variant='link' color='white' onClick={() => redirect('/auth/register')}>
                                     Sign up
                                 </Button>
                             </HStack>

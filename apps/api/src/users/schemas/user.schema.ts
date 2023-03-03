@@ -2,7 +2,7 @@ import { Schema, SchemaTypes } from 'mongoose';
 import validator from 'validator';
 import { hash } from 'bcrypt';
 import HookNextFunction from '@/contracts/hook.contract';
-import Role from '@/users/enums/roles.enum';
+import Roles from '@/users/enums/roles.enum';
 import UserContract from '@/users/contracts/user.contract';
 import { uniqueNamesGenerator, Config, starWars } from 'unique-names-generator';
 import slug from 'slug';
@@ -47,7 +47,8 @@ const UserSchema = new Schema<UserContract>({
 
     roles: {
         type: [String],
-        default: [Role.USER],
+        enum: Roles,
+        default: [Roles.USER],
     },
 
     verification: {
@@ -107,12 +108,20 @@ export const preSaveHook = async function (next: HookNextFunction) {
     }
 };
 
-UserSchema.pre('save', preSaveHook);
+UserSchema.pre<UserContract>('save', preSaveHook);
 
-UserSchema.virtual('posts', {
-    ref: 'Post', // must be changed
+UserSchema.virtual('tickets', {
+    ref: 'Ticket',
     localField: '_id',
-    foreignField: 'userId',
+    foreignField: 'user',
+    justOne: false
+});
+
+UserSchema.virtual('ticketsAssigned', {
+    ref: 'Ticket',
+    localField: '_id',
+    foreignField: 'agent',
+    justOne: false
 });
 
 export default UserSchema;

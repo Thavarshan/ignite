@@ -1,7 +1,7 @@
-enum Role {
+enum Roles {
     USER = 'user',
     EDITOR = 'editor',
     ADMIN = 'admin'
 }
 
-export default Role;
+export default Roles;

@@ -1,11 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import PasswordService from './password.service';
-import UserRepository from '../../users/repositories/user.repository';
+import UserRepository from '../../users/repositories/users.repository';
 import PasswordEnum from '../../auth/enums/password.enum';
 import { Model } from 'mongoose';
 import PasswordResetRequest from '../contracts/password-reset-request.contract';
 import { randomUUID } from 'crypto';
 import mockModel from '../../users/models/mock.model';
+import User from '../../users/contracts/user.contract';
 
 describe('PasswordService', () => {
     let service: PasswordService;
@@ -46,12 +47,14 @@ describe('PasswordService', () => {
 
     it('should generate password reset request', async () => {
         const token = randomUUID();
+        mockModel.email = 'weston@jayz.com';
 
         jest.spyOn(model, 'create')
             .mockImplementation(() => Promise.resolve({
                 email: 'weston@jayz.com', token
             }));
-        jest.spyOn(repository, 'findByEmail');
+        jest.spyOn(repository, 'findByEmail')
+            .mockImplementation(() => Promise.resolve(mockModel as any));
 
         await service.sendResetRequestLink({ email: 'weston@jayz.com' });
 
