@@ -2,7 +2,7 @@ import RegisterValues from '@/contracts/forms/Register';
 import Form from './Form';
 import { FormikHelpers } from 'formik';
 import OnSubmitOptions from '@/contracts/forms/OnSubmitOptions';
-import Router from 'next/router';
+import { redirect } from '@/utils/helpers';
 
 export default class Register extends Form {
     /**
@@ -43,7 +43,7 @@ export default class Register extends Form {
             () => {
                 helpers.resetForm();
 
-                Router.push('/auth/login');
+                redirect('/auth/login');
             },
             values,
             helpers,

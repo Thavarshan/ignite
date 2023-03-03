@@ -23,8 +23,8 @@
     },
     "dependencies": {
         "@types/core-js": "^2.5.5",
-        "@types/node": "^18.11.18",
-        "core-js": "^3.27.2",
+        "@types/node": "^18.14.5",
+        "core-js": "^3.29.0",
         "lodash": "^4.17.21",
         "ts-node": "^10.9.1"
     },
@@ -34,8 +34,8 @@
         "jsdom": "^21.1.0",
         "tsconfig": "*",
         "typescript": "^4.9.5",
-        "vite": "^4.1.1",
-        "vite-plugin-dts": "^1.7.2",
-        "vitest": "^0.28.4"
+        "vite": "^4.1.4",
+        "vite-plugin-dts": "^2.0.2",
+        "vitest": "^0.29.2"
     }
 }

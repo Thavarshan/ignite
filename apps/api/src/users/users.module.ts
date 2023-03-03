@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import UsersService from '@/users/services/user.service';
+import UsersService from '@/users/services/users.service';
 import UsersController from '@/users/controllers/users.controller';
-import UserRepository from '@/users/repositories/user.repository';
+import UsersRepository from '@/users/repositories/users.repository';
 import UsersProvider from './providers/users.provider';
 import DatabaseModule from '@/database/database.module';
 
@@ -14,10 +14,10 @@ import DatabaseModule from '@/database/database.module';
 
     providers: [
         UsersService,
-        UserRepository,
+        UsersRepository,
         ...UsersProvider
     ],
 
-    exports: [UserRepository, ...UsersProvider]
+    exports: [UsersRepository, ...UsersProvider]
 })
 export default class UsersModule { }

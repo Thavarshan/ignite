@@ -10,14 +10,14 @@ import {
     HttpCode,
     HttpStatus
 } from '@nestjs/common';
-import UserService from '@/users/services/user.service';
+import UsersService from '@/users/services/users.service';
 import UserDto from '@/users/dto/user.dto';
 import User from '@/users/contracts/user.contract';
 import JwtAuthGuard from '@/auth/guards/jwt-auth.guard';
 
 @Controller('users')
 export default class UsersController {
-    constructor (protected readonly service: UserService) { }
+    constructor (protected readonly service: UsersService) { }
 
     @HttpCode(HttpStatus.CREATED)
     @Post()

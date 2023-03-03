@@ -1,6 +1,5 @@
 import ForgotPasswordValues from '@/contracts/forms/ForgotPassword';
 import { FormikHelpers } from 'formik';
-import { setCookie } from 'cookies-next';
 import OnSubmitOptions from '../contracts/forms/OnSubmitOptions';
 import Form from './Form';
 
@@ -10,7 +9,7 @@ export default class ForgotPassword extends Form {
      *
      * @var {string}
      */
-    protected url = '/forgot-password';
+    protected url = '/password-reset-request';
 
     /**
      * Initital form input values.
@@ -20,15 +19,6 @@ export default class ForgotPassword extends Form {
     protected initialValues: ForgotPasswordValues = {
         email: ''
     };
-
-    /**
-     * Get the initial values of the form inputs,.
-     *
-     * @return  {ForgotPasswordValues}
-     */
-    public getInitialValues (): ForgotPasswordValues {
-        return this.initialValues;
-    }
 
     /**
      * The action to perform on form submit event.
@@ -45,13 +35,7 @@ export default class ForgotPassword extends Form {
         options?: OnSubmitOptions
     ): Promise<any> {
         return await this.submit(
-            (response) => {
-                const { accessToken: token } = response.data;
-
-                setCookie('token', token, { sameSite: true });
-
-                helpers.resetForm();
-            },
+            () => helpers.resetForm(),
             values,
             helpers,
             options

@@ -44,6 +44,7 @@ describe('UserModel', () => {
         );
 
         const result: any = await model.create({ ...sampleData, roles: [Roles.USER] });
+
         expect(saveSpy).toBeCalledWith({ ...sampleData, roles: [Roles.USER] });
         expect(result._id).toBeDefined();
     });

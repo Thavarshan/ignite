@@ -3,7 +3,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { addHours } from 'date-fns';
 import { v4 } from 'uuid';
 import { JwtService } from '@nestjs/jwt';
-import UserRepository from '@/users/repositories/user.repository';
+import UsersRepository from '@/users/repositories/users.repository';
 import Verification from '@/auth/enums/verification.enum';
 import CreateUserDto from '@/auth/dto/create-user.dto';
 import LocalAuth from '@/auth/authenticators/local.auth';
@@ -17,7 +17,7 @@ import Role from '@/users/enums/roles.enum';
 export default class AuthService {
     constructor (
         protected auth: LocalAuth,
-        protected users: UserRepository,
+        protected users: UsersRepository,
         protected teams: TeamRepository,
         protected jwt: JwtService
     ) { }

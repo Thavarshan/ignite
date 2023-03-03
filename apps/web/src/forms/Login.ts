@@ -23,15 +23,6 @@ export default class Login extends Form {
     };
 
     /**
-     * Get the initial values of the form inputs,.
-     *
-     * @return  {LoginValues}
-     */
-    public getInitialValues (): LoginValues {
-        return this.initialValues;
-    }
-
-    /**
      * The action to perform on form submit event.
      *
      * @param {LoginValues}               values

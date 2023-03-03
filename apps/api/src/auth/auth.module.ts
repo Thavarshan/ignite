@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import AuthService from './services/auth.service';
 import UsersModule from '@/users/users.module';
 import AuthController from './controllers/auth.controller';
-import UserRepository from '@/users/repositories/user.repository';
+import UsersRepository from '@/users/repositories/users.repository';
 import LocalAuth from './authenticators/local.auth';
 import TokenAuth from './authenticators/token.auth';
 import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
@@ -13,11 +13,16 @@ import LocalStrategy from '@/auth/strategies/local.strategy';
 import authConfig from '@/config/auth.config';
 import RegisterController from './controllers/register.controller';
 import TeamsModule from '@/teams/teams.module';
+import PasswordController from './controllers/password.controller';
+import PasswordService from './services/password.service';
+import authProvider from './providers/auth.provider';
+import DatabaseModule from '@/database/database.module';
 
 @Module({
     imports: [
         UsersModule,
         TeamsModule,
+        DatabaseModule,
         PassportModule,
         ConfigModule.forFeature(authConfig),
         JwtModule.registerAsync({
@@ -32,15 +37,17 @@ import TeamsModule from '@/teams/teams.module';
         }),
     ],
 
-    controllers: [AuthController, RegisterController],
+    controllers: [AuthController, RegisterController, PasswordController],
 
     providers: [
         LocalAuth,
         TokenAuth,
         AuthService,
-        UserRepository,
+        PasswordService,
+        UsersRepository,
         JwtStrategy,
-        LocalStrategy
+        LocalStrategy,
+        ...authProvider
     ]
 })
 export default class AuthModule { }

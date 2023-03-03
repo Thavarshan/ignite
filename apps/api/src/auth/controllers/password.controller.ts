@@ -1,7 +1,7 @@
 import { Body, Controller, HttpStatus, HttpCode, Post } from '@nestjs/common';
 import PasswordService from '@/auth/services/password.service';
 import PasswordResetRequestDto from '@/auth/dto/password-reset-request.dto';
-import PasswordResetDto from '../dto/password.reset.dto';
+import PasswordResetDto from '@/auth/dto/password.reset.dto';
 
 @Controller()
 export default class PasswordController {

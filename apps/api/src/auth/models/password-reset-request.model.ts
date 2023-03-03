@@ -9,5 +9,5 @@ export default class PasswordResetRequest extends Base<PasswordContract> {
      *
      * @var {string}
      */
-    protected readonly table: string = 'password-reset-requests';
+    protected readonly table: string = 'password_reset_requests';
 }

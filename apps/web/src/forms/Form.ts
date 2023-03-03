@@ -1,7 +1,7 @@
 import { FormikHelpers } from 'formik';
 import InputError from '@/contracts/forms/InputError';
 import _ from 'lodash';
-import Config from '@/contracts/forms/config';
+import Config from '@/contracts/forms/Config';
 import OnSubmitOptions from '../contracts/forms/OnSubmitOptions';
 import InputValues from '@/contracts/forms/InputValues';
 import axios from '@/utils/axios';
@@ -43,17 +43,6 @@ export default abstract class Form {
     };
 
     /**
-     * Create new Form instance.
-     *
-     * @param   {InputValues|undefined}  values
-     *
-     * @return  {void}
-     */
-    constructor (values?: InputValues) {
-        this.initialValues = _.merge(this.initialValues, values || {});
-    }
-
-    /**
      * Set form input configs.
      *
      * @param   {Config}  config
@@ -67,9 +56,9 @@ export default abstract class Form {
     /**
      * Get the initial values of the form inputs,.
      *
-     * @return  {object}
+     * @return  {InputValues}
      */
-    public getInitialValues (): any {
+    public getInitialValues (): InputValues {
         return this.initialValues;
     }
 
@@ -130,25 +119,6 @@ export default abstract class Form {
 
                 helpers.setSubmitting(false);
             });
-    }
-
-    /**
-     * Make post request to given URL with provided data.
-     *
-     * @param {string} url
-     * @param {object} values
-     * @param {Function} action
-     *
-     * @return  {void}
-     */
-    public post (
-        url: string,
-        values: { [key: string]: any; },
-        action: (_response: any) => void
-    ): void {
-        fetch(url, _.merge(this.config, { body: JSON.stringify(values) }))
-            .then(response => action(response))
-            .catch(error => { throw error; });
     }
 
     /**

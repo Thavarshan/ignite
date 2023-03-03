@@ -9,7 +9,6 @@ import {
     Button,
     FormErrorMessage,
     useToast,
-    UseToastOptions,
     Container,
     Stack,
     HStack,
@@ -24,11 +23,10 @@ import { NextPage } from 'next';
 import Layout from '@/layouts/auth';
 import type { NextPageWithLayout } from '../_app';
 import Logo from '@/components/Logo';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { toast as notify, redirect } from '@/utils/helpers';
 
 const Register: NextPageWithLayout = () => {
-    const router = useRouter();
     const { mutate } = useAuth({
         middleware: 'guest',
         redirectIfAuthenticated: '/users/profile'
@@ -36,18 +34,6 @@ const Register: NextPageWithLayout = () => {
 
     const toast = useToast();
     const register = new RegisterForm();
-
-    const errorToast = (title: string, description: string): UseToastOptions => {
-        return {
-            title: title,
-            description: description,
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-            variant: 'subtle',
-            position: 'bottom-right'
-        };
-    };
 
     return (
         <>
@@ -75,7 +61,7 @@ const Register: NextPageWithLayout = () => {
 
                                     <HStack spacing='1' justify='center'>
                                         <Text color='gray.600'>Already have an account?</Text>
-                                        <Button variant='link' colorScheme='blue' onClick={() => router.push('/auth/login')}>
+                                        <Button variant='link' colorScheme='blue' onClick={() => redirect('/auth/login')}>
                                             Sign in
                                         </Button>
                                     </HStack>
@@ -89,17 +75,17 @@ const Register: NextPageWithLayout = () => {
                                                 onSuccess: () => mutate(),
                                                 onFail: (error) => {
                                                     if (!error.response) {
-                                                        toast(errorToast('Register failed.', error.message));
+                                                        toast(notify('Register failed.', error.message, 'error'));
                                                     }
 
                                                     const { message } = error.response.data;
 
                                                     if (_.isArray(message)) {
                                                         _.forEach(message, (msg) => {
-                                                            toast(errorToast('Invalid inputs.', msg));
+                                                            toast(notify('Invalid inputs.', msg, 'error'));
                                                         });
                                                     } else {
-                                                        toast(errorToast('Register failed.', message));
+                                                        toast(notify('Register failed.', message, 'error'));
                                                     }
                                                 }
                                             });

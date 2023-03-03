@@ -10,13 +10,15 @@ import DatabaseModule from '@/database/database.module';
 import AuthModule from '@/auth/auth.module';
 import LoggerModule from '@/logger/logger.module';
 import { TerminusModule } from '@nestjs/terminus';
-import HealthService from './health/services/health.service';
+import TicketsModule from '@/tickets/tickets.module';
+import HealthService from '@/health/services/health.service';
 
 @Module({
     imports: [
         AuthModule,
         UsersModule,
         TeamsModule,
+        TicketsModule,
         DatabaseModule,
         ConfigModule,
         MailModule,

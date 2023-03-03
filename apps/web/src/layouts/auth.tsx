@@ -3,7 +3,7 @@ import React from 'react';
 
 const Layout = ({ children }: any) => {
     return (
-        <Box bg='gray.100' h='100vh' w='100%'>
+        <Box w='100%' h='100vh' bgGradient='linear(to-tl, #3b82f6, #3730a3)'>
             {children}
         </Box>
     );

@@ -9,7 +9,6 @@ import {
     Button,
     FormErrorMessage,
     useToast,
-    UseToastOptions,
     InputGroup,
     InputRightElement,
     IconButton,
@@ -28,11 +27,10 @@ import { NextPage } from 'next';
 import Layout from '@/layouts/auth';
 import type { NextPageWithLayout } from '../_app';
 import Logo from '@/components/Logo';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { toast as notify, redirect } from '@/utils/helpers';
 
 const Login: NextPageWithLayout = () => {
-    const router = useRouter();
     const { mutate } = useAuth({
         middleware: 'guest',
         redirectIfAuthenticated: '/users/profile'
@@ -42,18 +40,6 @@ const Login: NextPageWithLayout = () => {
     const login = new LoginForm();
 
     const [showPassword, setShowPassword] = useState(false);
-
-    const errorToast = (title: string, description: string): UseToastOptions => {
-        return {
-            title: title,
-            description: description,
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-            variant: 'subtle',
-            position: 'bottom-right'
-        };
-    };
 
     return (
         <>
@@ -65,15 +51,15 @@ const Login: NextPageWithLayout = () => {
                 <Stack spacing='8'>
                     <Stack spacing='6'>
                         <HStack justify='center'>
-                            <Logo href='/' />
+                            <Logo href='/' color='blue.300' />
                         </HStack>
 
                         <Stack spacing={{ base: '2', md: '3' }} textAlign='center'>
-                            <Heading size={{ base: 'sm', md: 'lg' }}>Log in to your account</Heading>
+                            <Heading size={{ base: 'sm', md: 'lg' }} color='white'>Log in to your account</Heading>
 
                             <HStack spacing='1' justify='center'>
-                                <Text color='gray.600'>Don&apos;t have an account?</Text>
-                                <Button variant='link' colorScheme='blue' onClick={() => router.push('/auth/register')}>
+                                <Text color='blue.300'>Don&apos;t have an account?</Text>
+                                <Button variant='link' colorScheme='blue' onClick={() => redirect('/auth/register')}>
                                     Sign up
                                 </Button>
                             </HStack>
@@ -94,17 +80,17 @@ const Login: NextPageWithLayout = () => {
                                             onSuccess: () => mutate(),
                                             onFail: (error) => {
                                                 if (!error.response) {
-                                                    toast(errorToast('Login failed.', error.message));
+                                                    toast(notify('Login failed.', error.message, 'error'));
                                                 }
 
                                                 const { message } = error.response.data;
 
                                                 if (_.isArray(message)) {
                                                     _.forEach(message, (msg) => {
-                                                        toast(errorToast('Invalid inputs.', msg));
+                                                        toast(notify('Invalid inputs.', msg, 'error'));
                                                     });
                                                 } else {
-                                                    toast(errorToast('Login failed.', message));
+                                                    toast(notify('Login failed.', message, 'error'));
                                                 }
                                             }
                                         });
@@ -150,7 +136,7 @@ const Login: NextPageWithLayout = () => {
                                                         <Text fontSize='sm'>Remember me</Text>
                                                     </Checkbox>
 
-                                                    <Button variant='link' colorScheme='blue' size='sm' onClick={() => router.push('/auth/forgot-password')}>
+                                                    <Button variant='link' colorScheme='blue' size='sm' onClick={() => redirect('/auth/forgot-password')}>
                                                         Forgot password?
                                                     </Button>
                                                 </HStack>

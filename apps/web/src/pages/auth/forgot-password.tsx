@@ -9,7 +9,6 @@ import {
     Button,
     FormErrorMessage,
     useToast,
-    UseToastOptions,
     Container,
     Stack,
     HStack,
@@ -23,30 +22,17 @@ import { NextPage } from 'next';
 import Layout from '@/layouts/auth';
 import type { NextPageWithLayout } from '../_app';
 import Logo from '@/components/Logo';
-// import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { toast as notify } from '@/utils/helpers';
 
 const ForgotPassword: NextPageWithLayout = () => {
-    // const router = useRouter();
-    const { mutate } = useAuth({
+    useAuth({
         middleware: 'guest',
         redirectIfAuthenticated: '/users/profile'
     });
 
     const toast = useToast();
     const forgotPassword = new ForgotPasswordForm();
-
-    const errorToast = (title: string, description: string): UseToastOptions => {
-        return {
-            title: title,
-            description: description,
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-            variant: 'subtle',
-            position: 'bottom-right'
-        };
-    };
 
     return (
         <>
@@ -58,14 +44,14 @@ const ForgotPassword: NextPageWithLayout = () => {
                 <Stack spacing='8'>
                     <Stack spacing='6'>
                         <HStack justify='center'>
-                            <Logo href='/' />
+                            <Logo href='/' color='blue.300' />
                         </HStack>
 
                         <Stack spacing={{ base: '2', md: '3' }} textAlign='center'>
-                            <Heading size={{ base: 'sm', md: 'lg' }}>Forgot your password?</Heading>
+                            <Heading size={{ base: 'sm', md: 'lg' }} color='white'>Forgot your password?</Heading>
 
                             <HStack spacing='1' justify='center'>
-                                <Text color='gray.600'>
+                                <Text color='blue.300'>
                                     No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
                                 </Text>
                             </HStack>
@@ -83,20 +69,22 @@ const ForgotPassword: NextPageWithLayout = () => {
                                     initialValues={forgotPassword.getInitialValues()}
                                     onSubmit={async (values, helpers) => {
                                         await forgotPassword.onSubmit(values, helpers, {
-                                            onSuccess: () => mutate(),
+                                            onSuccess: () => {
+                                                toast(notify('Password Reset Link Sent.', 'A password reset link has been sent to your email. Please be sure to check your spam folder if you cannot find it', 'success'));
+                                            },
                                             onFail: (error) => {
                                                 if (!error.response) {
-                                                    toast(errorToast('Request failed.', error.message));
+                                                    toast(notify('Request failed.', error.message, 'error'));
                                                 }
 
                                                 const { message } = error.response.data;
 
                                                 if (_.isArray(message)) {
                                                     _.forEach(message, (msg) => {
-                                                        toast(errorToast('Invalid inputs.', msg));
+                                                        toast(notify('Invalid inputs.', msg, 'error'));
                                                     });
                                                 } else {
-                                                    toast(errorToast('Request failed.', message));
+                                                    toast(notify('Request failed.', message, 'error'));
                                                 }
                                             }
                                         });
