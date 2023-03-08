@@ -1,3 +1,4 @@
+import User from '@/users/contracts/user.contract';
 import { Injectable } from '@nestjs/common';
 import Ticket from '../contracts/ticket.contract';
 import TicketDto from '../dto/ticket.dto';
@@ -11,8 +12,8 @@ export default class TicketsService {
         return await this.repository.create(dto);
     }
 
-    public async findAll (): Promise<Ticket[]> {
-        return await this.repository.findAll();
+    public async findAll (user?: User): Promise<Ticket[]> {
+        return await this.repository.findAll(user);
     }
 
     public async findOne (id: string): Promise<Ticket> {

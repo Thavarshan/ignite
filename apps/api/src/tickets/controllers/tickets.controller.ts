@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, UseGuards, Req } from '@nestjs/common';
 import TicketsService from '../services/tickets.service';
 import TicketDto from '../dto/ticket.dto';
 import Ticket from '../contracts/ticket.contract';
@@ -15,13 +15,15 @@ export default class TicketsController {
         return await this.service.create(dto);
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get()
-    public async findAll (): Promise<Ticket[]> {
-        return await this.service.findAll();
+    public async findAll (@Req() request): Promise<{ data: Ticket[]; }> {
+        const data = await this.service.findAll(request.user);
+
+        return { data };
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get(':id')
     public async findOne (@Param('id') id: string): Promise<Ticket> {
         return await this.service.findOne(id);

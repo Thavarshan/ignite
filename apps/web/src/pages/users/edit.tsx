@@ -1,8 +1,14 @@
+import {
+    Container
+} from '@chakra-ui/react';
+
 const Edit = () => {
     return (
-        <div className="p-6">
-            <h1 className="text-xl font-bolf text-blue-500">Hello</h1>
-        </div>
+        <>
+            <Container px='8' py='6' maxWidth='container.xl'>
+                Hello
+            </Container>
+        </>
     );
 };
 

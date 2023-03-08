@@ -8,32 +8,19 @@ import {
     Input,
     Button,
     FormErrorMessage,
-    useToast,
     Container,
     Stack,
     HStack,
     Text
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
-import ForgotPasswordForm from '@/forms/ForgotPassword';
-import _ from 'lodash';
-import useAuth from '@/hooks/useAuth';
 import { NextPage } from 'next';
 import Layout from '@/layouts/auth';
 import type { NextPageWithLayout } from '../_app';
 import Logo from '@/components/Logo';
 import Head from 'next/head';
-import { toast as notify } from '@/utils/helpers';
 
 const ForgotPassword: NextPageWithLayout = () => {
-    useAuth({
-        middleware: 'guest',
-        redirectIfAuthenticated: '/users/profile'
-    });
-
-    const toast = useToast();
-    const forgotPassword = new ForgotPasswordForm();
-
     return (
         <>
             <Head>
@@ -66,28 +53,9 @@ const ForgotPassword: NextPageWithLayout = () => {
                         >
                             <Stack spacing='6'>
                                 <Formik
-                                    initialValues={forgotPassword.getInitialValues()}
-                                    onSubmit={async (values, helpers) => {
-                                        await forgotPassword.onSubmit(values, helpers, {
-                                            onSuccess: () => {
-                                                toast(notify('Password Reset Link Sent.', 'A password reset link has been sent to your email. Please be sure to check your spam folder if you cannot find it', 'success'));
-                                            },
-                                            onFail: (error) => {
-                                                if (!error.response) {
-                                                    toast(notify('Request failed.', error.message, 'error'));
-                                                }
-
-                                                const { message } = error.response.data;
-
-                                                if (_.isArray(message)) {
-                                                    _.forEach(message, (msg) => {
-                                                        toast(notify('Invalid inputs.', msg, 'error'));
-                                                    });
-                                                } else {
-                                                    toast(notify('Request failed.', message, 'error'));
-                                                }
-                                            }
-                                        });
+                                    initialValues={{ email: '' }}
+                                    onSubmit={async (_values, _helpers) => {
+                                        //
                                     }}>
                                     {({ isSubmitting }) => (
                                         <Form>

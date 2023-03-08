@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import Reply from '../contracts/reply.contract';
 import ReplyEnum from '../enums/reply.enum';
 import ReplyDto from '../dto/reply.dto';
+import User from '@/users/contracts/user.contract';
 
 @Injectable()
 export default class RepliesRepository {
@@ -14,28 +15,21 @@ export default class RepliesRepository {
         return await this.model.create(dto);
     }
 
-    public async findAll (): Promise<Reply[]> {
-        return await this.model.find().exec();
+    public async findAll (user?: User): Promise<Reply[]> {
+        return await this.model.find(user ? { user } : null).populate('user').exec();
     }
 
     public async findById (id: string): Promise<Reply> {
         try {
-            const reply = await this.model.findById(id).exec();
+            const reply = await this.model
+                .findById(id)
+                .populate('user')
+                .exec();
 
             return reply;
         } catch (error) {
             throw new NotFoundException('Reply not found.');
         }
-    }
-
-    public async findBySlug (slug: string): Promise<Reply> {
-        const reply = await this.model.findOne({ slug }).exec();
-
-        if (!reply) {
-            throw new NotFoundException('Reply not found.');
-        }
-
-        return reply;
     }
 
     public async update (id: string, dto: ReplyDto): Promise<Reply> {

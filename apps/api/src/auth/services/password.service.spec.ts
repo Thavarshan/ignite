@@ -6,7 +6,6 @@ import { Model } from 'mongoose';
 import PasswordResetRequest from '../contracts/password-reset-request.contract';
 import { randomUUID } from 'crypto';
 import mockModel from '../../users/models/mock.model';
-import User from '../../users/contracts/user.contract';
 
 describe('PasswordService', () => {
     let service: PasswordService;

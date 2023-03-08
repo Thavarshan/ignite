@@ -2,12 +2,12 @@ import { chakra, HTMLChakraProps } from '@chakra-ui/react';
 import Link from 'next/link';
 
 export interface LinkSvgProp extends HTMLChakraProps<'svg'> {
-    href: string;
+    href?: string;
 }
 
 const Logo = (props: LinkSvgProp) => (
     <>
-        <Link href={props.href}>
+        <Link href={props.href || '/'}>
             <chakra.svg
                 color='blue.500'
                 height='16'

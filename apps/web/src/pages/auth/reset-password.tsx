@@ -8,7 +8,6 @@ import {
     Input,
     Button,
     FormErrorMessage,
-    useToast,
     InputGroup,
     Container,
     Stack,
@@ -16,25 +15,13 @@ import {
     Text
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
-import ResetPasswordForm from '@/forms/ResetPassword';
-import _ from 'lodash';
-import useAuth from '@/hooks/useAuth';
 import { NextPage } from 'next';
 import Layout from '@/layouts/auth';
 import type { NextPageWithLayout } from '../_app';
 import Logo from '@/components/Logo';
 import Head from 'next/head';
-import { toast as notify, redirect } from '@/utils/helpers';
 
 const ResetPassword: NextPageWithLayout = ({ email, token }) => {
-    useAuth({
-        middleware: 'guest',
-        redirectIfAuthenticated: '/users/profile'
-    });
-
-    const toast = useToast();
-    const resetPassword = new ResetPasswordForm();
-
     return (
         <>
             <Head>
@@ -53,7 +40,7 @@ const ResetPassword: NextPageWithLayout = ({ email, token }) => {
 
                             <HStack spacing='1' justify='center'>
                                 <Text color='blue.300'>
-                                    Use a password that has at least 16 characters, use at least one number, one uppercase letter, one lowercase letter and one special symbol.
+                                    Use a password that has at least 8 characters, use at least one number, one uppercase letter, one lowercase letter and one special symbol.
                                 </Text>
                             </HStack>
                         </Stack>
@@ -68,27 +55,9 @@ const ResetPassword: NextPageWithLayout = ({ email, token }) => {
                             <Stack spacing='6'>
                                 <Formik
                                     enableReinitialize={true}
-                                    initialValues={_.merge(resetPassword.getInitialValues(), { email, token })}
-                                    onSubmit={async (values, helpers) => {
-                                        await resetPassword.onSubmit(values, helpers, {
-                                            onSuccess: () => redirect('/auth/login'),
-
-                                            onFail: (error) => {
-                                                if (!error.response) {
-                                                    toast(notify('Password reset failed.', error.message, 'error'));
-                                                }
-
-                                                const { message } = error.response.data;
-
-                                                if (_.isArray(message)) {
-                                                    _.forEach(message, (msg) => {
-                                                        toast(notify('Invalid input.', msg, 'error'));
-                                                    });
-                                                } else {
-                                                    toast(notify('Password reset failed.', message, 'error'));
-                                                }
-                                            }
-                                        });
+                                    initialValues={{ email, password: '', passwordConfirmation: '', token }}
+                                    onSubmit={async (_values, _helpers) => {
+                                        //
                                     }}>
                                     {({ isSubmitting }) => (
                                         <Form>
@@ -111,7 +80,7 @@ const ResetPassword: NextPageWithLayout = ({ email, token }) => {
                                                             <FormControl isInvalid={form.errors.password && form.touched.password}>
                                                                 <FormLabel fontSize='sm' htmlFor='password'>Password</FormLabel>
                                                                 <InputGroup>
-                                                                    <Input {...field} id='password' type='password' placeholder='Password' rounded='xl' bgColor='gray.50' autoComplete='current-password' />
+                                                                    <Input {...field} id='password' type='password' placeholder='Password' rounded='xl' bgColor='gray.50' />
                                                                 </InputGroup>
                                                                 <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                                                             </FormControl>

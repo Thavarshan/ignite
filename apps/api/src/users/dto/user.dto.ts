@@ -5,7 +5,8 @@ import {
     IsOptional,
     Matches,
     MaxLength,
-    MinLength
+    MinLength,
+    IsBoolean
 } from 'class-validator';
 
 export default class UserDto {
@@ -13,9 +14,10 @@ export default class UserDto {
     @IsString()
     public readonly name: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
-    public readonly username: string;
+    @IsString()
+    public readonly username?: string;
 
     @IsNotEmpty()
     @IsEmail()
@@ -42,4 +44,8 @@ export default class UserDto {
     @MinLength(3)
     @MaxLength(1024)
     public readonly role?: string;
+
+    @IsOptional()
+    @IsBoolean()
+    public readonly verified?: boolean;
 }

@@ -4,6 +4,7 @@ import Ticket from '../contracts/ticket.contract';
 import TicketEnum from '../enums/ticket.enum';
 import TicketDto from '../dto/ticket.dto';
 import UsersRepository from '@/users/repositories/users.repository';
+import User from '@/users/contracts/user.contract';
 
 @Injectable()
 export default class TicketsRepository {
@@ -20,22 +21,47 @@ export default class TicketsRepository {
         return await this.model.create(dto);
     }
 
-    public async findAll (): Promise<Ticket[]> {
-        return await this.model.find().exec();
+    public async findAll (user?: User, populate = true): Promise<Ticket[]> {
+        const query = this.model.find(user ? { agent: user.id } : null);
+
+        if (populate) {
+            await query.populate('channel')
+                .populate('user')
+                .populate('agent')
+                .populate('replies');
+        }
+
+        return await query.exec();
     }
 
-    public async findById (id: string): Promise<Ticket> {
+    public async findById (id: string, populate = true): Promise<Ticket> {
         try {
-            const ticket = await this.model.findById(id).exec();
+            const query = this.model.findById(id);
 
-            return ticket;
+            if (populate) {
+                await query.populate('channel')
+                    .populate('user')
+                    .populate('agent')
+                    .populate('replies');
+            }
+
+            return await query.exec();
         } catch (error) {
             throw new NotFoundException('Ticket not found.');
         }
     }
 
-    public async findBySlug (slug: string): Promise<Ticket> {
-        const ticket = await this.model.findOne({ slug }).exec();
+    public async findBySlug (slug: string, populate = true): Promise<Ticket> {
+        const query = this.model.findOne({ slug });
+
+        if (populate) {
+            await query.populate('channel')
+                .populate('user')
+                .populate('agent')
+                .populate('replies');
+        }
+
+        const ticket = await query.exec();
 
         if (!ticket) {
             throw new NotFoundException('Ticket not found.');

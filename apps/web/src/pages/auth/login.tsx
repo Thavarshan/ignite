@@ -8,7 +8,6 @@ import {
     Input,
     Button,
     FormErrorMessage,
-    useToast,
     InputGroup,
     InputRightElement,
     IconButton,
@@ -19,26 +18,16 @@ import {
     Checkbox
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
-import LoginForm from '@/forms/Login';
-import _ from 'lodash';
-import useAuth from '@/hooks/useAuth';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { NextPage } from 'next';
 import Layout from '@/layouts/auth';
 import type { NextPageWithLayout } from '../_app';
 import Logo from '@/components/Logo';
 import Head from 'next/head';
-import { toast as notify, redirect } from '@/utils/helpers';
+import { useRouter } from 'next/router';
 
 const Login: NextPageWithLayout = () => {
-    const { mutate } = useAuth({
-        middleware: 'guest',
-        redirectIfAuthenticated: '/users/profile'
-    });
-
-    const toast = useToast();
-    const login = new LoginForm();
-
+    const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
 
     return (
@@ -59,7 +48,8 @@ const Login: NextPageWithLayout = () => {
 
                             <HStack spacing='1' justify='center'>
                                 <Text color='blue.300'>Don&apos;t have an account?</Text>
-                                <Button variant='link' color='white' onClick={() => redirect('/auth/register')}>
+
+                                <Button variant='link' color='white' colorScheme='whiteAlpha' onClick={() => router.push('/auth/register')}>
                                     Sign up
                                 </Button>
                             </HStack>
@@ -74,26 +64,9 @@ const Login: NextPageWithLayout = () => {
                         >
                             <Stack spacing='6'>
                                 <Formik
-                                    initialValues={login.getInitialValues()}
-                                    onSubmit={async (values, helpers) => {
-                                        await login.onSubmit(values, helpers, {
-                                            onSuccess: () => mutate(),
-                                            onFail: (error) => {
-                                                if (!error.response) {
-                                                    toast(notify('Login failed.', error.message, 'error'));
-                                                }
-
-                                                const { message } = error.response.data;
-
-                                                if (_.isArray(message)) {
-                                                    _.forEach(message, (msg) => {
-                                                        toast(notify('Invalid inputs.', msg, 'error'));
-                                                    });
-                                                } else {
-                                                    toast(notify('Login failed.', message, 'error'));
-                                                }
-                                            }
-                                        });
+                                    initialValues={{ email: '', password: '' }}
+                                    onSubmit={async (_values, _helpers) => {
+                                        //
                                     }}>
                                     {({ isSubmitting }) => (
                                         <Form>
@@ -136,7 +109,7 @@ const Login: NextPageWithLayout = () => {
                                                         <Text fontSize='sm'>Remember me</Text>
                                                     </Checkbox>
 
-                                                    <Button variant='link' colorScheme='blue' size='sm' onClick={() => redirect('/auth/forgot-password')}>
+                                                    <Button variant='link' colorScheme='blue' size='sm' onClick={() => router.push('/auth/forgot-password')}>
                                                         Forgot password?
                                                     </Button>
                                                 </HStack>

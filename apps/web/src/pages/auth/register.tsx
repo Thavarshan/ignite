@@ -8,7 +8,6 @@ import {
     Input,
     Button,
     FormErrorMessage,
-    useToast,
     Container,
     Stack,
     HStack,
@@ -16,24 +15,15 @@ import {
     FormHelperText
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
-import RegisterForm from '@/forms/Register';
-import _ from 'lodash';
-import useAuth from '@/hooks/useAuth';
 import { NextPage } from 'next';
 import Layout from '@/layouts/auth';
 import type { NextPageWithLayout } from '../_app';
 import Logo from '@/components/Logo';
 import Head from 'next/head';
-import { toast as notify, redirect } from '@/utils/helpers';
+import { useRouter } from 'next/router';
 
 const Register: NextPageWithLayout = () => {
-    const { mutate } = useAuth({
-        middleware: 'guest',
-        redirectIfAuthenticated: '/users/profile'
-    });
-
-    const toast = useToast();
-    const register = new RegisterForm();
+    const router = useRouter();
 
     return (
         <>
@@ -61,7 +51,7 @@ const Register: NextPageWithLayout = () => {
 
                                     <HStack spacing='1' justify='center'>
                                         <Text color='gray.600'>Already have an account?</Text>
-                                        <Button variant='link' colorScheme='blue' onClick={() => redirect('/auth/login')}>
+                                        <Button variant='link' colorScheme='blue' onClick={() => router.push('/auth/login')}>
                                             Sign in
                                         </Button>
                                     </HStack>
@@ -69,26 +59,9 @@ const Register: NextPageWithLayout = () => {
 
                                 <Stack spacing='6'>
                                     <Formik
-                                        initialValues={register.getInitialValues()}
-                                        onSubmit={async (values, helpers) => {
-                                            await register.onSubmit(values, helpers, {
-                                                onSuccess: () => mutate(),
-                                                onFail: (error) => {
-                                                    if (!error.response) {
-                                                        toast(notify('Register failed.', error.message, 'error'));
-                                                    }
-
-                                                    const { message } = error.response.data;
-
-                                                    if (_.isArray(message)) {
-                                                        _.forEach(message, (msg) => {
-                                                            toast(notify('Invalid inputs.', msg, 'error'));
-                                                        });
-                                                    } else {
-                                                        toast(notify('Register failed.', message, 'error'));
-                                                    }
-                                                }
-                                            });
+                                        initialValues={{ name: '', email: '', password: '' }}
+                                        onSubmit={async (_values, _helpers) => {
+                                            //
                                         }}>
                                         {({ isSubmitting }) => (
                                             <Form>
@@ -123,7 +96,7 @@ const Register: NextPageWithLayout = () => {
                                                                 <FormControl isInvalid={form.errors.password && form.touched.password} isRequired>
                                                                     <FormLabel fontSize='sm' htmlFor='password'>Password</FormLabel>
                                                                     <Input {...field} id='password' type='password' placeholder='Password' rounded='xl' bgColor='gray.50' autoComplete='current-password' />
-                                                                    <FormHelperText>At least 8 characters long.</FormHelperText>
+                                                                    <FormHelperText color='gray.500'>At least 8 characters long.</FormHelperText>
                                                                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                                                                 </FormControl>
                                                             )}

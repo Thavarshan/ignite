@@ -76,7 +76,7 @@ export default class UsersRepository {
         return !_.isNull(results);
     }
 
-    public async update (id: string, dto: UserDto | any): Promise<any> {
+    public async update (id: string, dto: UserDto | any): Promise<User> {
         return await this.model
             .findByIdAndUpdate(id, dto, { new: true })
             .exec();

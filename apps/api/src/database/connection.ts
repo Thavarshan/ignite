@@ -46,7 +46,7 @@ export default class Connection extends MongoDdConnection {
         }
 
         connection.on('disconnect', () => {
-            this.logger.log('Disconnecting from database');
+            this.logger.log('Disconnecting from database.');
         });
 
         return connection;

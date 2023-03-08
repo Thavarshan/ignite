@@ -1,97 +1,44 @@
-import { useRouter } from 'next/router';
 import {
     Box,
     Button,
-    Text,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    useDisclosure,
     Container,
-    Table,
-    Thead,
-    Tbody,
-    Tr,
-    Th,
-    Td,
-    TableContainer
+    Heading,
+    Stack,
+    Text
 } from '@chakra-ui/react';
+import Head from 'next/head';
 
 const Home = () => {
-    const router = useRouter();
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const authenticated = false;
-
     return (
         <>
-            <Container px='8' py='6' maxWidth='container.xl'>
-                <Box mb={6} borderWidth='1px' borderRadius='lg' overflow='hidden'>
-                    <h1>Hello</h1>
-                </Box>
+            <Head>
+                <title>Ignite | Forum Platform Builder</title>
+            </Head>
 
-                <Box mb={6} borderWidth='1px' borderRadius='lg' overflow='hidden'>
-                    <TableContainer>
-                        <Table variant='simple'>
-                            <Thead bgColor='gray.50'>
-                                <Tr>
-                                    <Th>To convert</Th>
-                                    <Th>into</Th>
-                                    <Th isNumeric>multiply by</Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                <Tr>
-                                    <Td>inches</Td>
-                                    <Td>millimetres (mm)</Td>
-                                    <Td isNumeric>25.4</Td>
-                                </Tr>
-                                <Tr>
-                                    <Td>feet</Td>
-                                    <Td>centimetres (cm)</Td>
-                                    <Td isNumeric>30.48</Td>
-                                </Tr>
-                                <Tr>
-                                    <Td>yards</Td>
-                                    <Td>metres (m)</Td>
-                                    <Td isNumeric>0.91444</Td>
-                                </Tr>
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
-                </Box>
+            <Box as='section' bg='white'>
+                <Container py={{ base: '16', md: '24' }}>
+                    <Stack spacing={{ base: '8', md: '10' }}>
+                        <Stack spacing={{ base: '4', md: '5' }} align='center'>
+                            <Heading size={{ base: 'sm', md: 'md', xl: 'lg' }} color='gray.900'>Ready to Grow?</Heading>
 
-                <Button onClick={onOpen}>Open Modal</Button>
-
-                <Button onClick={() => router.push('/auth/login')} colorScheme='blue' ml={3}>Login</Button>
-
-                {authenticated && <Button onClick={() => ''} colorScheme='red' variant='outline' ml={3}>Sign out</Button>}
-
-                <Modal isOpen={isOpen} onClose={onClose}>
-                    <ModalOverlay />
-
-                    <ModalContent>
-                        <ModalHeader>Modal Title</ModalHeader>
-
-                        <ModalCloseButton />
-
-                        <ModalBody>
-                            <Text fontSize='sm' color='gray.500'>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a aliquam felis. Sed eu lobortis arcu. Nulla pulvinar, quam a vestibulum finibus, lacus libero vulputate enim, vel commodo nibh diam nec purus. Nunc commodo felis ultricies, egestas lacus at, pellentesque nisl. Aliquam erat volutpat. Maecenas quis nunc et nisl euismod porta et eget mi. Ut nibh risus, egestas sit amet interdum non, consectetur et odio.
+                            <Text color='gray.500' maxW='2xl' textAlign='center' fontSize='xl'>
+                                With this beautiful and responsive React components you will realize your next project
+                                in no time.
                             </Text>
-                        </ModalBody>
+                        </Stack>
 
-                        <ModalFooter>
-                            <Button onClick={onClose}>
-                                Close
+                        <Stack spacing='3' direction={{ base: 'column', sm: 'row' }} justify='center'>
+                            <Button variant='solid' colorScheme='blue' rounded='xl' size='lg'>
+                                Get started
                             </Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
-            </Container>
+
+                            <Button variant='ghost' rounded='xl' size='lg'>
+                                Learn more
+                            </Button>
+                        </Stack>
+                    </Stack>
+                </Container>
+            </Box>
         </>
     );
 };

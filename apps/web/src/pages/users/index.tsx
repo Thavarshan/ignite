@@ -1,9 +1,15 @@
-const Users = () => {
+import {
+    Container
+} from '@chakra-ui/react';
+
+const Index = () => {
     return (
-        <div className="p-6">
-            <h1 className="text-xl font-bolf text-blue-500">Hello</h1>
-        </div>
+        <>
+            <Container px='8' py='6' maxWidth='container.xl'>
+                Hello
+            </Container>
+        </>
     );
 };
 
-export default Users;
+export default Index;

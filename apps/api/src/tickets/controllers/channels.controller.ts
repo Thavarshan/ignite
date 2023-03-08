@@ -17,28 +17,30 @@ export default class ChannelsController {
     @UseGuards(JwtAuthGuard)
     @Get()
     public async findAll (): Promise<any> {
-        return await this.service.findAll();
+        const data = await this.service.findAll();
+
+        return { data };
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get(':slug')
-    public async findOne (@Param('slug') slug: string): Promise<any> {
-        return await this.service.findOne(slug);
+    @Get(':id')
+    public async findOne (@Param('id') id: string): Promise<any> {
+        return await this.service.findOne(id);
     }
 
     @UseGuards(JwtAuthGuard)
-    @Patch(':slug')
+    @Patch(':id')
     public async update (
-        @Param('slug') slug: string,
+        @Param('id') id: string,
         @Body() dto: ChannelDto
     ): Promise<any> {
-        return await this.service.update(slug, dto);
+        return await this.service.update(id, dto);
     }
 
     @HttpCode(HttpStatus.NO_CONTENT)
     @UseGuards(JwtAuthGuard)
-    @Delete(':slug')
-    public async remove (@Param('slug') slug: string): Promise<any> {
-        return await this.service.remove(slug);
+    @Delete(':id')
+    public async remove (@Param('id') id: string): Promise<any> {
+        return await this.service.remove(id);
     }
 }
