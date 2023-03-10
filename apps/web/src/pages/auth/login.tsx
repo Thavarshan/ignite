@@ -15,7 +15,8 @@ import {
     Stack,
     HStack,
     Text,
-    Checkbox
+    Checkbox,
+    useToast
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
@@ -25,10 +26,13 @@ import type { NextPageWithLayout } from '../_app';
 import Logo from '@/components/Logo';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import useAuth from '@/hooks/useAuth';
 
 const Login: NextPageWithLayout = () => {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
+    const { login } = useAuth();
+    const toast = useToast();
 
     return (
         <>
@@ -55,18 +59,27 @@ const Login: NextPageWithLayout = () => {
                             </HStack>
                         </Stack>
 
-                        <Box
-                            py={{ base: '0', sm: '8' }}
-                            px={{ base: '4', sm: '10' }}
-                            bg={{ base: 'transparent', sm: 'white' }}
-                            boxShadow={{ base: 'none', sm: 'md' }}
-                            borderRadius={{ base: 'none', sm: 'xl' }}
-                        >
+                        <Box py={{ base: '0', sm: '8' }} px={{ base: '4', sm: '10' }} bg={{ base: 'transparent', sm: 'white' }} boxShadow={{ base: 'none', sm: 'md' }} borderRadius={{ base: 'none', sm: 'xl' }}>
                             <Stack spacing='6'>
                                 <Formik
                                     initialValues={{ email: '', password: '' }}
-                                    onSubmit={async (_values, _helpers) => {
-                                        //
+                                    onSubmit={async (values, helpers) => {
+                                        try {
+                                            await login(values);
+
+                                            router.push('/tickets');
+                                        } catch (error: any) {
+                                            toast({
+                                                title: 'Authentication error',
+                                                description: error.message,
+                                                status: 'error',
+                                                duration: 5000,
+                                                position: 'bottom-right',
+                                                isClosable: true
+                                            });
+                                        }
+
+                                        helpers.setSubmitting(false);
                                     }}>
                                     {({ isSubmitting }) => (
                                         <Form>

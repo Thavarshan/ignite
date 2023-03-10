@@ -18,9 +18,11 @@ import {
 } from '@chakra-ui/react';
 import { FiMenu, FiSearch } from 'react-icons/fi';
 import Sidebar from '@/components/Sidebar';
+import useAuth from '@/hooks/useAuth';
 
 const Layout = ({ children }: any) => {
     const sidebar = useDisclosure();
+    const { logout } = useAuth();
 
     return (
         <>
@@ -56,7 +58,7 @@ const Layout = ({ children }: any) => {
                                     <MenuItem rounded='lg' as='a' href='/' fontSize='sm' fontWeight='semibold'>Profile</MenuItem>
                                     <MenuItem rounded='lg' fontSize='sm' fontWeight='semibold'>Settings</MenuItem>
                                     <MenuDivider />
-                                    <MenuItem rounded='lg' fontSize='sm' fontWeight='semibold'>Sign out</MenuItem>
+                                    <MenuItem onClick={() => logout()} rounded='lg' fontSize='sm' fontWeight='semibold'>Sign out</MenuItem>
                                 </MenuList>
                             </Menu>
                         </Flex>

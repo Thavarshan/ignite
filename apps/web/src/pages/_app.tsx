@@ -8,6 +8,7 @@ import { ReactNode } from 'react';
 import { NextPage } from 'next';
 import '@/assets/css/globals.css';
 import '@fontsource/inter/variable.css';
+import AuthProvider from '@/providers/AuthProvider';
 // import _ from 'lodash';
 
 export type NextPageWithLayout<P = any, IP = P> = NextPage<P, IP> & {
@@ -23,14 +24,18 @@ defineConfig({
     apiUrl: process.env.NEXT_PUBLIC_API_URL
 });
 
-export default function App ({ Component, pageProps }: AppPropsWithLayout) {
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const getLayout: any = Component.getLayout ?? (
         (page: NextPageWithLayout) => <Layout>{page}</Layout>
     );
 
     return (
         <ChakraProvider theme={themeConfig}>
-            {getLayout(<Component {...pageProps} />)}
+            <AuthProvider>
+                {getLayout(<Component {...pageProps} />)}
+            </AuthProvider>
         </ChakraProvider>
     );
-}
+};
+
+export default App;

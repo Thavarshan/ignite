@@ -1,5 +1,4 @@
 import Layout from '@/layouts/app';
-import axios from '@/utils/axios';
 import {
     Text,
     Stack,
@@ -7,12 +6,14 @@ import {
     Box,
     LinkOverlay,
     HStack,
-    Badge
+    Tag
 } from '@chakra-ui/react';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import moment from 'moment';
+import { apiUrl } from '@/utils/helpers';
+import { getCookie } from 'cookies-next';
 
 const Index = ({ tickets }: any) => {
     return (
@@ -36,8 +37,8 @@ const Index = ({ tickets }: any) => {
                             <Text fontSize='sm' maxW='lg' color='gray.500'>{ticket.body}</Text>
 
                             <HStack mt='4' spacing='2'>
-                                <Badge rounded='md' px='2' fontSize='xs' variant='subtle' colorScheme='green'>Open</Badge>
-                                <Badge rounded='md' px='2' fontSize='xs'>{ticket.channel.name}</Badge>
+                                <Tag size='sm' colorScheme='green'>Open</Tag>
+                                <Tag size='sm'>{ticket.channel.name}</Tag>
                                 {/* <Badge rounded='md' px='2' fontSize='xs'>{ticket.replies.length}</Badge> */}
                             </HStack>
                         </Link>
@@ -54,11 +55,22 @@ Index.getLayout = function getLayout (page: NextPage) {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-    const { data: { data: tickets } } = await axios.get('/tickets');
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+    const token = getCookie('token', { req, res });
 
-    return { props: { tickets } };
+    const response = await fetch(apiUrl('/tickets'), {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (!response.ok) {
+        return {
+            notFound: true
+        };
+    }
+
+    const { data } = await response.json();
+
+    return { props: { tickets: data } };
 };
-
 
 export default Index;
