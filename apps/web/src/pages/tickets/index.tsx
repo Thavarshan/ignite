@@ -58,6 +58,8 @@ Index.getLayout = function getLayout (page: NextPage) {
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     const token = getCookie('token', { req, res });
 
+    console.log(token);
+
     const response = await fetch(apiUrl('/tickets'), {
         headers: { Authorization: `Bearer ${token}` }
     });

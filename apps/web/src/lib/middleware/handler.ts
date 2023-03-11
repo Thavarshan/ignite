@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 import MiddlewareConditions from '@/contracts/lib/MiddlewareConditions';
 import Guard from '@/contracts/auth/Guard';
 import UrlPattern from 'url-pattern';
+import _ from 'lodash';
 
 export default class Handler {
     public readonly home = '/tickets';
@@ -47,8 +48,9 @@ export default class Handler {
     protected startsWith (path: string): boolean {
         const pathname = this.request.nextUrl.pathname;
         const pattern = new UrlPattern(path);
+        const matches = pattern.match(pathname);
 
-        return pattern.match(pathname);
+        return !_.isNull(matches);
     }
 
     protected makeUrl (path: string): URL {

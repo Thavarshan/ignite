@@ -12,23 +12,15 @@ export function middleware (request: NextRequest) {
 
 const conditions: MiddlewareConditions[] = [
     {
-        path: '/auth/register',
+        path: '/auth(/:path)',
         guard: 'guest'
     },
     {
-        path: '/auth/forgot-password',
-        guard: 'guest'
-    },
-    {
-        path: '/auth/login',
-        guard: 'guest'
-    },
-    {
-        path: '/tickets',
+        path: '/tickets(/:path)',
         guard: 'auth'
     },
     {
-        path: '/tickets(/:id)',
+        path: '/users(/:path)',
         guard: 'auth'
     },
     {
