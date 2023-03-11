@@ -12,7 +12,9 @@ import {
     Stack,
     HStack,
     Text,
-    FormHelperText
+    FormHelperText,
+    Image,
+    Flex
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 import { NextPage } from 'next';
@@ -21,6 +23,7 @@ import type { NextPageWithLayout } from '../_app';
 import Logo from '@/components/Logo';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import bgImage from '@/assets/images/register.svg';
 
 const Register: NextPageWithLayout = () => {
     const router = useRouter();
@@ -31,9 +34,9 @@ const Register: NextPageWithLayout = () => {
                 <title>Register | Ignite</title>
             </Head>
 
-            <Container maxW='container.xl' py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
-                <Stack spacing='8' maxW='md'>
-                    <Stack spacing='6'>
+            <Container maxW='container.xl' py={{ base: '0', md: '24' }} px={{ base: '0', sm: '8' }} bg={{ base: 'white', sm: 'transparent' }}>
+                <Stack direction='row' spacing='6' maxW='100%' h={{ base: '100vh', sm: 'auto' }} py={{ base: '8', md: '0' }}>
+                    <Stack spacing='6' w={{ base: '100%', lg: '2xl' }}>
                         <Box
                             py={{ base: '0', sm: '8' }}
                             px={{ base: '4', sm: '10' }}
@@ -120,6 +123,12 @@ const Register: NextPageWithLayout = () => {
                                 </Stack>
                             </Stack>
                         </Box>
+                    </Stack>
+
+                    <Stack spacing='6' w='100%' display={{ base: 'none', lg: 'block' }}>
+                        <Flex direction='column' align='center' justify='center' h='100%'>
+                            <Image src={bgImage.src} alt='Ignite'></Image>
+                        </Flex>
                     </Stack>
                 </Stack>
             </Container>

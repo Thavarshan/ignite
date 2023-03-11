@@ -16,17 +16,18 @@ export default class RepliesRepository {
     }
 
     public async findAll (user?: User): Promise<Reply[]> {
-        return await this.model.find(user ? { user } : null).populate('user').exec();
+        return await this.model
+            .find(user ? { user } : null)
+            .populate('user')
+            .exec();
     }
 
     public async findById (id: string): Promise<Reply> {
         try {
-            const reply = await this.model
+            return await this.model
                 .findById(id)
                 .populate('user')
                 .exec();
-
-            return reply;
         } catch (error) {
             throw new NotFoundException('Reply not found.');
         }

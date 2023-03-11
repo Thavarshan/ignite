@@ -3,7 +3,6 @@ import type { NextRequest } from 'next/server';
 import MiddlewareConditions from '@/contracts/lib/MiddlewareConditions';
 import Guard from '@/contracts/auth/Guard';
 import UrlPattern from 'url-pattern';
-import _ from 'lodash';
 
 export default class Handler {
     public readonly home = '/tickets';
@@ -23,16 +22,14 @@ export default class Handler {
     }
 
     public handle (): any {
-        const match = this.conditions.find((route: MiddlewareConditions) => {
-            return this.startsWith(route.path);
-        });
+        const match = this.conditions
+            .find((route: MiddlewareConditions) => this.startsWith(route.path));
 
         if (!match) {
             return;
         }
 
         const authorized = this.checkAuthorization(match?.guard);
-
 
         if (!authorized) {
             return Response.redirect(this.fallbackUrl(match?.guard));
@@ -50,7 +47,7 @@ export default class Handler {
         const pattern = new UrlPattern(path);
         const matches = pattern.match(pathname);
 
-        return !_.isNull(matches);
+        return matches !== null;
     }
 
     protected makeUrl (path: string): URL {

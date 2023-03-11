@@ -15,7 +15,7 @@ export default class TicketsController {
         return await this.service.create(dto);
     }
 
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Get()
     public async findAll (@Req() request): Promise<{ data: Ticket[]; }> {
         const data = await this.service.findAll(request.user);
@@ -23,7 +23,7 @@ export default class TicketsController {
         return { data };
     }
 
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     public async findOne (@Param('id') id: string): Promise<Ticket> {
         return await this.service.findOne(id);

@@ -20,9 +20,7 @@ export default class ChannelsRepository {
 
     public async findById (id: string): Promise<Channel> {
         try {
-            const channel = await this.model.findById(id).exec();
-
-            return channel;
+            return await this.model.findById(id).exec();
         } catch (error) {
             throw new NotFoundException('Channel not found.');
         }

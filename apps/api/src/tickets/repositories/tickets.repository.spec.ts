@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Test, TestingModule } from '@nestjs/testing';
 import TicketsRepository from './tickets.repository';
-import { Model } from 'mongoose';
+import { Model, Query } from 'mongoose';
 import Ticket from '../contracts/ticket.contract';
 import TicketEnum from '../enums/ticket.enum';
 import UsersRepository from '../../users/repositories/users.repository';
@@ -11,6 +11,7 @@ describe('TicketsRepository', () => {
     let repository: TicketsRepository;
     let users: UsersRepository;
     let model: Model<Ticket>;
+    let query: Query<any, Ticket>;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -41,12 +42,22 @@ describe('TicketsRepository', () => {
                         exec: jest.fn(),
                     }
                 },
+                {
+                    provide: Query,
+                    useValue: {
+                        new: jest.fn(),
+                        constructor: jest.fn(),
+                        populate: jest.fn(),
+                        exec: jest.fn(),
+                    }
+                }
             ],
         }).compile();
 
         repository = module.get<TicketsRepository>(TicketsRepository);
         users = module.get<UsersRepository>(UsersRepository);
         model = module.get<Model<Ticket>>(TicketEnum.MODEL);
+        query = module.get<Query<any, Ticket>>(Query);
     });
 
     it('should be defined', () => {
@@ -84,19 +95,19 @@ describe('TicketsRepository', () => {
     });
 
     it('findAll should return a list of tickets', async () => {
-        jest.spyOn(model, 'find').mockImplementation(() => {
-            return {
-                exec: jest.fn().mockImplementation(() => ([{
-                    title: 'I need some IT Assistance',
-                    body: 'Yes, please.',
-                    slug: 'it-assistance',
-                    channel: '6402697307e6d1fcd1d3146d',
-                    user: '63fe86f14f07c7e05f7db502'
-                }]))
-            } as any;
+        jest.spyOn(query, 'populate').mockReturnThis();
+        jest.spyOn(query, 'exec').mockImplementation(() => {
+            return Promise.resolve([{
+                title: 'I need some IT Assistance',
+                body: 'Yes, please.',
+                slug: 'it-assistance',
+                channel: '6402697307e6d1fcd1d3146d',
+                user: '63fe86f14f07c7e05f7db502'
+            }]);
         });
+        jest.spyOn(model, 'find').mockImplementation(() => query);
 
-        const ticket = await repository.findAll(undefined, false);
+        const ticket = await repository.findAll(undefined);
 
         expect(model.find).toBeCalledTimes(1);
         expect(ticket).toEqual([{
@@ -110,19 +121,19 @@ describe('TicketsRepository', () => {
     });
 
     it('findBySlug should return ticket', async () => {
-        jest.spyOn(model, 'findOne').mockImplementation(() => {
-            return {
-                exec: jest.fn().mockImplementation(() => ({
-                    title: 'I need some IT Assistance',
-                    body: 'Yes, please.',
-                    slug: 'it-assistance',
-                    channel: '6402697307e6d1fcd1d3146d',
-                    user: '63fe86f14f07c7e05f7db502'
-                }))
-            } as any;
+        jest.spyOn(query, 'populate').mockReturnThis();
+        jest.spyOn(query, 'exec').mockImplementation(() => {
+            return Promise.resolve({
+                title: 'I need some IT Assistance',
+                body: 'Yes, please.',
+                slug: 'it-assistance',
+                channel: '6402697307e6d1fcd1d3146d',
+                user: '63fe86f14f07c7e05f7db502'
+            });
         });
+        jest.spyOn(model, 'findOne').mockImplementation(() => query);
 
-        const ticket = await repository.findBySlug('it-assistance', false);
+        const ticket = await repository.findBySlug('it-assistance');
 
         expect(model.findOne).toBeCalledTimes(1);
         expect(ticket).toEqual({
@@ -136,19 +147,19 @@ describe('TicketsRepository', () => {
     });
 
     it('return one result', async () => {
-        jest.spyOn(model, 'findById').mockImplementation(() => {
-            return {
-                exec: jest.fn().mockImplementation(() => ({
-                    title: 'I need some IT Assistance',
-                    body: 'Yes, please.',
-                    slug: 'it-assistance',
-                    channel: '6402697307e6d1fcd1d3146d',
-                    user: '63fe86f14f07c7e05f7db502'
-                }))
-            } as any;
+        jest.spyOn(query, 'populate').mockReturnThis();
+        jest.spyOn(query, 'exec').mockImplementation(() => {
+            return Promise.resolve({
+                title: 'I need some IT Assistance',
+                body: 'Yes, please.',
+                slug: 'it-assistance',
+                channel: '6402697307e6d1fcd1d3146d',
+                user: '63fe86f14f07c7e05f7db502'
+            });
         });
+        jest.spyOn(model, 'findById').mockImplementation(() => query);
 
-        const ticket = await repository.findById('I need some IT Assistance', false);
+        const ticket = await repository.findById('I need some IT Assistance');
 
         expect(model.findById).lastCalledWith('I need some IT Assistance');
         expect(model.findById).toBeCalledTimes(1);

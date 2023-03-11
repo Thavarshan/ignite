@@ -21,47 +21,35 @@ export default class TicketsRepository {
         return await this.model.create(dto);
     }
 
-    public async findAll (user?: User, populate = true): Promise<Ticket[]> {
-        const query = this.model.find(user ? { agent: user.id } : null);
-
-        if (populate) {
-            await query.populate('channel')
-                .populate('user')
-                .populate('agent')
-                .populate('replies');
-        }
-
-        return await query.exec();
+    public async findAll (user?: User): Promise<Ticket[]> {
+        return this.model.find(user ? { agent: user.id } : null)
+            .populate('channel')
+            .populate('user')
+            .populate('agent')
+            .populate('replies')
+            .exec();
     }
 
-    public async findById (id: string, populate = true): Promise<Ticket> {
+    public async findById (id: string): Promise<Ticket> {
         try {
-            const query = this.model.findById(id);
-
-            if (populate) {
-                await query.populate('channel')
-                    .populate('user')
-                    .populate('agent')
-                    .populate('replies');
-            }
-
-            return await query.exec();
+            return await this.model.findById(id)
+                .populate('channel')
+                .populate('user')
+                .populate('agent')
+                .populate('replies')
+                .exec();
         } catch (error) {
             throw new NotFoundException('Ticket not found.');
         }
     }
 
-    public async findBySlug (slug: string, populate = true): Promise<Ticket> {
-        const query = this.model.findOne({ slug });
-
-        if (populate) {
-            await query.populate('channel')
-                .populate('user')
-                .populate('agent')
-                .populate('replies');
-        }
-
-        const ticket = await query.exec();
+    public async findBySlug (slug: string): Promise<Ticket> {
+        const ticket = this.model.findOne({ slug })
+            .populate('channel')
+            .populate('user')
+            .populate('agent')
+            .populate('replies')
+            .exec();
 
         if (!ticket) {
             throw new NotFoundException('Ticket not found.');
