@@ -51,19 +51,9 @@ const UserSchema = new Schema<UserContract>({
         default: [Roles.USER],
     },
 
-    verification: {
-        type: String,
-        validate: validator.isUUID,
-    },
-
     verified: {
         type: Boolean,
         default: false,
-    },
-
-    verificationExpires: {
-        type: Date,
-        default: Date.now,
     },
 
     loginAttempts: {

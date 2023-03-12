@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import User from '@/users/contracts/user.contract';
 import UserDto from '@/users/dto/user.dto';
 import UsersRepository from '@/users/repositories/users.repository';
+import { isEmail } from '@/utils/helpers';
 
 @Injectable()
 export default class UsersService {
@@ -16,6 +17,10 @@ export default class UsersService {
     }
 
     public async findOne (id: string): Promise<User> {
+        if (isEmail(id)) {
+            return await this.repository.findByEmail(id);
+        }
+
         try {
             return await this.repository.findById(id);
         } catch (error) {

@@ -16,7 +16,6 @@ export default class UserDto {
 
     @IsOptional()
     @IsString()
-    @IsString()
     public readonly username?: string;
 
     @IsNotEmpty()
@@ -47,5 +46,5 @@ export default class UserDto {
 
     @IsOptional()
     @IsBoolean()
-    public readonly verified?: boolean;
+    public verified?: boolean;
 }

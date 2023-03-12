@@ -53,23 +53,6 @@ export default class UsersRepository {
         return user;
     }
 
-    public async findByVerification (
-        verification: string,
-        expires?: Date
-    ): Promise<User> {
-        const user = await this.model.findOne({
-            verification,
-            verified: false,
-            verificationExpires: { $gt: expires || new Date() }
-        }).exec();
-
-        if (!user) {
-            throw new NotFoundException('User not found.');
-        }
-
-        return user;
-    }
-
     public async existsByEmail (email: string): Promise<boolean> {
         const results = await this.model.exists({ email }).exec();
 

@@ -1,15 +1,15 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import CreateUserDto from '@/auth/dto/create-user.dto';
+import RegisterUserDto from '@/auth/dto/register-user.dto';
 import User from '@/users/contracts/user.contract';
-import AuthService from '@/auth/services/auth.service';
+import RegisterService from '@/auth/services/register.service';
 
 @Controller()
 export default class RegisterController {
-    constructor (protected readonly service: AuthService) { }
+    constructor (protected readonly service: RegisterService) { }
 
     @HttpCode(HttpStatus.CREATED)
     @Post('register')
-    public async register (@Body() dto: CreateUserDto): Promise<User> {
+    public async register (@Body() dto: RegisterUserDto): Promise<User> {
         return await this.service.register(dto);
     }
 }

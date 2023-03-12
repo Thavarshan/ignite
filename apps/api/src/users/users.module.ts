@@ -19,6 +19,7 @@ import DatabaseModule from '@/database/database.module';
     ],
 
     exports: [
+        UsersService,
         UsersRepository,
         ...UsersProvider
     ]

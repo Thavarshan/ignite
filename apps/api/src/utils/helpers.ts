@@ -45,3 +45,14 @@ export function makeId (length = 7): string {
 
     return result;
 }
+
+/**
+ * Determine if given string is a valid email address.
+ *
+ * @param   {string}   email
+ *
+ * @return  {boolean}
+ */
+export function isEmail (email: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}

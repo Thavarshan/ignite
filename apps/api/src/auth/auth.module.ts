@@ -17,6 +17,9 @@ import PasswordController from './controllers/password.controller';
 import PasswordService from './services/password.service';
 import authProvider from './providers/auth.provider';
 import DatabaseModule from '@/database/database.module';
+import RegisterService from './services/register.service';
+import UsersService from '@/users/services/users.service';
+import TeamsService from '@/teams/services/teams.service';
 
 @Module({
     imports: [
@@ -37,14 +40,20 @@ import DatabaseModule from '@/database/database.module';
         }),
     ],
 
-    controllers: [AuthController, RegisterController, PasswordController],
+    controllers: [
+        AuthController,
+        RegisterController,
+        PasswordController
+    ],
 
     providers: [
         LocalAuth,
         TokenAuth,
         AuthService,
+        RegisterService,
         PasswordService,
-        UsersRepository,
+        UsersService,
+        TeamsService,
         JwtStrategy,
         LocalStrategy,
         ...authProvider

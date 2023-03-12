@@ -86,34 +86,6 @@ describe('UsersRepository', () => {
         });
     });
 
-    it('findByVerification should return user', async () => {
-        jest.spyOn(model, 'findOne')
-            .mockImplementation((filter: any, callback: any) => {
-                return {
-                    exec: jest.fn().mockResolvedValue({
-                        name: 'James Silverman',
-                        email: 'monster@example.com',
-                        verification: '123'
-                    } as User),
-                } as any;
-            });
-
-        const expires = new Date();
-        const user = await repository.findByVerification('123', expires);
-
-        expect(model.findOne).toBeCalledTimes(1);
-        expect(user).toEqual({
-            name: 'James Silverman',
-            email: 'monster@example.com',
-            verification: '123'
-        });
-        expect(model.findOne).lastCalledWith({
-            verification: '123',
-            verified: false,
-            verificationExpires: { $gt: expires }
-        });
-    });
-
     it('findByUsername should return user', async () => {
         jest.spyOn(model, 'findOne')
             .mockImplementation((filter: any, callback: any) => {
@@ -122,7 +94,6 @@ describe('UsersRepository', () => {
                         name: 'James Silverman',
                         username: 'james-silverman',
                         email: 'monster@example.com',
-                        verification: '123'
                     } as User),
                 } as any;
             });
@@ -133,8 +104,7 @@ describe('UsersRepository', () => {
         expect(user).toEqual({
             name: 'James Silverman',
             username: 'james-silverman',
-            email: 'monster@example.com',
-            verification: '123'
+            email: 'monster@example.com'
         });
         expect(model.findOne).lastCalledWith({ username: 'james-silverman' });
     });

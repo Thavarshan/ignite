@@ -23,6 +23,7 @@ import MailModule from '@/mail/mail.module';
     ],
 
     exports: [
+        TeamsService,
         TeamsRepository,
         ...TeamsProvider
     ]

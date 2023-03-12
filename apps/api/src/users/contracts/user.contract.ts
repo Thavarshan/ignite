@@ -8,9 +8,7 @@ export default interface User extends Document {
     password: string;
     phone?: string;
     roles?: string[];
-    verification: string;
     verified: boolean;
-    verificationExpires: Date;
     loginAttempts?: number;
     blockedAt?: Date;
     team: Partial<Team>;
