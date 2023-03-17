@@ -5,7 +5,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import Header from '@/components/Header';
-import { url } from '@/utils/url';
+import { url } from '@/lib/Utils/url';
 import Footer from '@/components/Footer';
 import Banner from '@/components/Banner';
 

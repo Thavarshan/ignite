@@ -1,4 +1,4 @@
-import Guard from '../auth/Guard';
+import Guard from '../Auth/Guard';
 
 type MiddlewareConditions = {
     path: string,

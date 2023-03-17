@@ -1,5 +1,5 @@
 import Layout from '@/layouts/app';
-import { apiUrl } from '@/utils/helpers';
+import { apiUrl } from '@/lib/Utils/helpers';
 import {
     Text,
     Stack,

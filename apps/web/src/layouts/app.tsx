@@ -19,10 +19,13 @@ import {
 import { FiMenu, FiSearch } from 'react-icons/fi';
 import Sidebar from '@/components/Sidebar';
 import useAuth from '@/hooks/useAuth';
+import avatar from '@/lib/Utils/avatar';
+import { useRouter } from 'next/router';
 
 const Layout = ({ children }: any) => {
+    const router = useRouter();
     const sidebar = useDisclosure();
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
 
     return (
         <>
@@ -51,11 +54,11 @@ const Layout = ({ children }: any) => {
                         <Flex align='center'>
                             <Menu>
                                 <MenuButton>
-                                    <Avatar ml='4' size='sm' name='anubra266' src='https://avatars.githubusercontent.com/u/30869823?v=4' cursor='pointer' />
+                                    <Avatar ml='4' size='sm' name={user?.name || 'Ignite'} src={avatar(user?.name || 'Ignite')} cursor='pointer' />
                                 </MenuButton>
 
                                 <MenuList rounded='xl' px='3'>
-                                    <MenuItem rounded='lg' as='a' href='/' fontSize='sm' fontWeight='semibold'>Profile</MenuItem>
+                                    <MenuItem onClick={() => router.push(`/users/${user?.username}`)} rounded='lg' as='a' fontSize='sm' fontWeight='semibold'>Profile</MenuItem>
                                     <MenuItem rounded='lg' fontSize='sm' fontWeight='semibold'>Settings</MenuItem>
                                     <MenuDivider />
                                     <MenuItem onClick={() => logout()} rounded='lg' fontSize='sm' fontWeight='semibold'>Sign out</MenuItem>

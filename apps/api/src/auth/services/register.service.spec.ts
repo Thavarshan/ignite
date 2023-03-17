@@ -47,13 +47,16 @@ describe('RegisterService', () => {
             .mockImplementation(() => { throw new NotFoundException(); });
         jest.spyOn(users, 'create')
             .mockImplementationOnce(() => Promise.resolve(mockModel as any));
+        jest.spyOn(teams, 'findOne')
+            .mockImplementationOnce(() => Promise.resolve({ id: 'fake-team-id' } as any));
 
         const user = await service.register({
             name: 'Wade Solman',
             email: 'ws@wxample.com',
             password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
             phone: '1234567890',
-            role: Role.USER
+            role: Role.USER,
+            team: 'fake-team-id'
         } as CreateUserDto);
 
         expect(user).toStrictEqual(mockModel);
@@ -72,31 +75,12 @@ describe('RegisterService', () => {
             email: 'ws@wxample.com',
             password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
             phone: '1234567890',
-            role: Role.AGENT
+            role: Role.AGENT,
+            team: 'fake-team-id'
         } as CreateUserDto);
 
         expect(user).toStrictEqual(mockModel);
         expect(user.team).toStrictEqual('fake-team-id');
-    });
-
-    it('should register a new agent as normal user if team was not found', async () => {
-        jest.spyOn(users, 'findOne')
-            .mockImplementation(() => { throw new NotFoundException(); });
-        jest.spyOn(users, 'create')
-            .mockImplementationOnce(() => Promise.resolve(mockModel as any));
-        jest.spyOn(teams, 'findOne')
-            .mockImplementationOnce(() => { throw new NotFoundException(); });
-
-        const user = await service.register({
-            name: 'Wade Solman',
-            email: 'ws@wxample.com',
-            password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
-            phone: '1234567890',
-            role: Role.AGENT
-        } as CreateUserDto);
-
-        expect(user).toStrictEqual(mockModel);
-        expect(user.roles.includes(Role.USER)).toBeTruthy();
     });
 
     it('should register a new admin', async () => {
@@ -105,14 +89,15 @@ describe('RegisterService', () => {
         jest.spyOn(users, 'create')
             .mockImplementationOnce(() => Promise.resolve(mockModel as any));
         jest.spyOn(teams, 'create')
-            .mockImplementationOnce(() => Promise.resolve({ _id: 'fake-team-id' } as any));
+            .mockImplementationOnce(() => Promise.resolve({ id: 'fake-team-id' } as any));
 
         const user = await service.register({
             name: 'Wade Solman',
             email: 'ws@wxample.com',
             password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
             phone: '1234567890',
-            role: Role.ADMIN
+            role: Role.ADMIN,
+            team: 'fake-team-id'
         } as CreateUserDto);
 
         expect(user).toStrictEqual(mockModel);
@@ -129,7 +114,8 @@ describe('RegisterService', () => {
                 email: 'ws@wxample.com',
                 password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
                 phone: '1234567890',
-                role: Role.USER
+                role: Role.USER,
+                team: 'fake-team-id'
             } as CreateUserDto);
         } catch (error) {
             expect(error).toBeInstanceOf(BadRequestException);

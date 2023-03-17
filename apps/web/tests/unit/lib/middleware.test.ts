@@ -14,7 +14,7 @@ describe('Middleware', () => {
         reset(mockedRequest);
     });
 
-    it('should handle route guards', () => {
+    it('should handle route guards', async () => {
         const domain = 'https://example.com';
         const url = new URL('/test', domain);
         const nextUrl = new NextURL(url);
@@ -29,7 +29,7 @@ describe('Middleware', () => {
         when(mockedRequest.url).thenReturn(domain);
         when(mockedRequest.cookies).thenReturn(cookie);
 
-        const response = middleware(instance(mockedRequest));
+        const response = await middleware(instance(mockedRequest));
 
         expect(response).toBeDefined();
         expect(response?.status).toBe(307);

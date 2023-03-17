@@ -1,4 +1,4 @@
-import Navbar from '@/contracts/components/Navbar';
+import Navbar from '@/lib/Contracts/Components/Navbar';
 import {
     Box,
     Button,

@@ -3,7 +3,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import UsersService from './users.service';
 import UsersRepository from '../repositories/users.repository';
 import mockModel from '../models/mock.model';
-import User from '../contracts/user.contract';
 
 describe('UsersService', () => {
     let service: UsersService;
@@ -48,8 +47,9 @@ describe('UsersService', () => {
                 username: 'WadeSolman',
                 email: 'ws@wxample.com',
                 password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
-                phone: '1234567890'
-            } as User),
+                phone: '1234567890',
+                team: 'fake-team-id'
+            } as any),
         );
 
         const userData = {
@@ -57,7 +57,8 @@ describe('UsersService', () => {
             email: 'ws@wxample.com',
             username: 'WadeSolman',
             password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
-            phone: '1234567890'
+            phone: '1234567890',
+            team: 'fake-team-id'
         };
         const user = await service.create(userData);
 
@@ -107,7 +108,8 @@ describe('UsersService', () => {
             email: 'ws@wxample.com',
             username: 'WadeSolman',
             password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
-            phone: '1234567890'
+            phone: '1234567890',
+            team: 'fake-team-id'
         };
 
         jest.spyOn(repository, 'update')

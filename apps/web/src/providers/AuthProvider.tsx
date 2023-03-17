@@ -1,18 +1,18 @@
 import AuthContext from '@/contexts/auth';
-import Credentials from '@/contracts/auth/Credentials';
-import AuthProviderContract from '@/contracts/auth/AuthProvider';
-import User from '@/contracts/auth/User';
-import { apiUrl } from '@/utils/url';
+import Credentials from '@/lib/Contracts/Auth/Credentials';
+import AuthProviderContract from '@/lib/Contracts/Auth/AuthProvider';
+import User from '@/lib/Contracts/Auth/User';
+import { apiUrl } from '@/lib/Utils/url';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import React, { useEffect, useState } from 'react';
 import router from 'next/router';
+import ErrorResponse from '@/lib/Contracts/Http/Responses/ErrorResponse';
 
 const AuthProvider = ({ children }: AuthProviderContract) => {
     const [user, setUser] = useState<User | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [accessToken, setAccessToken] = useState<string | null>(null);
     const [refreshToken, setRefreshToken] = useState<string | null>(null);
-    const [errors, setErrors] = useState<string | string[] | null>(null);
 
     useEffect(() => {
         if (!user) {
@@ -44,18 +44,20 @@ const AuthProvider = ({ children }: AuthProviderContract) => {
         }
     }, [refreshToken]);
 
-    const getUser = async (token: string): Promise<User | undefined> => {
+    const getUser = async (token: string): Promise<User> => {
         const response = await fetch(apiUrl('/user'), {
             headers: { Authorization: `Bearer ${token}` }
         });
 
-        if (response.ok) {
-            const user = await response.json();
+        if (!response.ok) {
+            const errorData: ErrorResponse = await response.json();
 
-            return user;
+            throw new Error(errorData.message as string);
         }
 
-        setErrors(await response.json());
+        const user = await response.json();
+
+        return user;
     };
 
     const login = async (credentials: Credentials) => {
@@ -72,18 +74,18 @@ const AuthProvider = ({ children }: AuthProviderContract) => {
 
             const user = await getUser(accessToken);
 
-            if (!user) {
-                throw new Error('User access unauthorized.');
-            }
-
             setUser(user);
 
             localStorage.setItem('user', JSON.stringify(user));
 
             setIsLoggedIn(true);
-        } else {
-            setErrors(await response.json());
+
+            return;
         }
+
+        const errorData: ErrorResponse = await response.json();
+
+        throw new Error(errorData.message as string);
     };
 
     const logout = async (): Promise<void> => {
@@ -103,7 +105,6 @@ const AuthProvider = ({ children }: AuthProviderContract) => {
         <AuthContext.Provider value={{
             isLoggedIn,
             user,
-            errors,
             refreshToken,
             accessToken,
             login,

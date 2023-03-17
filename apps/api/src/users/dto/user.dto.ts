@@ -46,5 +46,9 @@ export default class UserDto {
 
     @IsOptional()
     @IsBoolean()
-    public verified?: boolean;
+    public readonly verified?: boolean;
+
+    @IsNotEmpty()
+    @IsString()
+    public readonly team: string;
 }

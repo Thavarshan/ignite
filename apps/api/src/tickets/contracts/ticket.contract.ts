@@ -10,7 +10,7 @@ export default interface Ticket extends Document {
     slug: string;
     priority?: TicketEnum.HIGH_PRIORITY | TicketEnum.MEDIUM_PRIORITY | TicketEnum.LOW_PRIORITY;
     locked: boolean;
-    type: TicketEnum.OPEN | TicketEnum.CLOSED;
+    status: TicketEnum.OPEN | TicketEnum.CLOSED;
     channel: Partial<Channel>;
     user: Partial<User>;
     team: Partial<Team>;

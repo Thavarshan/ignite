@@ -1,4 +1,4 @@
-import User from '../auth/User';
+import User from '../../Auth/User';
 
 export default interface UserResponse {
     data: User;

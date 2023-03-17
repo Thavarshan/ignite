@@ -1,3 +1,4 @@
+import Team from '@/teams/contracts/team.contract';
 import TeamsService from '@/teams/services/teams.service';
 import User from '@/users/contracts/user.contract';
 import Roles from '@/users/enums/roles.enum';
@@ -45,7 +46,8 @@ export default class RegisterService {
             email: dto.email,
             password: dto.password,
             phone: dto.phone,
-            verified: dto.verified || true
+            verified: dto.verified || true,
+            team: dto.team
         });
     }
 
@@ -60,23 +62,19 @@ export default class RegisterService {
     }
 
     public async createOrAssignTeam (user: User, dto: RegisterUserDto): Promise<User> {
+        let team: Team;
+
         if (_.includes(user.roles, Roles.ADMIN)) {
-            const team = await this.teams.create({
+            team = await this.teams.create({
                 name: `${user.name}'s Team`,
                 email: user.email,
                 owner: _.get(user, '_id')
             });
-
-            user.team = _.get(team, '_id');
-        } else if (_.includes(user.roles, Roles.AGENT)) {
-            try {
-                const team = await this.teams.findOne(dto.team);
-
-                user.team = team.id;
-            } catch (error) {
-                user.roles = [Roles.USER];
-            }
+        } else {
+            team = await this.teams.findOne(dto.team);
         }
+
+        user.team = team.id;
 
         await user.save();
 

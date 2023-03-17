@@ -14,9 +14,9 @@ export default class TicketsRepository {
     ) { }
 
     public async create (dto: TicketDto): Promise<Ticket> {
-        const user = await this.users.findById(dto.user);
+        const agent = await this.users.findById(dto.agent);
 
-        dto.team = user.team as string;
+        dto.team = agent.team as string;
 
         return await this.model.create(dto);
     }

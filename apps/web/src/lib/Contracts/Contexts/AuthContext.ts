@@ -1,10 +1,9 @@
-import Credentials from '../auth/Credentials';
-import User from '../auth/User';
+import Credentials from '../Auth/Credentials';
+import User from '../Auth/User';
 
 export default interface AuthContext {
     isLoggedIn: boolean;
     user: User | null;
-    errors: string | string[] | null;
     accessToken: string | null;
     refreshToken: string | null;
     login: (_credentials: Credentials) => Promise<void>;

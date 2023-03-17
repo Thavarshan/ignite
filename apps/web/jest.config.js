@@ -28,7 +28,12 @@ const customJestConfig = {
 
     testEnvironment: 'jest-environment-jsdom',
 
-    testPathIgnorePatterns: ['/node_modules/', '/.next/'],
+    testPathIgnorePatterns: [
+        '/node_modules/',
+        'node_modules/(?!@ngrx|(?!jose)|ng-dynamic)',
+        '/.next/'
+    ],
+
     transform: {
         '^.+\\.(js|jsx|ts|tsx)$': 'ts-jest'
     },

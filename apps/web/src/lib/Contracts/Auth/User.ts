@@ -11,4 +11,6 @@ export default interface User {
     loginAttempts?: number;
     blockedAt?: Date;
     team?: any;
+    createdAt?: Date;
+    updatedAt?: Date;
 }

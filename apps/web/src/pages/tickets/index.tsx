@@ -13,8 +13,8 @@ import { HiOutlineChatAlt2 } from 'react-icons/hi';
 import Head from 'next/head';
 import Link from 'next/link';
 import moment from 'moment';
-import { apiUrl } from '@/utils/helpers';
 import { getCookie } from 'cookies-next';
+import Client from '@/lib/Api/Client';
 
 const Index = ({ tickets }: any) => {
     return (
@@ -24,7 +24,7 @@ const Index = ({ tickets }: any) => {
             </Head>
 
             <Stack spacing='2'>
-                {tickets.map((ticket: any) => (
+                {tickets.length > 0 ? tickets.map((ticket: any) => (
                     <Box key={ticket.id} className='cursor-pointer' maxW='2xl' px='4' py='3' _hover={{ bg: 'gray.50' }} rounded='xl'>
                         <Link href={`/tickets/${ticket.id}`} passHref>
                             <Box as='time' dateTime={ticket.createdAt} fontSize='xs'>
@@ -46,34 +46,22 @@ const Index = ({ tickets }: any) => {
                             </HStack>
                         </Link>
                     </Box>
-                ))}
+                )) : <Text color='gray.500' fontSize='sm'>No tickets found.</Text>}
             </Stack>
         </>
     );
 };
 
 Index.getLayout = function getLayout (page: NextPage) {
-    return (
-        <Layout>{page}</Layout>
-    );
+    return (<Layout>{page}</Layout>);
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     const token = getCookie('token', { req, res });
+    const client = new Client(token as string);
+    const tickets = await client.resources('tickets').all();
 
-    const response = await fetch(apiUrl('/tickets'), {
-        headers: { Authorization: `Bearer ${token}` }
-    });
-
-    if (!response.ok) {
-        return {
-            notFound: true
-        };
-    }
-
-    const { data } = await response.json();
-
-    return { props: { tickets: data } };
+    return { props: { tickets } };
 };
 
 export default Index;

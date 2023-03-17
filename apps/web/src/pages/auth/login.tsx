@@ -15,8 +15,7 @@ import {
     Stack,
     HStack,
     Text,
-    Checkbox,
-    useToast
+    Checkbox
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
@@ -32,7 +31,6 @@ const Login: NextPageWithLayout = () => {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const { login } = useAuth();
-    const toast = useToast();
 
     return (
         <>
@@ -69,14 +67,7 @@ const Login: NextPageWithLayout = () => {
 
                                             router.push('/tickets');
                                         } catch (error: any) {
-                                            toast({
-                                                title: 'Authentication error',
-                                                description: error.message,
-                                                status: 'error',
-                                                duration: 5000,
-                                                position: 'bottom-right',
-                                                isClosable: true
-                                            });
+                                            //
                                         }
 
                                         helpers.setSubmitting(false);
@@ -151,9 +142,7 @@ const Login: NextPageWithLayout = () => {
 };
 
 Login.getLayout = function getLayout (page: NextPage) {
-    return (
-        <Layout>{page}</Layout>
-    );
+    return (<Layout>{page}</Layout>);
 };
 
 export default Login;

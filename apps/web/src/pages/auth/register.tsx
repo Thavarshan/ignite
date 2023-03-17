@@ -22,11 +22,14 @@ import Layout from '@/layouts/auth';
 import type { NextPageWithLayout } from '../_app';
 import Logo from '@/components/Logo';
 import Head from 'next/head';
+import RegisterForm from '@/lib/Forms/Register';
+import RegisterFormValues from '@/lib/Contracts/Form/RegisterFormValues';
 import { useRouter } from 'next/router';
 import bgImage from '@/assets/images/register.svg';
 
 const Register: NextPageWithLayout = () => {
     const router = useRouter();
+    const form = new RegisterForm();
 
     return (
         <>
@@ -62,14 +65,18 @@ const Register: NextPageWithLayout = () => {
 
                                 <Stack spacing='6'>
                                     <Formik
-                                        initialValues={{ name: '', email: '', password: '' }}
-                                        onSubmit={async (_values, _helpers) => {
-                                            //
-                                        }}>
+                                        initialValues={{
+                                            name: '',
+                                            email: '',
+                                            password: '',
+                                            passwordConfirmation: '',
+                                            phone: undefined
+                                        } as RegisterFormValues}
+                                        onSubmit={async (values, helpers) => await form.handleSubmit(values, helpers)}>
                                         {({ isSubmitting }) => (
                                             <Form>
                                                 <Stack spacing='6'>
-                                                    <Stack spacing="5">
+                                                    <Stack spacing='5'>
                                                         <Field name='name'>
                                                             {({ field, form }: any) => (
                                                                 <FormControl isInvalid={form.errors.name && form.touched.name} isRequired>
@@ -81,7 +88,7 @@ const Register: NextPageWithLayout = () => {
                                                         </Field>
                                                     </Stack>
 
-                                                    <Stack spacing="5">
+                                                    <Stack spacing='5'>
                                                         <Field name='email'>
                                                             {({ field, form }: any) => (
                                                                 <FormControl isInvalid={form.errors.email && form.touched.email} isRequired>
@@ -137,9 +144,7 @@ const Register: NextPageWithLayout = () => {
 };
 
 Register.getLayout = function getLayout (page: NextPage) {
-    return (
-        <Layout>{page}</Layout>
-    );
+    return (<Layout>{page}</Layout>);
 };
 
 export default Register;

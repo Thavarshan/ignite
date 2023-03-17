@@ -20,7 +20,7 @@ const Sidebar = (props: any) => {
                             <SidebarNavItem>Channels</SidebarNavItem>
                             <SidebarNavItem>Teams</SidebarNavItem>
                             <SidebarNavItem>Agents</SidebarNavItem>
-                            <SidebarNavItem>Users</SidebarNavItem>
+                            <SidebarNavItem onClick={() => router.push('/users')}>Users</SidebarNavItem>
                             <SidebarNavItem>Settings</SidebarNavItem>
                         </Flex>
                     </Flex>

@@ -33,9 +33,9 @@ const TicketSchema = new Schema<TicketContract>({
         default: TicketEnum.LOW_PRIORITY
     },
 
-    type: {
+    status: {
         type: String,
-        required: true,
+        required: [true, 'STATUS_IS_BLANK'],
         enum: TicketEnum,
         default: TicketEnum.OPEN
     },

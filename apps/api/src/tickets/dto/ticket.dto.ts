@@ -17,6 +17,10 @@ export default class TicketDto {
     @IsString()
     public user: string;
 
+    @IsNotEmpty()
+    @IsString()
+    public agent?: string;
+
     @IsOptional()
     @IsString()
     public team?: string;
