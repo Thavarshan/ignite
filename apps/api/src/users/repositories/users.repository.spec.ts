@@ -40,16 +40,14 @@ describe('UsersRepository', () => {
     });
 
     it('should create a new user', async () => {
-        jest.spyOn(model, 'create').mockImplementationOnce(() =>
-            Promise.resolve({
-                name: 'Wade Solman',
-                username: 'WadeSolman',
-                email: 'ws@wxample.com',
-                password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
-                phone: '1234567890',
-                team: 'fake-team-id'
-            } as any),
-        );
+        jest.spyOn(model, 'create').mockImplementationOnce(() => Promise.resolve({
+            name: 'Wade Solman',
+            username: 'WadeSolman',
+            email: 'ws@wxample.com',
+            password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
+            phone: '1234567890',
+            team: 'fake-team-id'
+        } as any));
 
         const userData = {
             name: 'Wade Solman',

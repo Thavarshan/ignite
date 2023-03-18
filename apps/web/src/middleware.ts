@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server';
 import MiddlewareConditions from '@/lib/Contracts/Http/MiddlewareConditions';
-import Handler from '@/lib/Middleware/Handler';
+import Handler from '@/lib/Http/Middleware/Handler';
 
 export async function middleware (request: NextRequest) {
     const handler = new Handler(request, conditions);

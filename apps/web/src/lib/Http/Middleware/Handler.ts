@@ -3,9 +3,9 @@ import type { NextRequest } from 'next/server';
 import MiddlewareConditions from '@/lib/Contracts/Http/MiddlewareConditions';
 import GuardType from '@/lib/Contracts/Auth/Guard';
 import UrlPattern from 'url-pattern';
-import AuthGuard from '../Auth/AuthGuard';
-import GuestGuard from '../Auth/GuestGuard';
-import Guard from '../Auth/Guard';
+import AuthGuard from '../../Auth/AuthGuard';
+import GuestGuard from '../../Auth/GuestGuard';
+import Guard from '../../Auth/Guard';
 
 export default class Handler {
     protected readonly ALL_ACCESS = '*';

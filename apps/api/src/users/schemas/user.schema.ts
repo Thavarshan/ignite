@@ -45,10 +45,11 @@ const UserSchema = new Schema<UserContract>({
         required: false
     },
 
-    roles: {
-        type: [String],
+    role: {
+        type: String,
         enum: Roles,
-        default: [Roles.USER],
+        default: Roles.USER,
+        required: [true, 'ROLE_IS_BLANK']
     },
 
     verified: {
@@ -70,7 +71,7 @@ const UserSchema = new Schema<UserContract>({
     team: {
         type: SchemaTypes.ObjectId,
         ref: 'User',
-        required: [true, 'TEAM_IS_BLANK']
+        required: false
     },
 }, {
     versionKey: false,

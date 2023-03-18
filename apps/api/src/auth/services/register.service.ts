@@ -4,7 +4,6 @@ import User from '@/users/contracts/user.contract';
 import Roles from '@/users/enums/roles.enum';
 import UsersService from '@/users/services/users.service';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import _ from 'lodash';
 import RegisterUserDto from '../dto/register-user.dto';
 
 @Injectable()
@@ -18,8 +17,6 @@ export default class RegisterService {
         await this.determineEmailIsUnique(dto.email);
 
         const user = await this.createUser(dto);
-
-        await this.assignRole(user, dto);
 
         await this.createOrAssignTeam(user, dto);
 
@@ -47,28 +44,19 @@ export default class RegisterService {
             password: dto.password,
             phone: dto.phone,
             verified: dto.verified || true,
-            team: dto.team
+            team: dto.team,
+            role: dto.role || Roles.USER
         });
-    }
-
-    public async assignRole (user: User, dto: RegisterUserDto): Promise<User> {
-        if (_.has(dto, 'role')) {
-            user.roles = _.concat(user.roles, dto.role);
-
-            await user.save();
-        }
-
-        return user;
     }
 
     public async createOrAssignTeam (user: User, dto: RegisterUserDto): Promise<User> {
         let team: Team;
 
-        if (_.includes(user.roles, Roles.ADMIN)) {
+        if (user.role === Roles.ADMIN) {
             team = await this.teams.create({
                 name: `${user.name}'s Team`,
                 email: user.email,
-                owner: _.get(user, '_id')
+                owner: user.id
             });
         } else {
             team = await this.teams.findOne(dto.team);

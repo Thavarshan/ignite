@@ -14,7 +14,8 @@ import {
     Text,
     FormHelperText,
     Image,
-    Flex
+    Flex,
+    useToast
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 import { NextPage } from 'next';
@@ -26,8 +27,11 @@ import RegisterForm from '@/lib/Forms/Register';
 import RegisterFormValues from '@/lib/Contracts/Form/RegisterFormValues';
 import { useRouter } from 'next/router';
 import bgImage from '@/assets/images/register.svg';
+import _ from 'lodash';
+import setToastContent from '@/lib/Utils/toastConfig';
 
 const Register: NextPageWithLayout = () => {
+    const toast = useToast();
     const router = useRouter();
     const form = new RegisterForm();
 
@@ -70,9 +74,28 @@ const Register: NextPageWithLayout = () => {
                                             email: '',
                                             password: '',
                                             passwordConfirmation: '',
+                                            role: 'admin',
                                             phone: undefined
                                         } as RegisterFormValues}
-                                        onSubmit={async (values, helpers) => await form.handleSubmit(values, helpers)}>
+                                        onSubmit={async (values, helpers) => {
+                                            try {
+                                                await form.handleSubmit(values, helpers);
+
+                                                helpers.setSubmitting(false);
+
+                                                return router.push('/auth/login');
+                                            } catch (error: any) {
+                                                error.message = JSON.parse(error.message);
+
+                                                if (_.isArray(error.message)) {
+                                                    _.forEach(error.message, (message: string) => {
+                                                        toast(setToastContent('Registration failed', message));
+                                                    });
+                                                } else {
+                                                    toast(setToastContent('Registration failed', error.message));
+                                                }
+                                            }
+                                        }}>
                                         {({ isSubmitting }) => (
                                             <Form>
                                                 <Stack spacing='6'>

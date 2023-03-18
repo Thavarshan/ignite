@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import AuthService from './services/auth.service';
 import UsersModule from '@/users/users.module';
 import AuthController from './controllers/auth.controller';
-import UsersRepository from '@/users/repositories/users.repository';
 import LocalAuth from './authenticators/local.auth';
 import TokenAuth from './authenticators/token.auth';
 import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';

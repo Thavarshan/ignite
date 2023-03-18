@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import UsersService from './users.service';
 import UsersRepository from '../repositories/users.repository';
 import mockModel from '../models/mock.model';
+import User from '../contracts/user.contract';
 
 describe('UsersService', () => {
     let service: UsersService;

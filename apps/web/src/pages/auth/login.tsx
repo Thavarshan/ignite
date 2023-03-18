@@ -15,7 +15,8 @@ import {
     Stack,
     HStack,
     Text,
-    Checkbox
+    Checkbox,
+    useToast
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
@@ -26,8 +27,11 @@ import Logo from '@/components/Logo';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
+import setToastContent from '@/lib/Utils/toastConfig';
+import _ from 'lodash';
 
 const Login: NextPageWithLayout = () => {
+    const toast = useToast();
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const { login } = useAuth();
@@ -67,7 +71,15 @@ const Login: NextPageWithLayout = () => {
 
                                             router.push('/tickets');
                                         } catch (error: any) {
-                                            //
+                                            error.message = JSON.parse(error.message);
+
+                                            if (_.isArray(error.message)) {
+                                                _.forEach(error.message, (message: string) => {
+                                                    toast(setToastContent('Authentication failed', message));
+                                                });
+                                            } else {
+                                                toast(setToastContent('Authentication failed', error.message));
+                                            }
                                         }
 
                                         helpers.setSubmitting(false);

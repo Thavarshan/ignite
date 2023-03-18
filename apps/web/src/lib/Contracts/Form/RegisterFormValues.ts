@@ -6,4 +6,6 @@ export default interface RegisterFormValues extends FormValues {
     password: string;
     passwordConfirmation: string;
     phone?: string;
+    team?: string;
+    role?: string;
 }

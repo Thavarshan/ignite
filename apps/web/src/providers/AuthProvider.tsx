@@ -7,6 +7,7 @@ import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import React, { useEffect, useState } from 'react';
 import router from 'next/router';
 import ErrorResponse from '@/lib/Contracts/Http/Responses/ErrorResponse';
+import Client from '@/lib/Api/Client';
 
 const AuthProvider = ({ children }: AuthProviderContract) => {
     const [user, setUser] = useState<User | null>(null);
@@ -61,31 +62,19 @@ const AuthProvider = ({ children }: AuthProviderContract) => {
     };
 
     const login = async (credentials: Credentials) => {
-        const response = await fetch(apiUrl('/login'), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(credentials)
-        });
+        const token = getCookie('token');
+        const client = new Client(token as string);
+        const accessToken = await client.authenticate(credentials);
 
-        if (response.ok) {
-            const { accessToken } = await response.json();
+        setCookie('token', accessToken, { sameSite: true });
 
-            setCookie('token', accessToken, { sameSite: true });
+        const user = await getUser(accessToken);
 
-            const user = await getUser(accessToken);
+        setUser(user);
 
-            setUser(user);
+        localStorage.setItem('user', JSON.stringify(user));
 
-            localStorage.setItem('user', JSON.stringify(user));
-
-            setIsLoggedIn(true);
-
-            return;
-        }
-
-        const errorData: ErrorResponse = await response.json();
-
-        throw new Error(errorData.message as string);
+        setIsLoggedIn(true);
     };
 
     const logout = async (): Promise<void> => {

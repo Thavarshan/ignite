@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import RegisterController from './register.controller';
 import RegisterService from '../services/register.service';
-import User from '../../users/contracts/user.contract';
 import mockModel from '../../users/models/mock.model';
 
 describe('RegisterController', () => {

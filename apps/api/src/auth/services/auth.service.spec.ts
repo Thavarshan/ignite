@@ -52,7 +52,7 @@ describe('AuthService', () => {
                 username: 'WadeSolman',
                 password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
                 phone: '1234567890',
-                roles: [Role.USER]
+                role: Role.AGENT
             } as User));
         jest.spyOn(jwt, 'sign')
             .mockImplementationOnce(() => 'fake-jwt-token');

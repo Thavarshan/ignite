@@ -2,10 +2,9 @@ import ClientContract from '@/lib/Contracts/Api/Client';
 import ErrorResponse from '../Contracts/Http/Responses/ErrorResponse';
 import { apiUrl } from '../Utils/url';
 import Form from '@ignite/formlink';
-import axios from '../Utils/axios';
+import Http from '../Http/Client';
 import { AxiosStatic } from 'axios';
-import ErrorParser from '../Http/ErrorParser';
-import _ from 'lodash';
+import Credentials from '../Contracts/Auth/Credentials';
 
 export default class Client implements ClientContract {
     protected resource = '';
@@ -24,11 +23,33 @@ export default class Client implements ClientContract {
         return this;
     }
 
+    public async authenticate (credentials: Credentials): Promise<string> {
+        this.resource = 'login';
+
+        const http = this.getHttp(credentials);
+
+        const token = await http.post(this.makeUrl(), {
+            onSuccess: ({ data }: any) => data.accessToken,
+            onFail: (error: any) => {
+                const e: any = error.response.data;
+
+                throw new Error(JSON.stringify(e.message));
+            }
+        });
+
+        return token;
+    }
+
     public async get (id: string): Promise<any> {
         const http = this.getHttp();
 
         const data = await http.get(this.makeUrl(id), {
-            onSuccess: ({ data }: any) => data
+            onSuccess: ({ data }: any) => data,
+            onFail: (error: any) => {
+                const e: any = error.response.data;
+
+                throw new Error(JSON.stringify(e.message));
+            }
         });
 
         return data;
@@ -40,13 +61,9 @@ export default class Client implements ClientContract {
         const data = await http.get(this.makeUrl(), {
             onSuccess: ({ data }: any) => data.data,
             onFail: (error: any) => {
-                let e: any = ErrorParser.parse(error.response.data);
+                const e: any = error.response.data;
 
-                if (_.isArray(e)) {
-                    e = _.first(e);
-                }
-
-                throw new Error(e.message as string);
+                throw new Error(JSON.stringify(e.message));
             }
         });
 
@@ -56,13 +73,20 @@ export default class Client implements ClientContract {
     public async create (data: { [key: string]: any; }): Promise<any> {
         const http = this.getHttp(data);
 
-        http.post(this.makeUrl());
+        return await http.post(this.makeUrl(), {
+            onSuccess: ({ data }: any) => data,
+            onFail: (error: any) => {
+                const e: any = error.response.data;
+
+                throw new Error(JSON.stringify(e.message));
+            }
+        });
     }
 
     protected getHttp (data: { [key: string]: any; } = {}): Form {
         const http = Form.create(data, { token: this.token });
 
-        http.setHttpHandlerInstance(axios as AxiosStatic);
+        http.setHttpHandlerInstance(Http.make() as AxiosStatic);
 
         return http;
     }

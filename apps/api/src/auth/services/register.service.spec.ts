@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import RegisterService from './register.service';
 import UsersService from '../../users/services/users.service';
 import TeamsService from '../../teams/services/teams.service';
-import Role from '../../users/enums/roles.enum';
+import Roles from '../../users/enums/roles.enum';
 import CreateUserDto from '../dto/register-user.dto';
 import mockModel from '../../users/models/mock.model';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
@@ -55,7 +55,7 @@ describe('RegisterService', () => {
             email: 'ws@wxample.com',
             password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
             phone: '1234567890',
-            role: Role.USER,
+            role: Roles.USER,
             team: 'fake-team-id'
         } as CreateUserDto);
 
@@ -75,7 +75,7 @@ describe('RegisterService', () => {
             email: 'ws@wxample.com',
             password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
             phone: '1234567890',
-            role: Role.AGENT,
+            role: Roles.AGENT,
             team: 'fake-team-id'
         } as CreateUserDto);
 
@@ -84,6 +84,7 @@ describe('RegisterService', () => {
     });
 
     it('should register a new admin', async () => {
+        mockModel.role = Roles.ADMIN;
         jest.spyOn(users, 'findOne')
             .mockImplementation(() => { throw new NotFoundException(); });
         jest.spyOn(users, 'create')
@@ -96,8 +97,7 @@ describe('RegisterService', () => {
             email: 'ws@wxample.com',
             password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
             phone: '1234567890',
-            role: Role.ADMIN,
-            team: 'fake-team-id'
+            role: Roles.ADMIN
         } as CreateUserDto);
 
         expect(user).toStrictEqual(mockModel);
@@ -114,7 +114,7 @@ describe('RegisterService', () => {
                 email: 'ws@wxample.com',
                 password: '$2a$08$9qx5nogMjutjDU7PdyXO.eCjwWZuEs63Yx0iyCpIAKkOa5CIW4sKm', // password
                 phone: '1234567890',
-                role: Role.USER,
+                role: Roles.USER,
                 team: 'fake-team-id'
             } as CreateUserDto);
         } catch (error) {
