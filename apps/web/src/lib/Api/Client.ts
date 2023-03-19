@@ -55,10 +55,15 @@ export default class Client implements ClientContract {
         return data;
     }
 
-    public async all (): Promise<any[]> {
+    public async all (query?: string, value?: string): Promise<any[]> {
         const http = this.getHttp();
+        let url = undefined;
 
-        const data = await http.get(this.makeUrl(), {
+        if (query && value) {
+            url = `?${query}=${value}`;
+        }
+
+        const data = await http.get(this.makeUrl(url), {
             onSuccess: ({ data }: any) => data.data,
             onFail: (error: any) => {
                 const e: any = error.response.data;
@@ -79,6 +84,29 @@ export default class Client implements ClientContract {
                 const e: any = error.response.data;
 
                 throw new Error(JSON.stringify(e.message));
+            }
+        });
+    }
+
+    public async update (id: string, data: { [key: string]: any; }): Promise<any> {
+        const http = this.getHttp(data);
+
+        return await http.patch(this.makeUrl(id), {
+            onSuccess: ({ data }: any) => data,
+            onFail: (error: any) => {
+                const e: any = error.response.data;
+
+                throw new Error(JSON.stringify(e.message));
+            }
+        });
+    }
+
+    public async delete (id: string): Promise<void> {
+        const http = this.getHttp();
+
+        return await http.delete(this.makeUrl(id), {
+            onFail: (error: any) => {
+                throw new Error(JSON.stringify(error.response.data.message));
             }
         });
     }

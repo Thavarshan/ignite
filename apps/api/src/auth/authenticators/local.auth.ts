@@ -15,10 +15,10 @@ export default class LocalAuth extends BaseAuth {
      * @return  {Promise<any>}
      */
     public async authenticate (credentials: Credentials): Promise<any> {
-        const user = await this.model.findOne({
-            email: credentials.email,
-            verified: true
-        });
+        const user = await this.model
+            .findOne({ email: credentials.email, verified: true })
+            .populate('team')
+            .exec();
 
         if (!user) {
             throw new NotFoundException('User with these credentials was not found.');

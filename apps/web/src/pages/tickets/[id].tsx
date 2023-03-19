@@ -1,55 +1,42 @@
 import Layout from '@/layouts/app';
-import { apiUrl } from '@/lib/Utils/helpers';
-import {
-    Text,
-    Stack,
-    Heading,
-    Box
-} from '@chakra-ui/react';
+import Client from '@/lib/Api/Client';
+// import {
+//     Box,
+//     Button,
+//     chakra,
+//     Text,
+//     GridItem,
+//     SimpleGrid,
+//     Stack,
+//     Heading,
+//     FormControl,
+//     FormLabel,
+//     Input,
+//     Select
+// } from '@chakra-ui/react';
 import { getCookie } from 'cookies-next';
 import { GetServerSideProps, NextPage } from 'next';
-import Head from 'next/head';
-// import moment from 'moment';
 
-const Show = ({ ticket }: any) => {
+const Show = ({ user }: any) => {
     return (
         <>
-            <Head>
-                <title>Tickets | Ignite</title>
-            </Head>
-
-            <Stack direction='column' spacing='2'>
-                <Box>
-                    <Heading size='md'>{ticket.title}</Heading>
-
-                    <Text mt='6' maxW='2xl'>This is the {ticket.body}</Text>
-                </Box>
-            </Stack>
+            {user.name}
         </>
     );
 };
 
-Show.getLayout = function getLayout (page: NextPage) {
-    return (
-        <Layout>{page}</Layout>
-    );
-};
-
-export const getServerSideProps: GetServerSideProps = async ({ req, res, params }: any) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res, params }) => {
     const token = getCookie('token', { req, res });
+    const client = new Client(token as string);
+    const user = await client
+        .resources('users')
+        .get(params?.username as string);
 
-    const response = await fetch(apiUrl(`/tickets/${params.id}`), {
-        headers: { Authorization: `Bearer ${token}` }
-    });
-
-    if (!response.ok) {
-        return { notFound: true };
-    }
-
-    const ticket = await response.json();
-
-    return { props: { ticket } };
+    return { props: { user } };
 };
 
+Show.getLayout = function getLayout (page: NextPage) {
+    return (<Layout>{page}</Layout>);
+};
 
 export default Show;

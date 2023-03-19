@@ -10,7 +10,7 @@ export default abstract class Form {
 
     public abstract handleSubmit (
         values: FormValues,
-        helpers: FormikHelpers<FormValues>
+        helpers?: FormikHelpers<FormValues>
     ): Promise<any>;
 
     protected client (): Client | any {

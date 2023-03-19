@@ -1,5 +1,6 @@
 import {
     Controller,
+    Query,
     Get,
     Post,
     Body,
@@ -27,8 +28,10 @@ export default class UsersController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    public async findAll (): Promise<{ [key: string]: User[]; }> {
-        const data = await this.service.findAll();
+    public async findAll (
+        @Query() query?: { [key: string]: any; }
+    ): Promise<{ [key: string]: User[]; }> {
+        const data = await this.service.findAll(query);
 
         return { data };
     }

@@ -2,7 +2,7 @@ import {
     Container
 } from '@chakra-ui/react';
 
-const Edit = () => {
+const Create = () => {
     return (
         <>
             <Container px='8' py='6' maxWidth='container.xl'>
@@ -12,4 +12,4 @@ const Edit = () => {
     );
 };
 
-export default Edit;
+export default Create;

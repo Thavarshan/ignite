@@ -1,7 +1,6 @@
 import { FormikHelpers } from 'formik';
 import RegisterFormValues from '../Contracts/Form/RegisterFormValues';
 import Http from '../Http/Client';
-import { AxiosStatic } from 'axios';
 import Form from './Form';
 
 export default class Register extends Form {

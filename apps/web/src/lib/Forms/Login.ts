@@ -10,8 +10,8 @@ export default class Login extends Form {
     };
 
     public async handleSubmit (
-        values: LoginFormValues,
-        helpers: FormikHelpers<LoginFormValues>
+        _values: LoginFormValues,
+        _helpers: FormikHelpers<LoginFormValues>
     ): Promise<any> {
         // Login action.
 

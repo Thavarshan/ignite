@@ -12,10 +12,10 @@ export default class TokenAuth extends BaseAuth {
      * @return  {Promise<any>}
      */
     public async authenticate (credentials: JwtPayload): Promise<any> {
-        const user = await this.model.findOne({
-            _id: credentials.sub,
-            verified: true
-        });
+        const user = await this.model
+            .findOne({ _id: credentials.sub, verified: true })
+            .populate('team')
+            .exec();
 
         if (!user) {
             throw new UnauthorizedException('Invalid credentials.');

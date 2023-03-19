@@ -15,8 +15,8 @@ export default class UsersRepository {
         return await this.model.create(dto);
     }
 
-    public async findAll (): Promise<User[]> {
-        return await this.model.find().exec();
+    public async findAll (query?: { [key: string]: any; }): Promise<User[]> {
+        return await this.model.find(query).exec();
     }
 
     public async findById (id: string): Promise<User> {

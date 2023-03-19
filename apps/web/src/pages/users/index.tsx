@@ -1,5 +1,6 @@
 import Layout from '@/layouts/app';
 import Client from '@/lib/Api/Client';
+import { AddIcon } from '@chakra-ui/icons';
 import {
     Table,
     Thead,
@@ -13,12 +14,18 @@ import {
     TagLabel,
     Link,
     Heading,
-    Text
+    Text,
+    ButtonGroup,
+    Button,
+    IconButton,
+    Flex,
+    Spacer
 } from '@chakra-ui/react';
 import { getCookie } from 'cookies-next';
 import moment from 'moment';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
+import { FaFilter } from 'react-icons/fa';
 
 const Index = ({ users }: any) => {
     return (
@@ -28,13 +35,20 @@ const Index = ({ users }: any) => {
             </Head>
 
             <Box>
-                <Heading as='h4' size='md'>Users</Heading>
+                <Flex align='center'>
+                    <Heading as='h4' size='md'>Users</Heading>
+                    <Spacer />
+                    <ButtonGroup size='sm' isAttached variant='outline'>
+                        <Button leftIcon={<FaFilter />}>Filter</Button>
+                        <IconButton aria-label='Add to friends' icon={<AddIcon />} />
+                    </ButtonGroup>
+                </Flex>
             </Box>
 
-            <Box mt='6' boxShadow='sm' bg='white' rounded='xl' border='1px' borderColor='gray.100'>
+            {users.length > 0 ? <Box mt='6' boxShadow='sm' bg='white' rounded='xl' border='1px' borderColor='gray.100'>
                 <Table variant='simple'>
                     <Thead>
-                        <Tr>
+                        <Tr bg='gray.50'>
                             <Th>Name</Th>
                             <Th>Username</Th>
                             <Th>Email</Th>
@@ -60,7 +74,7 @@ const Index = ({ users }: any) => {
                                         {user.email}
                                     </Link>
                                 </Td>
-                                <Td><Text textTransform='capitalize'>{user.roles[0]}</Text></Td>
+                                <Td><Text textTransform='capitalize'>{user.role}</Text></Td>
                                 <Td isNumeric>
                                     <Box fontSize='sm'>{moment(user.createdAt).fromNow()}</Box>
                                     <Box fontSize='xs' color='gray.500'>{moment(user.createdAt).format('ll')}</Box>
@@ -69,7 +83,7 @@ const Index = ({ users }: any) => {
                         ))}
                     </Tbody>
                 </Table>
-            </Box>
+            </Box> : <Text mt='6' color='gray.500' fontSize='sm'>No users found.</Text>}
         </>
     );
 };
@@ -77,7 +91,7 @@ const Index = ({ users }: any) => {
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     const token = getCookie('token', { req, res });
     const client = new Client(token as string);
-    const users = await client.resources('users').all();
+    const users = await client.resources('users').all('role', 'user');
 
     return { props: { users } };
 };

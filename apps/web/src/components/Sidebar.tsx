@@ -17,11 +17,10 @@ const Sidebar = (props: any) => {
 
                         <Flex direction='column' as='nav' fontSize='sm' color='gray.600' aria-label='Main Navigation'>
                             <SidebarNavItem onClick={() => router.push('/tickets')}>Tickets</SidebarNavItem>
-                            <SidebarNavItem>Channels</SidebarNavItem>
-                            <SidebarNavItem>Teams</SidebarNavItem>
-                            <SidebarNavItem>Agents</SidebarNavItem>
+                            <SidebarNavItem onClick={() => router.push('/channels')}>Channels</SidebarNavItem>
+                            <SidebarNavItem onClick={() => router.push('/agents')}>Agents</SidebarNavItem>
                             <SidebarNavItem onClick={() => router.push('/users')}>Users</SidebarNavItem>
-                            <SidebarNavItem>Settings</SidebarNavItem>
+                            <SidebarNavItem onClick={() => router.push('/settings')}>Settings</SidebarNavItem>
                         </Flex>
                     </Flex>
 

@@ -1,20 +1,31 @@
 import Layout from '@/layouts/app';
-import {
-    Text,
-    Stack,
-    Box,
-    HStack,
-    Tag,
-    TagLeftIcon,
-    TagLabel
-} from '@chakra-ui/react';
-import { GetServerSideProps, NextPage } from 'next';
-import { HiOutlineChatAlt2 } from 'react-icons/hi';
-import Head from 'next/head';
-import Link from 'next/link';
-import moment from 'moment';
-import { getCookie } from 'cookies-next';
 import Client from '@/lib/Api/Client';
+import { AddIcon } from '@chakra-ui/icons';
+import {
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+    Box,
+    Badge,
+    Tag,
+    TagLabel,
+    Link,
+    Heading,
+    Text,
+    Flex,
+    Spacer,
+    ButtonGroup,
+    Button,
+    IconButton
+} from '@chakra-ui/react';
+import { getCookie } from 'cookies-next';
+import moment from 'moment';
+import { GetServerSideProps, NextPage } from 'next';
+import Head from 'next/head';
+import { FaFilter } from 'react-icons/fa';
 
 const Index = ({ tickets }: any) => {
     return (
@@ -23,37 +34,58 @@ const Index = ({ tickets }: any) => {
                 <title>Tickets | Ignite</title>
             </Head>
 
-            <Stack spacing='2'>
-                {tickets.length > 0 ? tickets.map((ticket: any) => (
-                    <Box key={ticket.id} className='cursor-pointer' maxW='2xl' px='4' py='3' _hover={{ bg: 'gray.50' }} rounded='xl'>
-                        <Link href={`/tickets/${ticket.id}`} passHref>
-                            <Box as='time' dateTime={ticket.createdAt} fontSize='xs'>
-                                Opened <span className='text-blue-500'>{moment(ticket.createdAt).fromNow()}</span> by <span className='font-bold'>{ticket.user.name}</span>
-                            </Box>
+            <Box>
+                <Flex align='center'>
+                    <Heading as='h4' size='md'>Tickets</Heading>
+                    <Spacer />
+                    <ButtonGroup size='sm' isAttached variant='outline'>
+                        <Button leftIcon={<FaFilter />}>Filter</Button>
+                        <IconButton aria-label='Add to friends' icon={<AddIcon />} />
+                    </ButtonGroup>
+                </Flex>
+            </Box>
 
-                            <Text my='2' fontWeight='bold' fontSize='sm' color='gray.800'>{ticket.title}</Text>
+            {tickets.length > 0 ? <Box mt='6' boxShadow='sm' bg='white' rounded='xl' border='1px' borderColor='gray.100'>
+                <Table variant='simple'>
+                    <Thead>
+                        <Tr bg='gray.50'>
+                            <Th>Name</Th>
+                            <Th>Username</Th>
+                            <Th>Email</Th>
+                            <Th>Role</Th>
+                            <Th isNumeric>Joined</Th>
+                        </Tr>
+                    </Thead>
 
-                            <Text fontSize='sm' maxW='lg' color='gray.500'>{ticket.body}</Text>
-
-                            <HStack mt='4' spacing='2'>
-                                <Tag size='sm' colorScheme='green'>Open</Tag>
-                                <Tag size='sm'>{ticket.channel.name}</Tag>
-                                <Tag size='sm' variant='ghost'>
-                                    <TagLeftIcon boxSize='12px' as={HiOutlineChatAlt2} />
-                                    <TagLabel>{ticket.replies.length}</TagLabel>
-                                </Tag>
-                                {/* <Badge rounded='md' px='2' fontSize='xs'>{ticket.replies.length}</Badge> */}
-                            </HStack>
-                        </Link>
-                    </Box>
-                )) : <Text color='gray.500' fontSize='sm'>No tickets found.</Text>}
-            </Stack>
+                    <Tbody>
+                        {tickets && tickets.map((ticket: any) => (
+                            <Tr key={ticket.id}>
+                                <Td>
+                                    <Box fontWeight='semibold' fontSize='sm'>{ticket.name}</Box>
+                                    <Box mt='1' fontSize='sm'><Badge rounded='md' fontWeight='medium' color='gray.600'>{ticket.id}</Badge></Box>
+                                </Td>
+                                <Td>
+                                    <Tag colorScheme='blue' rounded='md'>
+                                        <TagLabel>{ticket.ticketname}</TagLabel>
+                                    </Tag>
+                                </Td>
+                                <Td>
+                                    <Link color='blue.500' href={`mailto:${ticket.email}`} isExternal>
+                                        {ticket.email}
+                                    </Link>
+                                </Td>
+                                <Td><Text textTransform='capitalize'>{ticket.role}</Text></Td>
+                                <Td isNumeric>
+                                    <Box fontSize='sm'>{moment(ticket.createdAt).fromNow()}</Box>
+                                    <Box fontSize='xs' color='gray.500'>{moment(ticket.createdAt).format('ll')}</Box>
+                                </Td>
+                            </Tr>
+                        ))}
+                    </Tbody>
+                </Table>
+            </Box> : <Text mt='6' color='gray.500' fontSize='sm'>No tickets found.</Text>}
         </>
     );
-};
-
-Index.getLayout = function getLayout (page: NextPage) {
-    return (<Layout>{page}</Layout>);
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
@@ -62,6 +94,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     const tickets = await client.resources('tickets').all();
 
     return { props: { tickets } };
+};
+
+Index.getLayout = function getLayout (page: NextPage) {
+    return (<Layout>{page}</Layout>);
 };
 
 export default Index;

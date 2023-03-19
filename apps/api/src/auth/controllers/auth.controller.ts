@@ -16,7 +16,7 @@ export default class AuthController {
 
     @UseGuards(JwtAuthGuard)
     @Get('user')
-    public async user (@User() user: any): Promise<UserContract> {
+    public async user (@User() user: UserContract): Promise<UserContract> {
         return user;
     }
 }
