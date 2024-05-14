@@ -1,0 +1,25 @@
+includes:
+    - ./vendor/larastan/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - app/
+        - src/NetWatch
+
+    level: 4
+
+    excludePaths:
+        - ./src/NetWatch/Shared/Traits/Personable.php
+        - ./src/NetWatch/Shared/Traits/Hashable.php
+        - ./src/NetWatch/Shared/Traits/Sluggable.php
+        - ./src/NetWatch/Shared/Data/Traits/Entity.php
+        - ./src/NetWatch/Shared/Data/Traits/Filterable.php
+        - ./src/NetWatch/Shared/Data/Traits/Fillable.php
+        - ./src/NetWatch/Setup/Actions/SetupDefaults.php
+        - ./src/NetWatch/Billing
+        - ./src/NetWatch/Persons
+
+
+    checkMissingIterableValueType: false
+    treatPhpDocTypesAsCertain: false

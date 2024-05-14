@@ -1,6 +1,7 @@
 /.phpunit.cache
 /node_modules
 /public/build
+/public/docs
 /public/hot
 /public/storage
 /storage/*.key
@@ -8,6 +9,7 @@
 .env
 .env.backup
 .env.production
+.docker.env
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -17,3 +19,9 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+.DS_Store
+notes.md
+docs/.vitepress/cache
+/coverage
+docs/.obsidian
+/js/resources/config/items.json
