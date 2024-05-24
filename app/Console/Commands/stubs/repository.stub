@@ -1,0 +1,12 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Builder;
+use NetWatch\Shared\Data\Filters\Filter;
+use NetWatch\Shared\Data\Repositories\Repository;
+use NetWatch\Interfaces\Domain\{{ class }} as {{ class }}Interface;
+
+class {{ class }} extends Repository implements {{ class }}Interface
+{
+}

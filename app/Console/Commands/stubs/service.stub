@@ -1,0 +1,23 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Builder;
+use NetWatch\Shared\Data\Filters\Filter;
+use NetWatch\Shared\Data\Services\Service;
+use NetWatch\Interfaces\Domain\{{ class }} as {{ class }}Interface;
+
+class {{ class }} extends Service implements {{ class }}Interface
+{
+    /**
+     * List all data entries after performing requested filters.
+     *
+     * @param \NetWatch\Shared\Data\Filters\Filter $filter
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function list(Filter $filter): Builder
+    {
+        return $this->repository->list($filter);
+    }
+}

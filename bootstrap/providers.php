@@ -1,5 +1,13 @@
 <?php
 
+use App\Providers\AppServiceProvider;
+use App\Providers\ClientServiceProvider;
+use App\Providers\ViewServiceProvider;
+use Ignite\Auth\Providers\AuthServiceProvider;
+
 return [
-    App\Providers\AppServiceProvider::class,
+    AppServiceProvider::class,
+    AuthServiceProvider::class,
+    ClientServiceProvider::class,
+    ViewServiceProvider::class,
 ];
