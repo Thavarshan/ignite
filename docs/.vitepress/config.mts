@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-    title: 'NetWatch Global',
+    title: 'Ignite Global',
     description: 'API Reference & Guide',
     outDir: './../public/docs/',
     base: '/docs/',
@@ -19,18 +19,18 @@ export default defineConfig({
                 items: [
                     {
                         text: 'Changelog',
-                        link: '/CHANGELOG.md'
+                        link: '/CHANGELOG.md',
                     },
                     {
                         text: 'Contributing',
-                        link: '/CONTRIBUTING.md'
+                        link: '/CONTRIBUTING.md',
                     },
                     {
                         text: 'Conduct',
-                        link: '/CODE_OF_CONDUCT.md'
-                    }
-                ]
-            }
+                        link: '/CODE_OF_CONDUCT.md',
+                    },
+                ],
+            },
         ],
 
         sidebar: {
@@ -49,9 +49,9 @@ export default defineConfig({
                                 { text: 'Internal HTTP Requests', link: 'developer/internal-http-requests' },
                                 { text: 'Global Properties', link: 'developer/global-props' },
                                 { text: 'Environment Variables', link: 'developer/environment-variables' },
-                            ]
+                            ],
                         },
-                    ]
+                    ],
                 },
             ],
             '/web/': [
@@ -72,8 +72,8 @@ export default defineConfig({
                                 { text: 'Forgot Password', link: 'auth/forgot-password' },
                                 { text: 'Reset Password', link: 'auth/reset-password' },
                                 { text: 'Two Factor Authentication', link: 'auth/two-factor-authentication' },
-                                { text: 'Authorisation', link: 'auth/authorisation' }
-                            ]
+                                { text: 'Authorisation', link: 'auth/authorisation' },
+                            ],
                         },
                         {
                             text: 'Users',
@@ -82,7 +82,7 @@ export default defineConfig({
                                 { text: 'Users', link: 'users/index' },
                                 { text: 'Location', link: 'users/location' },
                                 { text: 'Settings', link: 'users/settings' },
-                            ]
+                            ],
                         },
                         {
                             text: 'Organisations',
@@ -94,7 +94,7 @@ export default defineConfig({
                                 { text: 'Invitations', link: 'organisations/invitations' },
                                 { text: 'Location', link: 'organisations/location' },
                                 { text: 'Settings', link: 'organisations/settings' },
-                            ]
+                            ],
                         },
                         {
                             text: 'Cases',
@@ -105,9 +105,9 @@ export default defineConfig({
                                 { text: 'New Case: Police Report', link: 'cases/police-report' },
                                 { text: 'Case', link: 'cases/show' },
                                 { text: 'Create Case', link: 'cases/store' },
-                            ]
+                            ],
                         },
-                    ]
+                    ],
                 },
             ],
             '/api/': [
@@ -121,16 +121,16 @@ export default defineConfig({
                             collapsed: false,
                             items: [
                                 { text: 'Getting Started', link: 'auth/index' },
-                                { text: 'Authorisation', link: 'auth/authorisation' }
-                            ]
+                                { text: 'Authorisation', link: 'auth/authorisation' },
+                            ],
                         },
                         {
                             text: 'Users',
                             collapsed: false,
                             items: [
                                 { text: 'Basics', link: 'users/index' },
-                                { text: 'Settings', link: 'users/settings' }
-                            ]
+                                { text: 'Settings', link: 'users/settings' },
+                            ],
                         },
                         {
                             text: 'Organisations',
@@ -140,8 +140,8 @@ export default defineConfig({
                                 { text: 'Invitations', link: 'organisations/invitations' },
                                 { text: 'Teams', link: 'organisations/teams' },
                                 { text: 'Members', link: 'organisations/members' },
-                                { text: 'Settings', link: 'organisations/settings' }
-                            ]
+                                { text: 'Settings', link: 'organisations/settings' },
+                            ],
                         },
                         {
                             text: 'Police',
@@ -149,31 +149,25 @@ export default defineConfig({
                             items: [
                                 { text: 'Find by Area', link: 'police/find' },
                                 { text: 'Reports', link: 'police/reports' },
-                            ]
+                            ],
                         },
                         {
                             text: 'Locations',
                             collapsed: false,
-                            items: [
-                                { text: 'Lookup Locations', link: 'locations/lookup' },
-                            ]
+                            items: [{ text: 'Lookup Locations', link: 'locations/lookup' }],
                         },
-                    ]
+                    ],
                 },
             ],
             '/console/': [
                 {
                     text: 'Console Commands',
                     base: '/console/',
-                    items: [
-                        { text: 'Introduction', link: 'index' },
-                    ]
+                    items: [{ text: 'Introduction', link: 'index' }],
                 },
             ],
         },
 
-        socialLinks: [
-            { icon: 'github', link: 'https://github.com/netwatch-global/minerva' }
-        ]
-    }
+        socialLinks: [{ icon: 'github', link: 'https://github.com/Ignite-global/minerva' }],
+    },
 });

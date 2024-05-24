@@ -14,7 +14,7 @@ abstract class MakeCommand extends GeneratorCommand
      */
     protected function rootNamespace()
     {
-        return 'NetWatch\\';
+        return 'Ignite\\';
     }
 
     /**
@@ -28,6 +28,6 @@ abstract class MakeCommand extends GeneratorCommand
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
-        return base_path('src/NetWatch') . '/' . str_replace('\\', '/', $name) . '.php'; // phpcs:ignore
+        return base_path('src/Ignite') . '/' . str_replace('\\', '/', $name) . '.php'; // phpcs:ignore
     }
 }

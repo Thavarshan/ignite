@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use App\Enums\JobStatus;
 use App\Models\JobState;
+use Ignite\Setup\Jobs\SetupProcess;
 use Illuminate\Console\Command;
-use NetWatch\Setup\Jobs\SetupProcess;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'app:setup')]

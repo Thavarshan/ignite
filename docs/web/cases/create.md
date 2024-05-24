@@ -42,7 +42,7 @@ Access to the case creation functionality is limited to users with `create` perm
 /**
 * Determines if the user can create models.
 *
-* @param \NetWatch\Users\Models\User $user
+* @param \Ignite\Users\Models\User $user
 * @return bool
 */
 public function create(User $user): bool

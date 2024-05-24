@@ -6,7 +6,7 @@ Bulk updates are not supported by the Minerva API. Each request allows you to wo
 
 The Minerva API is tailored to individual accounts as we continually introduce new versions and customise functionality.
 
-The below describes the resources that make up the official Minerva REST API. If you have any problems or requests, please contact [support](https://netwatch.slack.com/archives/C025R32Q82K).
+The below describes the resources that make up the official Minerva REST API. If you have any problems or requests, please contact [support](https://Ignite.slack.com/archives/C025R32Q82K).
 
 ## Current Version
 
@@ -121,7 +121,7 @@ Referrer-Policy: no-referrer-when-downgrade
 Many API methods take optional parameters. For `GET` requests, any parameters not specified as a segment in the path can be passed as an `HTTP` query string parameter:
 
 ```bash
-curl -I http://minerva.test/api/v1/users?organisation=netwatch-global \
+curl -I http://minerva.test/api/v1/users?organisation=Ignite-global \
 -H 'Content-Type: application/json' \
 -H 'Accept: application/json'
 ```
@@ -129,7 +129,7 @@ curl -I http://minerva.test/api/v1/users?organisation=netwatch-global \
 For `POST`, `PATCH`, `PUT`, and `DELETE` requests, parameters not included in the URL should be encoded as JSON with a `Content-Type` of `application/json`:
 
 ```bash
-curl -I -d '{"email":"default.user@netwatch.com","password":"password"}' http://minerva.test/api/v1/login \
+curl -I -d '{"email":"default.user@Ignite.com","password":"password"}' http://minerva.test/api/v1/login \
 -H 'Content-Type: application/json' \
 -H 'Accept: application/json'
 ```

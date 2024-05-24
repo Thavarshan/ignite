@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Traits;
 
+use Ignite\Auth\Facades\Auth;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Gate;
-use NetWatch\Auth\Facades\Auth;
 
 trait AuthorizesRequests
 {

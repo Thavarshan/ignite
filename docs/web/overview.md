@@ -6,7 +6,7 @@ This documentation aims to provide a comprehensive understanding of our Laravel 
 
 ## Custom Authentication
 
-The application's authentication system is built on Laravel's capabilities, tailored to fit NetWatch's specific needs. Unlike predefined packages like Laravel Breeze/Fortify, we've developed a custom solution that integrates seamlessly with our application's architecture, offering flexibility and control over authentication processes.
+The application's authentication system is built on Laravel's capabilities, tailored to fit Ignite's specific needs. Unlike predefined packages like Laravel Breeze/Fortify, we've developed a custom solution that integrates seamlessly with our application's architecture, offering flexibility and control over authentication processes.
 
 The custom authentication setup involves routing configurations and controllers that support all standard Laravel authentication features, including login, registration, password reset, and email verification. By utilising Laravel's artisan commands, such as `route:list`, you can easily inspect the authentication routes the application uses.
 
@@ -16,7 +16,7 @@ A dedicated configuration file (`config/auth.php`) is established, allowing for 
 
 ## Actions
 
-Differing from the approach taken by typical Laravel applications, this application doesn't publish controllers or routes directly. Instead, functionality is encapsulated within "Action" classes, which are housed in the domain specific `Actions` directory, e. g.  `src/NetWatch/Auth/Actions` . These classes are responsible for executing specific tasks, like user registration or profile updates, and can be customised to adjust the application's behaviour.
+Differing from the approach taken by typical Laravel applications, this application doesn't publish controllers or routes directly. Instead, functionality is encapsulated within "Action" classes, which are housed in the domain specific `Actions` directory, e. g.  `src/Ignite/Auth/Actions` . These classes are responsible for executing specific tasks, like user registration or profile updates, and can be customised to adjust the application's behaviour.
 
 ## Views / Pages
 

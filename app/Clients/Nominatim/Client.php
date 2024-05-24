@@ -5,8 +5,8 @@ namespace App\Clients\Nominatim;
 use App\Clients\Client as HttpClient;
 use App\Clients\Factory as Http;
 use Geocoder\Provider\Nominatim\Nominatim;
+use Ignite\Interfaces\Locations\LookupClient;
 use InvalidArgumentException;
-use NetWatch\Interfaces\Locations\LookupClient;
 use RuntimeException;
 
 /**

@@ -11,7 +11,7 @@ is_composer_package_installed() {
 # Constants
 PHPCS_PACKAGE="squizlabs/php_codesniffer"
 PHPCS_PATH="vendor/bin/phpcs"
-DIRECTORIES_TO_ANALYSE="src/NetWatch app"
+DIRECTORIES_TO_ANALYSE="src/Ignite app"
 STANDARD="PSR12"
 
 # Check if PHPCS is installed

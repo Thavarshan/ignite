@@ -24,7 +24,7 @@ curl --location --request POST 'http://minerva.test/api/v1/login' \
 --header 'Accept: application/json' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "email": "client.staff@netwatchglobal.com",
+    "email": "client.staff@Igniteglobal.com",
     "password": "password"
 }'
 ```
@@ -42,7 +42,7 @@ Status: 200 OK
     "firstname": "Client",
     "middlenames": null,
     "lastname": "Staff",
-    "email": "client.staff@netwatchglobal.com",
+    "email": "client.staff@Igniteglobal.com",
     "email_verified_at": null,
     "two_factor_confirmed_at": null,
     "locked_at": null,
@@ -62,7 +62,7 @@ Status: 200 OK
                 "email": []
             }
         },
-        "subject_type": "NetWatch\\Users\\Models\\User",
+        "subject_type": "Ignite\\Users\\Models\\User",
         "subject_id": 5,
         "created_at": "2024-01-31T20:16:06.000000Z",
         "updated_at": "2024-01-31T20:16:06.000000Z"
@@ -96,7 +96,7 @@ Status: 422 Unprocessable Entity
 ```json
 {
 
- "message": "User account [client.staff@netwatchglobal.com] is locked."
+ "message": "User account [client.staff@Igniteglobal.com] is locked."
 
 }
 ```
@@ -164,7 +164,7 @@ Status: 200 OK
     "firstname": "Admin",
     "middlenames": null,
     "lastname": "User",
-    "email": "default.admin@netwatchglobal.com",
+    "email": "default.admin@Igniteglobal.com",
     "email_verified_at": null,
     "two_factor_confirmed_at": null,
     "locked_at": null,
@@ -184,7 +184,7 @@ Status: 200 OK
                 "email": []
             }
         },
-        "subject_type": "NetWatch\\Users\\Models\\User",
+        "subject_type": "Ignite\\Users\\Models\\User",
         "subject_id": 1,
         "created_at": "2024-01-31T20:16:06.000000Z",
         "updated_at": "2024-01-31T20:16:06.000000Z"
@@ -367,12 +367,12 @@ Status: 200 OK
     "organisation": {
         "id": 1,
         "uid": "GNEDRZKO2J5XL56X84MVY7LP",
-        "name": "NetWatch",
-        "email": "enquiries@netwatchglobal.com",
+        "name": "Ignite",
+        "email": "enquiries@Igniteglobal.com",
         "phone": "+441217739584",
-        "slug": "netwatch",
+        "slug": "Ignite",
         "description": null,
-        "website": "https://www.netwatchglobal.com",
+        "website": "https://www.Igniteglobal.com",
         "media_url": null,
         "locked_at": null,
         "created_at": "2024-01-31T20:16:05.000000Z",
@@ -398,7 +398,7 @@ Status: 200 OK
                     "enabled": true
                 }
             },
-            "subject_type": "NetWatch\\Organisations\\Models\\Organisation",
+            "subject_type": "Ignite\\Organisations\\Models\\Organisation",
             "subject_id": 1,
             "created_at": "2024-01-31T20:16:05.000000Z",
             "updated_at": "2024-01-31T20:16:05.000000Z"

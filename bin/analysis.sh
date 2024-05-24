@@ -11,7 +11,7 @@ is_composer_package_installed() {
 # Constants
 PHPSTAN_PACKAGE="phpstan/phpstan"
 PHPSTAN_PATH="vendor/bin/phpstan"
-DIRECTORIES_TO_ANALYSE="src/NetWatch app"
+DIRECTORIES_TO_ANALYSE="src/Ignite app"
 
 # Check if phpstan is installed
 if ! is_composer_package_installed $PHPSTAN_PACKAGE; then

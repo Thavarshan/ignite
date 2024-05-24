@@ -3,9 +3,9 @@
 layout: home
 
 hero:
-  name: "NetWatch Global"
+  name: "Ignite Global"
   text: "API Reference & Guide"
-  tagline: Explore our guides and API references for a deep dive into NetWatch Global, covering everything from setup to our application's architecture and features.
+  tagline: Explore our guides and API references for a deep dive into Ignite Global, covering everything from setup to our application's architecture and features.
   actions:
     - theme: brand
       text: Getting Started

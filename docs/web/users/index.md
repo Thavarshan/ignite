@@ -74,7 +74,7 @@ When accessing the users index route via a `GET` request, the server provides an
             "firstname": "Admin",
             "middlenames": null,
             "lastname": "User",
-            "email": "default.admin@netwatchglobal.com",
+            "email": "default.admin@Igniteglobal.com",
             "email_verified_at": null,
             "two_factor_confirmed_at": null,
             "locked_at": null,
@@ -94,7 +94,7 @@ When accessing the users index route via a `GET` request, the server provides an
                         "email": {}
                     }
                 },
-                "subject_type": "NetWatch\\Users\\Models\\User",
+                "subject_type": "Ignite\\Users\\Models\\User",
                 "subject_id": 6,
                 "created_at": "2024-02-01T14:39:13.000000Z",
                 "updated_at": "2024-02-01T14:39:13.000000Z"

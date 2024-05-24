@@ -44,7 +44,7 @@ Status: 200 OK
                 "created_at": "2024-04-30T01:59:47.000000Z",
                 "updated_at": "2024-04-30T01:59:47.000000Z",
                 "pivot": {
-                    "categorisable_type": "NetWatch\\Police\\Models\\Report",
+                    "categorisable_type": "Ignite\\Police\\Models\\Report",
                     "categorisable_id": 1,
                     "category_id": 1
                 }
@@ -129,7 +129,7 @@ Status: 200 OK
                     "created_at": "2024-04-30T01:59:47.000000Z",
                     "updated_at": "2024-04-30T01:59:47.000000Z",
                     "pivot": {
-                        "categorisable_type": "NetWatch\\Police\\Models\\Report",
+                        "categorisable_type": "Ignite\\Police\\Models\\Report",
                         "categorisable_id": 1,
                         "category_id": 1
                     }
@@ -147,7 +147,7 @@ Status: 200 OK
                     "created_at": "2024-04-30T01:59:47.000000Z",
                     "updated_at": "2024-04-30T01:59:47.000000Z",
                     "pivot": {
-                        "categorisable_type": "NetWatch\\Police\\Models\\Report",
+                        "categorisable_type": "Ignite\\Police\\Models\\Report",
                         "categorisable_id": 1,
                         "category_id": 2
                     }

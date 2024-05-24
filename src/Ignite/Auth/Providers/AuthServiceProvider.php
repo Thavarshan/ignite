@@ -3,8 +3,11 @@
 namespace Ignite\Auth\Providers;
 
 use Ignite\Auth\Authenticators\SessionAuthenticator;
+use Ignite\Auth\Enums\Auth as AuthConfig;
 use Ignite\Interfaces\Auth\Authenticator;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -22,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->registerAuthGuards();
     }
 
     /**
@@ -32,6 +35,28 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->registerAuthenticators();
+    }
+
+    /**
+     * Register the application's authenticators.
+     *
+     * @return void
+     */
+    public function registerAuthenticators(): void
+    {
         $this->app->singleton(Authenticator::class, SessionAuthenticator::class);
+    }
+
+    /**
+     * Register the application's authentication / authorization services.
+     *
+     * @return void
+     */
+    public function registerAuthGuards(): void
+    {
+        $this->app->bind(StatefulGuard::class, function () {
+            return Auth::guard(AuthConfig::DEFAULT_GUARD->value);
+        });
     }
 }

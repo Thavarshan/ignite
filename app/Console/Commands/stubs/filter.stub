@@ -2,7 +2,7 @@
 
 namespace {{ namespace }};
 
-use NetWatch\Shared\Data\Filters\Filter;
+use Ignite\Shared\Data\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 
 class {{ class }} extends Filter

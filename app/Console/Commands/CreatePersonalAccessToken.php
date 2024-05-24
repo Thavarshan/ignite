@@ -3,10 +3,10 @@
 namespace App\Console\Commands;
 
 use Exception;
+use Ignite\Interfaces\Users\UserService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Sanctum\Contracts\HasApiTokens;
-use NetWatch\Interfaces\Users\UserService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Throwable;
 
@@ -30,7 +30,7 @@ class CreatePersonalAccessToken extends Command
     /**
      * Execute the console command.
      *
-     * @param \NetWatch\Interfaces\Users\UserService $service
+     * @param \Ignite\Interfaces\Users\UserService $service
      *
      * @return int
      */
