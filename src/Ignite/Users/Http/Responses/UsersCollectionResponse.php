@@ -4,7 +4,6 @@ namespace Ignite\Users\Http\Responses;
 
 use App\Http\Responses\Response;
 use Ignite\Interfaces\Users\UsersCollectionResponse as UsersCollectionResponseInterface;
-use Inertia\Inertia;
 
 class UsersCollectionResponse extends Response implements UsersCollectionResponseInterface
 {
@@ -19,8 +18,6 @@ class UsersCollectionResponse extends Response implements UsersCollectionRespons
      */
     public function toResponse($request)
     {
-        return Inertia::render('Users/Index', [
-            'users' => $this->getContent(),
-        ]);
+        return $this->renderView();
     }
 }

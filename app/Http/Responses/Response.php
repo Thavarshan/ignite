@@ -2,17 +2,20 @@
 
 namespace App\Http\Responses;
 
+use App\Providers\RouteServiceProvider;
+use App\Support\Arr;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\ResponseFactory;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 use Inertia\ResponseFactory as InertiaResponseFactory;
 use InvalidArgumentException;
@@ -27,14 +30,21 @@ abstract class Response extends ResponseFactory
      *
      * @var string|null
      */
-    protected ?string $viewName;
+    protected $viewName;
 
     /**
      * The optional banner message for the response.
      *
      * @var string|null
      */
-    protected ?string $message;
+    protected $message;
+
+    /**
+     * The resource key for the response.
+     *
+     * @var string|null
+     */
+    protected $resourceKey;
 
     /**
      * Create a new response factory instance.
@@ -60,6 +70,7 @@ abstract class Response extends ResponseFactory
      * @param int|int     $status
      * @param string|null $viewName
      * @param string|null $message
+     * @param string|null $resourceKey
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|static
      */
@@ -67,9 +78,10 @@ abstract class Response extends ResponseFactory
         mixed $content = null,
         ?int $status = SymfonyResponse::HTTP_OK,
         ?string $viewName = null,
-        ?string $message = null
+        ?string $message = null,
+        ?string $resourceKey = null
     ): SymfonyResponse|RedirectResponse|JsonResponse|Responsable|static {
-        $response = static::create($content, $viewName, $message);
+        $response = static::create($content, $viewName, $message, $resourceKey);
 
         if ($response->expectedAsJson()) {
             return $response->asJson($status);
@@ -88,26 +100,32 @@ abstract class Response extends ResponseFactory
      * @param mixed|null  $content
      * @param string|null $viewName
      * @param string|null $message
+     * @param string|null $resourceKey
      *
      * @return static
      */
     public static function create(
         mixed $content = null,
         ?string $viewName = null,
-        ?string $message = null
+        ?string $message = null,
+        ?string $resourceKey = null
     ): static {
         // @phpstan-ignore-next-line
         return tap(new static(
             app(InertiaResponseFactory::class),
             app(Redirector::class),
             $content,
-        ), function ($instance) use ($viewName, $message) {
+        ), function ($instance) use ($viewName, $message, $resourceKey) {
             if (! is_null($viewName)) {
                 $instance->setViewName($viewName);
             }
 
             if (! is_null($message)) {
                 $instance->setMessage($message);
+            }
+
+            if (! is_null($resourceKey)) {
+                $instance->setResourceKey($resourceKey);
             }
         });
     }
@@ -127,12 +145,17 @@ abstract class Response extends ResponseFactory
         }
 
         if ($this->contentIsCollection()) {
-            return JsonResource::collection($this->getContent())
+            return JsonResource::collection(
+                $this->getContentForJsonResponse()
+            )
                 ->response()
                 ->setStatusCode($status);
         }
 
-        return new JsonResponse($this->getContent(), $status);
+        return new JsonResponse(
+            $this->getContentForJsonResponse(),
+            $status
+        );
     }
 
     /**
@@ -142,8 +165,20 @@ abstract class Response extends ResponseFactory
      */
     public function contentIsCollection(): bool
     {
-        return $this->getContent() instanceof Collection
-            || ! is_null($this->getContent('data'));
+        $content = $this->getContent();
+
+        if (
+            is_array($content)
+            && count(array_keys($content)) === 1
+            && (count(array_values($content)) > 1
+                || Arr::first($content) instanceof Paginator)
+        ) {
+            return true;
+        }
+
+        return $content instanceof Collection
+            || (! is_null(Arr::get($content, 'data'))
+                && ! $content instanceof Model);
     }
 
     /**
@@ -153,7 +188,7 @@ abstract class Response extends ResponseFactory
      */
     public function home(): string
     {
-        return url('/');
+        return url(RouteServiceProvider::HOME);
     }
 
     /**
@@ -250,6 +285,30 @@ abstract class Response extends ResponseFactory
     }
 
     /**
+     * Get the content and format it for a JSON response.
+     *
+     * @return mixed
+     */
+    public function getContentForJsonResponse(): mixed
+    {
+        $content = $this->getContent();
+
+        if (is_null($content)) {
+            return [];
+        }
+
+        if (is_object($content) && $content instanceof Arrayable) {
+            return $content->toArray();
+        }
+
+        if (count(array_keys($content)) !== 1) {
+            return $content;
+        }
+
+        return Arr::first($content);
+    }
+
+    /**
      * Render the view.
      *
      * @param string|null $viewName
@@ -258,9 +317,7 @@ abstract class Response extends ResponseFactory
      */
     public function renderView(?string $viewName = null): InertiaResponse|View
     {
-        $viewName = ! is_null($viewName)
-            ? Str::replace('.', '/', $viewName)
-            : $this->getViewName();
+        $viewName = $viewName ?? $this->getViewName();
 
         if (is_null($viewName)) {
             throw new InvalidArgumentException(
@@ -268,7 +325,56 @@ abstract class Response extends ResponseFactory
             );
         }
 
-        return Inertia::render($viewName, $this->getContent() ?? []);
+        return $this->view->make(
+            $viewName,
+            $this->getContent() ? [
+                $this->getResourceKey() => $this->getContent(),
+            ] : []
+        );
+    }
+
+    /**
+     * Get the resource key for the response.
+     *
+     * @return string
+     */
+    public function getResourceKey(): string
+    {
+        if (! is_null($this->resourceKey)) {
+            return $this->resourceKey;
+        }
+
+        $className = Str::of(static::class)->afterLast('\\');
+
+        if (Str::endsWith($className, 'CollectionResponse')) {
+            return $className->before('CollectionResponse')->plural()->lower();
+        }
+
+        if (Str::endsWith($className, 'ViewResponse')) {
+            return $className->before('ViewResponse')->singular()->lower();
+        }
+
+        if (Str::endsWith($className, 'Response')) {
+            return $className->before('Response')->singular()->lower();
+        }
+
+        $this->resourceKey = $className->lower();
+
+        return $this->resourceKey;
+    }
+
+    /**
+     * Set the resource key for the response.
+     *
+     * @param string $resourceKey
+     *
+     * @return self
+     */
+    public function setResourceKey(string $resourceKey): self
+    {
+        $this->resourceKey = $resourceKey;
+
+        return $this;
     }
 
     /**
@@ -290,7 +396,7 @@ abstract class Response extends ResponseFactory
      */
     public function setViewName(string $viewName): self
     {
-        $this->viewName = Str::replace('.', '/', $viewName);
+        $this->viewName = $viewName;
 
         return $this;
     }

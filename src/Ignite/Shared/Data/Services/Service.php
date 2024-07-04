@@ -4,6 +4,7 @@ namespace Ignite\Shared\Data\Services;
 
 use Ignite\Interfaces\Shared\Entity;
 use Ignite\Interfaces\Shared\Service as ServiceInterface;
+use Illuminate\Contracts\Database\Query\Expression;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -77,6 +78,30 @@ abstract class Service implements ServiceInterface
             $operator,
             $value,
             $boolean
+        );
+    }
+
+    /**
+     * Add a "where in" clause to the query.
+     *
+     * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+     * @param mixed                                                  $values
+     * @param string                                                 $boolean
+     * @param bool                                                   $not
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function whereIn(
+        Expression|string $column,
+        mixed $values,
+        string $boolean = 'and',
+        bool $not = false
+    ): Builder {
+        return $this->repository->whereIn(
+            $column,
+            $values,
+            $boolean,
+            $not
         );
     }
 

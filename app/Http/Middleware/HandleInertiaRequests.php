@@ -3,9 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
-use Tighten\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -38,28 +36,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            'ziggy' => fn () => [
-                ...(new Ziggy())->toArray(),
-                'location' => $request->url(),
-            ],
-
-            'auth' => [
-                'user' => function () use ($request) {
-                    if (! $user = $request->user()) {
-                        return;
-                    }
-
-                    return array_merge($user->toArray());
-                },
-            ],
-
-            'flash' => $request->session()->get('flash', []),
-
-            'errorBags' => function () {
-                return collect(optional(Session::get('errors'))->getBags() ?: [])->mapWithKeys(function ($bag, $key) {
-                    return [$key => $bag->messages()];
-                })->all();
-            },
+            //
         ]);
     }
 }

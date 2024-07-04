@@ -39,9 +39,34 @@ class TextPreprocessor
         $text = $this->toLowercase($text);
         $text = $this->removePunctuation($text);
         $text = $this->removeStopwords($text);
-        $text = $this->normalizeWhitespace($text);
 
-        return $text;
+        return $this->normalizeWhitespace($text);
+    }
+
+    /**
+     * Get the stop words used by the preprocessor.
+     *
+     * @return array
+     */
+    public function getStopWords(): array
+    {
+        return $this->stopWords;
+    }
+
+    /**
+     * Set create a new TextPreprocessor instance.
+     *
+     * @param array $stopWords
+     *
+     * @return self
+     */
+    public function setStopWords(array $stopWords): self
+    {
+        $this->stopWords = array_unique(array_flip(
+            array_merge($this->stopWords, $stopWords)
+        ));
+
+        return $this;
     }
 
     /**
@@ -108,31 +133,5 @@ class TextPreprocessor
     protected function normalizeWhitespace(string $text): string
     {
         return preg_replace('/\s+/', ' ', $text);
-    }
-
-    /**
-     * Get the stop words used by the preprocessor.
-     *
-     * @return array
-     */
-    public function getStopWords(): array
-    {
-        return $this->stopWords;
-    }
-
-    /**
-     * Set create a new TextPreprocessor instance.
-     *
-     * @param array $stopWords
-     *
-     * @return self
-     */
-    public function setStopWords(array $stopWords): self
-    {
-        $this->stopWords = array_unique(array_flip(
-            array_merge($this->stopWords, $stopWords)
-        ));
-
-        return $this;
     }
 }

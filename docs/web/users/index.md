@@ -74,7 +74,7 @@ When accessing the users index route via a `GET` request, the server provides an
             "firstname": "Admin",
             "middlenames": null,
             "lastname": "User",
-            "email": "default.admin@Igniteglobal.com",
+            "email": "default.admin@ignite.com",
             "email_verified_at": null,
             "two_factor_confirmed_at": null,
             "locked_at": null,

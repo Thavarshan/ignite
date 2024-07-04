@@ -50,19 +50,6 @@ class Client extends HttpClient implements LookupClient
     }
 
     /**
-     * Build a custom instance of the client.
-     *
-     * @param \App\Clients\Factory $http
-     * @param array                $config
-     *
-     * @return mixed
-     */
-    public function build(Http $http, array $config): mixed
-    {
-        return $this;
-    }
-
-    /**
      * Dynamically pass method calls to the HTTP client.
      *
      * @param string $method
@@ -77,6 +64,19 @@ class Client extends HttpClient implements LookupClient
         } catch (InvalidArgumentException $e) {
             return $this->handleResourceCall($method)(...$args);
         }
+    }
+
+    /**
+     * Build a custom instance of the client.
+     *
+     * @param \App\Clients\Factory $http
+     * @param array                $config
+     *
+     * @return mixed
+     */
+    public function build(Http $http, array $config): mixed
+    {
+        return $this;
     }
 
     /**

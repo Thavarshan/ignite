@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Contracts\Database\Query\Expression;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\DB;
 
 if (! function_exists('route_path')) {
@@ -105,5 +106,19 @@ if (! function_exists('extract_quoted_text')) {
 
         // Return an empty array if no matches were found
         return [];
+    }
+}
+
+if (! function_exists('custom_rule')) {
+    /**
+     * Get a serialisable custom rule object that has been bound to the IoC container.
+     *
+     * @param string $name
+     *
+     * @return \Illuminate\Contracts\Validation\ValidationRule
+     */
+    function custom_rule(string $name): ValidationRule
+    {
+        return app($name);
     }
 }

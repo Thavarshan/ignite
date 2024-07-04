@@ -1,9 +1,5 @@
 <?php
 
-use App\Http\Middleware\AuthenticateSession;
-use Ignite\Users\Enums\User as UserField;
-use Ignite\Users\Models\User;
-
 return [
 
     /*
@@ -66,7 +62,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', User::class),
+            'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
         // 'users' => [
@@ -116,84 +112,4 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Auth Credentials
-    |--------------------------------------------------------------------------
-    |
-    | Here you may define the credentials used for authentication. The default
-    | credentials are username and password. You may add more credentials
-    | as needed. The credentials are used in the login process.
-    |
-    */
-
-    'credentials' => [
-        'username' => UserField::EMAIL->value,
-        'password' => UserField::PASSWORD->value,
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Rate Limiting
-    |--------------------------------------------------------------------------
-    |
-    | By default, Fortify will throttle logins to five requests per minute for
-    | every email and IP address combination. However, if you would like to
-    | specify a custom rate limiter to call then you may specify it here.
-    |
-    */
-
-    'limiters' => [
-        'login' => 'login',
-        'two-factor' => 'two-factor',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Auth Phases
-    |--------------------------------------------------------------------------
-    |
-    | Here you may define the phases used for authentication. The default
-    | phases are to ensure the login is not throttled, the IP address
-    | is authorised, the username is canonicalised, the user is not
-    | locked, two factor authentication is not required, the user
-    | is authenticated, and the session is prepared. You may
-    | add more phases as needed. The phases are
-    | used in the login process.
-    |
-    */
-
-    'phases' => [],
-
-    'tokens' => [
-        'expires_in' => 3, // days
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | App Route Middleware
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify which middleware the app will assign to the routes
-    | that it registers with the application. When necessary, you may modify
-    | these middleware; however, this default value is usually sufficient.
-    |
-    */
-
-    'middleware' => ['web'],
-
-    'auth_session' => AuthenticateSession::class,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Auth Guard
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify the authentication guard the app will use while
-    | authenticating users. This value should correspond with one of your
-    | guards that is already present in your "auth" configuration file.
-    |
-    */
-
-    'guard' => 'sanctum'
 ];

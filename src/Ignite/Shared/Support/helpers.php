@@ -80,3 +80,20 @@ if (! function_exists('reverse_filter_attributes')) {
         );
     }
 }
+
+if (! function_exists('has_fillable_attributes')) {
+    /**
+     * Determine if the given $data array has the majority of the given fillable attributes.
+     *
+     * @param array<string> $data
+     * @param array<string> $attributes
+     *
+     * @return bool
+     */
+    function has_fillable_attributes(array $data, array $attributes): bool
+    {
+        $filtered = filter_attributes($data, $attributes);
+
+        return count($filtered) >= count($attributes);
+    }
+}

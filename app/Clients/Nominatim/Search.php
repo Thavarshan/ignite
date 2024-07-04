@@ -6,8 +6,6 @@ class Search
 {
     /**
      * The default limit for search results.
-     *
-     * @var int
      */
     public const DEFAULT_LIMIT = 5;
 

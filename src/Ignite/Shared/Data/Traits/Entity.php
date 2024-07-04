@@ -3,6 +3,7 @@
 namespace Ignite\Shared\Data\Traits;
 
 use Ignite\Interfaces\Shared\Entity as EntityInterface;
+use Illuminate\Contracts\Database\Query\Expression;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -97,6 +98,25 @@ trait Entity
         string $boolean = 'and'
     ): Builder {
         return static::query()->where($column, $operator, $value, $boolean);
+    }
+
+    /**
+     * Add a "where in" clause to the query.
+     *
+     * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+     * @param mixed                                                  $values
+     * @param string                                                 $boolean
+     * @param bool                                                   $not
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function queryWhereIn(
+        Expression|string $column,
+        mixed $values,
+        string $boolean = 'and',
+        bool $not = false
+    ): Builder {
+        return static::query()->whereIn($column, $values, $boolean, $not);
     }
 
     /**

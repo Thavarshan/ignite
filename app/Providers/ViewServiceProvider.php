@@ -17,6 +17,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->registerViewFactory();
     }
 
     /**
@@ -26,7 +27,6 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->registerViewFactory();
     }
 
     /**

@@ -11,15 +11,11 @@ class PublishConfigJsCommand extends Command
 {
     /**
      * Name of the config file.
-     *
-     * @var string
      */
     public const CONFIG_FILE = 'items.json';
 
     /**
      * Mode for directory creation.
-     *
-     * @var int
      */
     public const MAKE_DIR_MODE = 0777;
     /**

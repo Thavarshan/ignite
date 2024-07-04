@@ -34,9 +34,13 @@ class UpdateUserRequest extends Request
                 'required',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($this->route('user')),
+                Rule::unique('users')->ignore(
+                    $this->route('user') ?? $this->user()
+                ),
             ],
             'password' => $this->passwordRules(['nullable']),
+            'organisation_id' => ['nullable', 'integer', 'exists:' . Resource::ORGANISATIONS->value . ',id'],
+            'current_team_id' => ['nullable', 'integer', 'exists:' . Resource::TEAMS->value . ',id'],
         ]);
     }
 

@@ -2,7 +2,7 @@
 
 namespace Ignite\Shared\Rules;
 
-use Laravel\Fortify\Rules\Password;
+use Illuminate\Validation\Rules\Password;
 
 trait PasswordValidationRules
 {
@@ -18,7 +18,7 @@ trait PasswordValidationRules
         return array_merge([
             in_array('nullable', $overrides) ? 'nullable' : 'required',
             'string',
-            new Password(),
+            Password::default(),
             'confirmed',
         ], $overrides);
     }

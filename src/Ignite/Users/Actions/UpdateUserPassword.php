@@ -5,6 +5,7 @@ namespace Ignite\Users\Actions;
 use Ignite\Interfaces\Auth\ResetsUserPasswords;
 use Ignite\Interfaces\Users\UpdatesUserPasswords;
 use Ignite\Interfaces\Users\User;
+use Laravel\Fortify\Events\PasswordUpdatedViaController;
 
 class UpdateUserPassword implements UpdatesUserPasswords
 {
@@ -30,5 +31,7 @@ class UpdateUserPassword implements UpdatesUserPasswords
     public function update(User $user, array $data, ?array $options = []): void
     {
         $this->reseter->reset($user, $data, $options);
+
+        event(new PasswordUpdatedViaController($user));
     }
 }

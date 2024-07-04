@@ -44,7 +44,11 @@ class UserController extends Controller
             user: $request->user(),
         )->withQueryString();
 
-        return UsersCollectionResponse::dispatch($users);
+        return UsersCollectionResponse::dispatch(
+            $users,
+            Response::HTTP_OK,
+            'Users/Index',
+        );
     }
 
     /**
@@ -61,7 +65,10 @@ class UserController extends Controller
     ): Response|Responsable {
         $user = $creator->create($request->validated());
 
-        return UserResponse::dispatch($user, Response::HTTP_CREATED);
+        return UserResponse::dispatch(
+            $user,
+            Response::HTTP_CREATED
+        );
     }
 
     /**
@@ -75,10 +82,32 @@ class UserController extends Controller
     {
         $this->authorize(Action::VIEW->value, $user);
 
+        $user->load(['roles'])->append(['role']);
+
         return UserViewResponse::dispatch(
             $user,
             Response::HTTP_OK,
             'Users/Show',
+        );
+    }
+
+    /**
+     * Display the specified resource edit screen.
+     *
+     * @param \Ignite\Interfaces\Users\User $user
+     *
+     * @return \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable
+     */
+    public function edit(UserInterface $user): Response|Responsable
+    {
+        $this->authorize(Action::VIEW->value, $user);
+
+        $user->load(['roles'])->append(['role']);
+
+        return UserViewResponse::dispatch(
+            $user,
+            Response::HTTP_OK,
+            'Users/Edit',
         );
     }
 
@@ -98,7 +127,7 @@ class UserController extends Controller
     ): Response|Responsable {
         $user = $updater->update($user, $request->validated());
 
-        return UserResponse::dispatch($user);
+        return UserResponse::dispatch($user, Response::HTTP_OK);
     }
 
     /**

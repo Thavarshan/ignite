@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ruleset name="Minerva Coding Standards">
+    <description>Minerva Coding Standards</description>
+
+    <!-- Basic PHP-CS-Fixer rules -->
+    <rule ref="PSR12"/>    <!-- Finder settings -->
+    <exclude>vendor</exclude>
+    <file>.</file>
+</ruleset>

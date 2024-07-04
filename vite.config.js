@@ -4,13 +4,16 @@ import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
 import tailwind from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
+import checker from 'vite-plugin-checker';
 
 export default defineConfig({
     resolve: {
         alias: [
             {
                 find: '@',
-                replacement: url.fileURLToPath(new URL('./resources/js', import.meta.url).href),
+                replacement: url.fileURLToPath(
+                    new URL('./resources/js', import.meta.url).href,
+                ),
             },
         ],
     },
@@ -22,6 +25,13 @@ export default defineConfig({
     },
 
     plugins: [
+        checker({
+            vueTsc: true,
+            eslint: {
+                lintCommand: 'eslint . --ext .ts,.vue --ignore-path .gitignore',
+            },
+        }),
+
         vue({
             template: {
                 transformAssetUrls: {

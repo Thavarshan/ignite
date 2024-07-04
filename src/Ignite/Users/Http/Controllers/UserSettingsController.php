@@ -33,8 +33,10 @@ class UserSettingsController extends Controller
     ): Response {
         $this->authorize(Action::UPDATE->value, $user);
 
+        $settings = $settings->filtered($filter)->all();
+
         return UserSettingsCollectionResponse::dispatch(
-            $settings->filtered($filter)->all()
+            compact('settings')
         );
     }
 

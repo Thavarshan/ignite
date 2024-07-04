@@ -1,5 +1,4 @@
 import forms from '@tailwindcss/forms';
-import animate from 'tailwindcss-animate';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
@@ -62,7 +61,7 @@ export default {
                 sm: 'calc(var(--radius) - 4px)',
             },
             fontFamily: {
-                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             keyframes: {
                 'accordion-down': {
@@ -81,5 +80,5 @@ export default {
         },
     },
 
-    plugins: [forms, animate],
+    plugins: [forms, require('tailwindcss-animate')],
 };

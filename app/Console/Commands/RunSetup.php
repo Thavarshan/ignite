@@ -13,8 +13,6 @@ class RunSetup extends Command
 {
     /**
      * The polling interval in seconds.
-     *
-     * @var int
      */
     protected const POLLING_INTERVAL = 1;
 
@@ -55,7 +53,7 @@ class RunSetup extends Command
 
         // Continuously check the job's progress
         while (true) {
-            sleep(static::POLLING_INTERVAL); // Polling interval
+            sleep(self::POLLING_INTERVAL); // Polling interval
 
             // Retrieve the job's current state
             $jobState = JobState::where('job_id', $jobId)->first();
@@ -63,7 +61,7 @@ class RunSetup extends Command
             if (! $jobState) {
                 $this->error('Could not find job state.');
 
-                return static::FAILURE;
+                return self::FAILURE;
             }
 
             // Update the progress bar
@@ -78,7 +76,8 @@ class RunSetup extends Command
                 $this->info("\nSetup completed successfully.");
 
                 break;
-            } elseif ($jobState->state === JobStatus::FAILED->value) {
+            }
+            if ($jobState->state === JobStatus::FAILED->value) {
                 $progressBar->finish();
 
                 $this->newLine();
@@ -89,6 +88,6 @@ class RunSetup extends Command
             }
         }
 
-        return static::SUCCESS;
+        return self::SUCCESS;
     }
 }

@@ -103,6 +103,16 @@ class DomainServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the application's billing features.
+     *
+     * @return void
+     */
+    public function registerBillingFeatures(): void
+    {
+        Feature::define('billing', Env::get('BILLING_ENABLED', true));
+    }
+
+    /**
      * Register optinal features that can be toggled on or off.
      *
      * @return void
@@ -112,6 +122,7 @@ class DomainServiceProvider extends ServiceProvider
         $this->registerAuthFeatures();
         $this->registerSearchFeatures();
         $this->registerGeocodingFeatures();
+        $this->registerBillingFeatures();
     }
 
     /**

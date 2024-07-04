@@ -2,6 +2,7 @@
 
 namespace Ignite\Shared\Data\Traits;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use RuntimeException;
 
@@ -18,6 +19,12 @@ trait Cancellable
      */
     public function cancel(): void
     {
+        if (has_attribute($this, 'cancelled_at')) {
+            $this->update(['cancelled_at' => Carbon::now()]);
+
+            return;
+        }
+
         if (! in_array(SoftDeletes::class, class_uses_recursive($this))) {
             throw new RuntimeException('The model must use the SoftDeletes trait to be cancellable.'); // phpcs:ignore
         }

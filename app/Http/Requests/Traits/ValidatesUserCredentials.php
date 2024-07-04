@@ -19,9 +19,9 @@ trait ValidatesUserCredentials
         string $inputName = 'password'
     ): Closure {
         return function (ValidatorInterface $validator) use ($inputName) {
-            if (! $this->validateUserCredentials(
-                ['password' => $this->{$inputName}]
-            )) {
+            if (
+                ! $this->validateUserCredentials(['password' => $this->{$inputName}])
+            ) {
                 $validator->errors()->add(
                     $inputName,
                     __('The provided password does not match your current password.')

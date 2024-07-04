@@ -39,7 +39,8 @@ class CurrentUserController extends Controller
     {
         return UserViewResponse::dispatch(
             $request->authUser(),
-            Response::HTTP_OK
+            Response::HTTP_OK,
+            'Profile/Show'
         );
     }
 

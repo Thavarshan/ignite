@@ -9,7 +9,6 @@
 .env
 .env.backup
 .env.production
-.docker.env
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -25,3 +24,6 @@ docs/.vitepress/cache
 /coverage
 docs/.obsidian
 /js/resources/config/items.json
+.terraform
+*.uuid
+.php-cs-fixer.cache

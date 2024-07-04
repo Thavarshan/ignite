@@ -20,6 +20,5 @@ parameters:
         - ./src/Ignite/Billing
         - ./src/Ignite/Persons
 
-
     checkMissingIterableValueType: false
     treatPhpDocTypesAsCertain: false

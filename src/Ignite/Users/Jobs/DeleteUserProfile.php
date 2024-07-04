@@ -29,6 +29,9 @@ class DeleteUserProfile extends UserJob implements ShouldQueue
      */
     public function failed(Throwable $exception): void
     {
-        $this->logError($exception->getMessage(), ['user' => $this->getUser()]);
+        $this->logError(
+            $exception->getMessage(),
+            ['user' => $this->getUser()]
+        );
     }
 }

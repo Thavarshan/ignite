@@ -8,6 +8,7 @@ use Ignite\Interfaces\Shared\Filter;
 use Ignite\Interfaces\Shared\Filterable;
 use Ignite\Interfaces\Shared\Repository as RepositoryInterface;
 use Ignite\Shared\Data\Traits\Fillable;
+use Illuminate\Contracts\Database\Query\Expression;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -49,16 +50,16 @@ abstract class Repository implements RepositoryInterface
     /**
      * List all data entries after performing requested filters.
      *
-     * @param \Ignite\Interfaces\Shared\Filter $filter
+     * @param \Ignite\Interfaces\Shared\Filter|null $filter
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function list(Filter $filter): Builder
+    public function list(?Filter $filter = null): Builder
     {
         return transform($this->getModel(), function (
             Model|Entity|Filterable $entity
         ) use ($filter) {
-            if ($entity instanceof Filterable) {
+            if (! is_null($filter) && $entity instanceof Filterable) {
                 return $entity->filter($filter);
             }
 
@@ -141,6 +142,30 @@ abstract class Repository implements RepositoryInterface
             $operator,
             $value,
             $boolean
+        );
+    }
+
+    /**
+     * Add a "where in" clause to the query.
+     *
+     * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+     * @param mixed                                                  $values
+     * @param string                                                 $boolean
+     * @param bool                                                   $not
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function whereIn(
+        Expression|string $column,
+        mixed $values,
+        string $boolean = 'and',
+        bool $not = false
+    ): Builder {
+        return $this->getModel()?->queryWhereIn(
+            $column,
+            $values,
+            $boolean,
+            $not
         );
     }
 

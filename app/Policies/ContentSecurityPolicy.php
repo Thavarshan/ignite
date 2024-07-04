@@ -13,7 +13,7 @@ class ContentSecurityPolicy extends BasicCsp
     /**
      * Create a new policy instance.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param Application $app
      *
      * @return void
      */
@@ -70,6 +70,11 @@ class ContentSecurityPolicy extends BasicCsp
                 ->addDirective(Directive::SCRIPT_ELEM, 'minerva.test')
                 ->addDirective(Directive::STYLE, 'minerva.test')
                 ->addDirective(Directive::CONNECT, 'minerva.test');
+        } else {
+            $this->addDirective(Directive::STYLE, config('app.url'))
+                ->addDirective(Directive::SCRIPT, config('app.url'))
+                ->addDirective(Directive::SCRIPT_ELEM, config('app.url'))
+                ->addDirective(Directive::SCRIPT_ATTR, config('app.url'));
         }
     }
 }

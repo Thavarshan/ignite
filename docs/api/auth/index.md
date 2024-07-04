@@ -24,7 +24,7 @@ curl --location --request POST 'http://minerva.test/api/v1/login' \
 --header 'Accept: application/json' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "email": "client.staff@Igniteglobal.com",
+    "email": "client.staff@ignite.com",
     "password": "password"
 }'
 ```
@@ -42,7 +42,7 @@ Status: 200 OK
     "firstname": "Client",
     "middlenames": null,
     "lastname": "Staff",
-    "email": "client.staff@Igniteglobal.com",
+    "email": "client.staff@ignite.com",
     "email_verified_at": null,
     "two_factor_confirmed_at": null,
     "locked_at": null,
@@ -96,7 +96,7 @@ Status: 422 Unprocessable Entity
 ```json
 {
 
- "message": "User account [client.staff@Igniteglobal.com] is locked."
+ "message": "User account [client.staff@ignite.com] is locked."
 
 }
 ```
@@ -164,7 +164,7 @@ Status: 200 OK
     "firstname": "Admin",
     "middlenames": null,
     "lastname": "User",
-    "email": "default.admin@Igniteglobal.com",
+    "email": "default.admin@ignite.com",
     "email_verified_at": null,
     "two_factor_confirmed_at": null,
     "locked_at": null,
@@ -368,11 +368,11 @@ Status: 200 OK
         "id": 1,
         "uid": "GNEDRZKO2J5XL56X84MVY7LP",
         "name": "Ignite",
-        "email": "enquiries@Igniteglobal.com",
+        "email": "enquiries@ignite.com",
         "phone": "+441217739584",
-        "slug": "Ignite",
+        "slug": "ignite",
         "description": null,
-        "website": "https://www.Igniteglobal.com",
+        "website": "https://www.ignite.com",
         "media_url": null,
         "locked_at": null,
         "created_at": "2024-01-31T20:16:05.000000Z",

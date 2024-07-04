@@ -36,8 +36,8 @@ class UserFilter extends Filter implements UserFilterInterface
      */
     public function __construct(
         Request $request,
-        protected readonly OrganisationService $organisations,
-        protected readonly RoleService $roles
+        protected OrganisationService $organisations,
+        protected RoleService $roles
     ) {
         parent::__construct($request);
     }

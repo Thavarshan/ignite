@@ -16,8 +16,8 @@ trait Personable
     public function getName(): string
     {
         return Utils::name(
-            firstName: $this->getAttribute('firstname'),
-            lastName: $this->getAttribute('lastname'),
+            firstName: $this->getAttribute('firstname') ?? 'Anonymous',
+            lastName: $this->getAttribute('lastname') ?? 'User',
             middleNames: $this->getAttribute('middlenames'),
         );
     }

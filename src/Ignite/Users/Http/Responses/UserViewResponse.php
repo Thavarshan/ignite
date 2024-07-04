@@ -3,9 +3,9 @@
 namespace Ignite\Users\Http\Responses;
 
 use App\Http\Responses\Response;
-use Ignite\Interfaces\Users\UserResponse as UserResponseInterface;
+use Ignite\Interfaces\Users\UserViewResponse as UserViewResponseInterface;
 
-class UserViewResponse extends Response implements UserResponseInterface
+class UserViewResponse extends Response implements UserViewResponseInterface
 {
     /**
      * Create an HTTP response that represents the object.
@@ -20,8 +20,6 @@ class UserViewResponse extends Response implements UserResponseInterface
     {
         // As the authenticated user is already available via global
         // props, we don't need to pass it to the view.
-        $this->content = null;
-
-        return $this->renderView('Profile/Show');
+        return $this->renderView();
     }
 }

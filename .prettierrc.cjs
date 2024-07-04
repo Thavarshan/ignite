@@ -1,10 +1,6 @@
+// const config = require("@ignite/prettier-config");
+
 module.exports = {
-    semi: true,
-    trailingComma: 'all',
-    singleQuote: true,
-    printWidth: 120,
-    tabWidth: 4,
-    useTabs: false,
-    endOfLine: 'auto',
-    spaceBeforeFunctionParen: false,
+    //   ...config,
+  // add project specific rules here if required
 };

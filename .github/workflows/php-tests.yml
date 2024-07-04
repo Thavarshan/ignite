@@ -29,7 +29,7 @@ jobs:
         image: mysql:latest
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE:  ignite_db
+          MYSQL_DATABASE:  minerva_db
         ## map the "external" 33306 port with the "internal" 3306
         ports:
           - 33306:3306
@@ -103,7 +103,7 @@ jobs:
       # Set environment
       env:
         DB_CONNECTION: mysql
-        DB_DATABASE: ignite_db
+        DB_DATABASE: minerva_db
         DB_PORT: 33306
         DB_USER: root
 
@@ -143,7 +143,7 @@ jobs:
       env:
         APP_MODE: 'api,cli,web'
         DB_CONNECTION: mysql
-        DB_DATABASE: ignite_db
+        DB_DATABASE: minerva_db
         DB_PORT: 33306
         DB_USER: root
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}

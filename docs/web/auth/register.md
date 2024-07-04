@@ -108,7 +108,7 @@ Errors in the registration process, primarily due to invitation validation failu
 ```php
 // Example error for missing or invalid invitation
 return back()->withErrors([
-    'email' => 'An invitation for eamil [john@Igniteglobal.com] does not exist',
+    'email' => 'An invitation for eamil [john@ignite.com] does not exist',
 ]);
 ```
 

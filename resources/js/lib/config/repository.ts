@@ -1,4 +1,4 @@
-import { Repository as RepositoryInterface, Items } from '@/types/config';
+import { Repository as RepositoryInterface, Items } from '../../types/repository';
 import _ from 'lodash';
 
 export class Repository implements RepositoryInterface {
@@ -10,14 +10,25 @@ export class Repository implements RepositoryInterface {
     constructor(private readonly items: Items = {}) {}
 
     /**
+     * Import items to config repository.
+     *
+     * @param {Items} items
+     *
+     * @return {void}
+     */
+    public importItems(items: Items): void {
+        Object.assign(this.items, items);
+    }
+
+    /**
      * Get specific value from config repository.
      *
      * @param {string} key
-     * @param {any|undefined} defaultValue
+     * @param {unknown|undefined} defaultValue
      *
-     * @return {any}
+     * @return {unknown}
      */
-    public get(key: string, defaultValue?: any): any {
+    public get(key: string, defaultValue?: unknown): unknown {
         return _.get(this.items, key, defaultValue);
     }
 
