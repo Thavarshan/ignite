@@ -13,7 +13,7 @@ class TrustProxies extends Middleware
      * @var array<int, string>|string|null
      */
     protected $proxies = [
-        'app.minerva.orb.local',
+        'app.ignite.orb.local',
     ];
 
     /**

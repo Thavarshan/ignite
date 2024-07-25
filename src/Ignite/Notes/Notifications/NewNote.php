@@ -60,7 +60,7 @@ class NewNote extends Notification
     {
         return (new SlackMessage())
             ->info()
-            ->from('Minerva')
+            ->from('Ignite')
             ->attachment(function (SlackAttachment $attachment) {
                 $title = sprintf(
                     'A new note has been added by %s',

@@ -20,7 +20,7 @@ POST /api/v1/login
 ### Code Samples
 
 ```bash
-curl --location --request POST 'http://minerva.test/api/v1/login' \
+curl --location --request POST 'http://ignite.test/api/v1/login' \
 --header 'Accept: application/json' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -106,7 +106,7 @@ Status: 422 Unprocessable Entity
 OAuth tokens include personal access tokens, and/or internal access tokens. These token may or may not have an expiration time and enable the user to check the last access time or revoke access at any time.
 
 ```bash
-curl -v -H "Authorization: Bearer TOKEN" http://minerva.test/api/v1
+curl -v -H "Authorization: Bearer TOKEN" http://ignite.test/api/v1
 ```
 
 ### Via Personal Access Token

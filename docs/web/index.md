@@ -78,7 +78,7 @@ Instead of a dedicated landing page, the root endpoint directs visitors to the l
 Access the root endpoint via:
 
 ```bash
-curl http://minerva.test
+curl http://ignite.test
 ```
 
 ## Components and Responsiveness

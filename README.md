@@ -119,7 +119,7 @@ We take security seriously. For guidelines on reporting security vulnerabilities
 
 ## License
 
-This platform is proprietary software and constitutes the intellectual property of Ignite. Unauthorized use, duplication, or modification of this material without express and written permission from the copyright owner is strictly prohibited.# Support Ticketing & Forum Discussion Platform (Project Minerva)
+This platform is proprietary software and constitutes the intellectual property of Ignite. Unauthorized use, duplication, or modification of this material without express and written permission from the copyright owner is strictly prohibited.# Support Ticketing & Forum Discussion Platform (Project Ignite)
 
 Welcome to our Support Ticketing & Forum Discussion Platform, a comprehensive system designed to streamline user interactions for support tickets and forum discussions. If you are interested in creating a new account or have inquiries, please reach out via [tjthavarshan@gmail.com](mailto:tjthavarshan@gmail.com).
 
