@@ -67,14 +67,15 @@ class ContentSecurityPolicy extends BasicCsp
                 ->addDirective(Directive::SCRIPT_ELEM, 'http://localhost:8080')
                 ->addDirective(Directive::CONNECT, 'ws://localhost:8080')
                 ->addDirective(Directive::CONNECT, 'wss://localhost:8080')
-                ->addDirective(Directive::SCRIPT_ELEM, 'ignite.test')
-                ->addDirective(Directive::STYLE, 'ignite.test')
-                ->addDirective(Directive::CONNECT, 'ignite.test');
+                ->addDirective(Directive::SCRIPT_ELEM, 'minerva.test')
+                ->addDirective(Directive::STYLE, 'minerva.test')
+                ->addDirective(Directive::CONNECT, 'minerva.test');
         } else {
             $this->addDirective(Directive::STYLE, config('app.url'))
                 ->addDirective(Directive::SCRIPT, config('app.url'))
                 ->addDirective(Directive::SCRIPT_ELEM, config('app.url'))
-                ->addDirective(Directive::SCRIPT_ATTR, config('app.url'));
+                ->addDirective(Directive::SCRIPT_ATTR, config('app.url'))
+                ->reportOnly();
         }
     }
 }

@@ -1,9 +1,6 @@
 import type { Team } from '@/types/team';
-import type { UserSettings } from '@/types/settings';
-import type { Permission } from '@/types/permission';
-import type { Role } from '@/types/role';
-import type { Location } from '@/types/location';
-import type { Organisation } from '@/types/organisation';
+import { Permission } from '@/types/permission';
+import { Role } from '@/types/role';
 
 export interface User {
     id: number;
@@ -16,15 +13,27 @@ export interface User {
     two_factor_enabled: boolean;
     two_factor_comfirmed_at?: string;
     media_url?: string | null;
-    all_teams: Partial<Team>[];
     roles: Role[];
     permissions: Permission[];
+    all_teams: Partial<Team>[];
     organisation_id: number;
     current_team_id: number;
     current_team: Partial<Team>;
-    settings?: UserSettings | null;
-    location?: Location<Organisation> | null;
-    organisation: Organisation;
+}
+
+export interface UserLogin {
+    email: User['email'];
+    password: string;
+    remember?: boolean;
+}
+
+export interface UserCreate {
+    firstname: User['firstname'];
+    lastname: User['lastname'];
+    email: User['email'];
+    password: string;
+    password_confirmation: string;
+    image?: File | null;
 }
 
 export interface UserUpdate {

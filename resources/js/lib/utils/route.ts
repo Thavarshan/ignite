@@ -8,6 +8,6 @@ import { route } from 'ziggy-js';
  *
  * @return The generated URL.
  */
-export function apiRoute(name: string, params?: { [key: string]: unknown }) {
+export function apiRoute(name: string, params?: { [key: string]: unknown; }) {
     return route('v1:' + name, params);
 }

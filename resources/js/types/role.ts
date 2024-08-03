@@ -1,10 +1,9 @@
 export interface Role {
     id: number;
     name: string;
-    slug: string;
+    slug: RoleSlug;
     is_default?: boolean;
     description?: string;
-    created_at?: string;
-    updated_at?: string;
-    deleted_at?: string;
 }
+
+export type RoleSlug = 'admin' | 'staff' | 'client-owner' | 'client-manager' | 'client-staff';

@@ -1,5 +1,4 @@
 import type { User } from '@/types/user';
-import type { Organisation } from '@/types/organisation';
 
 export interface Team {
     id: number;
@@ -12,7 +11,6 @@ export interface Team {
     deleted_at?: string | null;
     owner: User;
     members: User[];
-    organisation: Organisation;
 }
 
 export interface TeamCreate {

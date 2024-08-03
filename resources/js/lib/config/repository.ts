@@ -1,4 +1,4 @@
-import { Repository as RepositoryInterface, Items } from '../../types/repository';
+import { Repository as RepositoryInterface, Items } from '@/types/repository';
 import _ from 'lodash';
 
 export class Repository implements RepositoryInterface {

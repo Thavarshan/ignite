@@ -17,7 +17,6 @@ npm-debug.log
 yarn-error.log
 /.fleet
 /.idea
-/.vscode
 .DS_Store
 notes.md
 docs/.vitepress/cache
@@ -27,3 +26,5 @@ docs/.obsidian
 .terraform
 *.uuid
 .php-cs-fixer.cache
+
+*storybook.log

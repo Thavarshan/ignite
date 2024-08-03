@@ -1,9 +1,10 @@
 <?php
 
 use App\Policies\ContentSecurityPolicy;
-use App\Support\NonceGenerator;
+use Spatie\Csp\Nonce\RandomString;
 
 return [
+
     /*
      * A policy will determine which CSP headers will be set. A valid CSP policy is
      * any class that extends `Spatie\Csp\Policies\Policy`
@@ -32,5 +33,5 @@ return [
     /*
      * The class responsible for generating the nonces used in inline tags and headers.
      */
-    'nonce_generator' => NonceGenerator::class,
+    'nonce_generator' => RandomString::class,
 ];

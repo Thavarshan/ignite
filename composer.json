@@ -1,42 +1,25 @@
 {
-    "name": "ignite/ignite",
+    "name": "laravel/laravel",
     "type": "project",
-    "description": "A robust support ticket system built and discussion forum platform.",
+    "description": "The skeleton application for the Laravel framework.",
     "keywords": [
-        "support ticket",
-        "customer service",
-        "discussion forum",
-        "forum"
+        "laravel",
+        "framework"
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2 | ^8.3",
-        "ext-intl": "*",
-        "ext-json": "*",
-        "ext-mailparse": "*",
-        "ext-mbstring": "*",
-        "ext-pdo": "*",
-        "aws/aws-sdk-php": "^3.301.3",
-        "aws/aws-sdk-php-laravel": "^3.9.0",
-        "erusev/parsedown": "^1.7.4",
-        "ezyang/htmlpurifier": "^4.17",
-        "graham-campbell/security": "^v11.2.0",
-        "guzzlehttp/guzzle": "^7.8.1",
-        "hashids/hashids": "^5.0.2",
+        "php": "^8.2",
+        "hashids/hashids": "^5.0",
         "inertiajs/inertia-laravel": "^1.0",
         "jerome/filterable": "^1.1",
         "laravel/framework": "^11.9",
         "laravel/jetstream": "^5.1",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
-        "tightenco/ziggy": "^2.0",
-        "league/commonmark": "^2.4.2",
-        "league/csv": "^9.15.0",
-        "league/flysystem-aws-s3-v3": "^3.25.1",
-        "moneyphp/money": "^4.5",
-        "spatie/laravel-csp": "^2.9.0",
-        "spatie/laravel-medialibrary": "^11.4.6",
-        "spatie/laravel-pdf": "^1.4.0"
+        "spatie/laravel-csp": "^2.10",
+        "spatie/laravel-medialibrary": "^11.8",
+        "spatie/laravel-pdf": "^1.5",
+        "tightenco/ziggy": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -44,7 +27,8 @@
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
-        "phpunit/phpunit": "^11.0.1"
+        "pestphp/pest": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.0"
     },
     "autoload": {
         "psr-4": {

@@ -11,9 +11,7 @@ export default defineConfig({
         alias: [
             {
                 find: '@',
-                replacement: url.fileURLToPath(
-                    new URL('./resources/js', import.meta.url).href,
-                ),
+                replacement: url.fileURLToPath(new URL('./resources/js', import.meta.url).href),
             },
         ],
     },
@@ -27,9 +25,6 @@ export default defineConfig({
     plugins: [
         checker({
             vueTsc: true,
-            eslint: {
-                lintCommand: 'eslint . --ext .ts,.vue --ignore-path .gitignore',
-            },
         }),
 
         vue({

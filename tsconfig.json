@@ -18,9 +18,18 @@
             ]
         }
     },
+    "types": [
+        "cypress",
+        "node",
+        "webpack-env"
+    ],
     "include": [
         "resources/js/**/*.ts",
         "resources/js/**/*.d.ts",
-        "resources/js/**/*.vue"
+        "resources/js/**/*.vue",
+        "cypress"
+    ],
+    "exclude": [
+        "node_modules"
     ]
 }

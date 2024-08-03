@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import { DrawerContent, DrawerPortal } from 'vaul-vue'
-import type { DialogContentEmits, DialogContentProps } from 'radix-vue'
-import { useForwardPropsEmits } from 'radix-vue'
-import type { HtmlHTMLAttributes } from 'vue'
-import DrawerOverlay from './DrawerOverlay.vue'
-import { cn } from '@/lib/utils'
+import { DrawerContent, DrawerPortal } from 'vaul-vue';
+import type { DialogContentEmits, DialogContentProps } from 'radix-vue';
+import { useForwardPropsEmits } from 'radix-vue';
+import type { HtmlHTMLAttributes } from 'vue';
+import DrawerOverlay from './DrawerOverlay.vue';
+import { cn } from '@/lib/utils/cn';
 
-const props = defineProps<DialogContentProps & { class?: HtmlHTMLAttributes['class'] }>()
-const emits = defineEmits<DialogContentEmits>()
+const props = defineProps<DialogContentProps & { class?: HtmlHTMLAttributes['class']; }>();
+const emits = defineEmits<DialogContentEmits>();
 
-const forwarded = useForwardPropsEmits(props, emits)
+const forwarded = useForwardPropsEmits(props, emits);
 </script>
 
 <template>
