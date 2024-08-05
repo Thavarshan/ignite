@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<ruleset name="Ignite Coding Standards">
-    <description>Ignite Coding Standards</description>
-
-    <!-- Basic PHP-CS-Fixer rules -->
-    <rule ref="PSR12"/>    <!-- Finder settings -->
-    <exclude>vendor</exclude>
-    <file>.</file>
-</ruleset>

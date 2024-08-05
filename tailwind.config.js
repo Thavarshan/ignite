@@ -1,15 +1,12 @@
-import forms from '@tailwindcss/forms'
-import defaultTheme from 'tailwindcss/defaultTheme'
+const animate = require('tailwindcss-animate')
 
 /** @type {import('tailwindcss').Config} */
-export default {
-  darkMode: 'class',
-  content: [
-    './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-    './storage/framework/views/*.php',
-    './resources/views/**/*.blade.php',
-    './resources/js/**/*.{ts,tsx,vue}',
-  ],
+module.exports = {
+  darkMode: ['class'],
+  safelist: ['dark'],
+  prefix: '',
+
+  content: ['./inertia/**/*.{js,ts,jsx,tsx,vue}', './resources/**/*.edge'],
 
   theme: {
     container: {
@@ -56,12 +53,10 @@ export default {
         },
       },
       borderRadius: {
+        xl: 'calc(var(--radius) + 4px)',
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-      },
-      fontFamily: {
-        sans: ['Figtree', ...defaultTheme.fontFamily.sans],
       },
       keyframes: {
         'accordion-down': {
@@ -72,13 +67,22 @@ export default {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: 0 },
         },
+        'collapsible-down': {
+          from: { height: 0 },
+          to: { height: 'var(--radix-collapsible-content-height)' },
+        },
+        'collapsible-up': {
+          from: { height: 'var(--radix-collapsible-content-height)' },
+          to: { height: 0 },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'collapsible-down': 'collapsible-down 0.2s ease-in-out',
+        'collapsible-up': 'collapsible-up 0.2s ease-in-out',
       },
     },
   },
-
-  plugins: [forms, require('tailwindcss-animate')],
+  plugins: [animate],
 }
