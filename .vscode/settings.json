@@ -1,3 +1,26 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib"
+    // use the app's formattting rules over a developer's personal
+    "editor.formatOnSave": false,
+    "javascript.format.enable": false,
+
+    "cSpell.words": [
+        "axios",
+        "barryvdh",
+        "categorisable",
+        "categorisables",
+        "composables",
+        "datatable",
+        "fetchify",
+        "iconfield",
+        "inputicon",
+        "inputtext",
+        "netwatch",
+        "pinia",
+        "primeicons",
+        "primevue",
+        "splitbutton",
+        "templatable",
+        "vueuse",
+        "ziggy"
+    ]
 }

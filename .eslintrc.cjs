@@ -1,69 +1,105 @@
 /* eslint-env node */
-const { defineConfig } = require('eslint-define-config')
-const prettierConfig = require('@netwatch-global/prettier-config')
-require('@rushstack/eslint-patch/modern-module-resolution')
+
+const { defineConfig } = require('eslint-define-config');
+const prettierConfig = require('./.prettierrc.cjs');
 
 module.exports = defineConfig({
-  root: true,
-
-  plugins: ['prettier', 'vuejs-accessibility', '@typescript-eslint', 'cypress'],
-
-  extends: [
-    'prettier',
-    'plugin:storybook/recommended',
-    '@vue/eslint-config-typescript',
-    'plugin:vue/vue3-essential',
-    'plugin:vuejs-accessibility/recommended',
-  ],
-
-  parser: 'vue-eslint-parser',
-  parserOptions: {
-    parser: '@typescript-eslint/parser',
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-  },
-
-  env: {
-    'cypress/globals': true,
-  },
-
-  rules: {
-    'no-console': 'error',
-    'indent': ['error', 2],
-    'comma-dangle': ['error', 'always-multiline'],
-    'space-before-function-paren': ['warn', 'never'],
-
-    'vue/html-indent': ['error', 2],
-    'vue/multiline-html-element-content-newline': 'off',
-    'vue/multi-word-component-names': 'warn',
-
-    'vue/max-attributes-per-line': 0,
-    'vue/require-default-prop': 0,
-    // 'vue/singleline-html-element-content-newline': 0,
-    // 'vue/html-indent': 0,
-    // 'vue/no-use-v-if-with-v-for': 0,
-    // 'vue/no-v-for-template-key': 0,
-    // 'vue/no-v-model-argument': 0,
-    // 'vue/no-v-html': 0,
-    'vue/no-multiple-template-root': 0,
-    // 'vue/html-self-closing': 0,
-
-    'prettier/prettier': ['error', prettierConfig],
-    'vuejs-accessibility/label-has-for': 'off',
-    'vuejs-accessibility/form-control-has-label': 'off',
-    'space-before-function-paren': 'off',
-    'no-console': ['error', { allow: ['warn', 'error'] }],
-    '@typescript-eslint/no-unused-vars': [
-      'error',
-      {
-        args: 'all',
-        argsIgnorePattern: '^_',
-        caughtErrors: 'all',
-        caughtErrorsIgnorePattern: '^_',
-        destructuredArrayIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-        ignoreRestSiblings: true,
-      },
+    root: true,
+    env: {
+        browser: true,
+        es6: true,
+        node: true,
+        jest: true,
+    },
+    extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:import/recommended',
+        'plugin:import/electron',
+        'plugin:import/typescript',
+        'prettier',
+        '@vue/eslint-config-typescript',
+        'plugin:vue/vue3-essential',
+        'plugin:vuejs-accessibility/recommended',
     ],
-  },
-})
+    plugins: ['prettier', 'vuejs-accessibility', '@typescript-eslint'],
+    parser: 'vue-eslint-parser',
+    parserOptions: {
+        parser: '@typescript-eslint/parser',
+        ecmaVersion: 2020,
+        sourceType: 'module',
+    },
+    rules: {
+        indent: [
+            'error',
+            4,
+            {
+                SwitchCase: 1,
+            },
+        ],
+        'max-len': [
+            'error',
+            {
+                code: 120,
+            },
+        ],
+        'no-console': [
+            'error',
+            {
+                allow: ['warn', 'error'],
+            },
+        ],
+        'comma-dangle': ['error', 'always-multiline'],
+        'space-before-function-paren': [
+            'warn',
+            {
+                anonymous: 'ignore',
+                named: 'never',
+                asyncArrow: 'always',
+            },
+        ],
+        'prettier/prettier': [
+            'error',
+            {
+                ...prettierConfig,
+            },
+        ],
+        'vue/html-indent': ['error', 4],
+        'vue/multiline-html-element-content-newline': 'off',
+        'vue/multi-word-component-names': 'off',
+        'vue/max-attributes-per-line': 0,
+        'vue/require-default-prop': 0,
+        'vue/no-multiple-template-root': 0,
+        '@typescript-eslint/no-unused-vars': [
+            'warn',
+            {
+                varsIgnorePattern: '^_$',
+                argsIgnorePattern: '^_$',
+            },
+        ],
+    },
+    settings: {
+        'import/resolver': {
+            typescript: {
+                alwaysTryTypes: true,
+                project: './tsconfig.json',
+            },
+        },
+    },
+    ignorePatterns: ['*.test.ts'],
+    overrides: [
+        {
+            files: ['tests/**/*'],
+            env: {
+                jest: true,
+            },
+        },
+        {
+            files: ['*.vue'],
+            rules: {
+                'max-len': 'off',
+            },
+        },
+    ],
+});
