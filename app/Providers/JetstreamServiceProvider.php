@@ -2,19 +2,19 @@
 
 namespace App\Providers;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
-use Laravel\Fortify\Fortify;
-use Laravel\Jetstream\Jetstream;
+use App\Actions\Jetstream\AddTeamMember;
 use App\Actions\Jetstream\CreateTeam;
 use App\Actions\Jetstream\DeleteTeam;
 use App\Actions\Jetstream\DeleteUser;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
-use App\Actions\Jetstream\AddTeamMember;
-use App\Actions\Jetstream\UpdateTeamName;
 use App\Actions\Jetstream\InviteTeamMember;
 use App\Actions\Jetstream\RemoveTeamMember;
+use App\Actions\Jetstream\UpdateTeamName;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
+use Laravel\Fortify\Fortify;
+use Laravel\Jetstream\Jetstream;
 
 class JetstreamServiceProvider extends ServiceProvider
 {
@@ -31,6 +31,8 @@ class JetstreamServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->bootInertia();
+
         $this->configurePermissions();
 
         Jetstream::createTeamsUsing(CreateTeam::class);

@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {{-- @cspMetaTag(App\Policies\ContentSecurityPolicy::class) --}}
-    <meta name="referrer" content="origin-when-cross-origin" />
 
     <title inertia>{{ config('app.name', 'Ignite') }}</title>
 
