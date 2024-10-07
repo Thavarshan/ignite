@@ -1,16 +1,11 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChannelController;
 
 Route::get('/', function () {
-    return Inertia::render('index', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => \PHP_VERSION,
-    ]);
+    return Inertia::render('index');
 });
 
 Route::middleware([
@@ -21,4 +16,6 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('dashboard/index');
     })->name('dashboard');
+
+    Route::resource('channels', ChannelController::class);
 });
