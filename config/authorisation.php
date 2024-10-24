@@ -1,8 +1,8 @@
 <?php
 
-use App\Enums\Role;
-use App\Enums\Resource;
 use App\Enums\Permission;
+use App\Enums\Resource;
+use App\Enums\Role;
 
 return [
     Role::ADMIN->value => [

@@ -66,6 +66,7 @@ module.exports = defineConfig({
             },
         ],
         'vue/html-indent': ['error', 4],
+        'vuejs-accessibility/label-has-for': 'off',
         'vue/multiline-html-element-content-newline': 'off',
         'vue/multi-word-component-names': 'off',
         'vue/max-attributes-per-line': 0,

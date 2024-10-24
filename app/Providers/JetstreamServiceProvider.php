@@ -33,6 +33,7 @@ class JetstreamServiceProvider extends ServiceProvider
     {
         $this->bootInertia();
 
+        $this->configureRoutes();
         $this->configurePermissions();
 
         Jetstream::createTeamsUsing(CreateTeam::class);
@@ -42,6 +43,20 @@ class JetstreamServiceProvider extends ServiceProvider
         Jetstream::removeTeamMembersUsing(RemoveTeamMember::class);
         Jetstream::deleteTeamsUsing(DeleteTeam::class);
         Jetstream::deleteUsersUsing(DeleteUser::class);
+    }
+
+    /**
+     * Configure the routes offered by Jetstream.
+     */
+    protected function configureRoutes(): void
+    {
+        Route::group([
+            'namespace' => 'Laravel\Jetstream\Http\Controllers',
+            'domain' => config('jetstream.domain', null),
+            'prefix' => config('jetstream.prefix', config('jetstream.path')),
+        ], function () {
+            $this->loadRoutesFrom(base_path('routes/jetstream.php'));
+        });
     }
 
     /**

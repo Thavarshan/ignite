@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 
 const products = ref([
     { code: 'A1', name: 'Product 1', category: 'Category 1', quantity: 10 },
@@ -14,5 +14,7 @@ const products = ref([
 <template>
     <Head title="Home" />
 
-    <div class="container space-y-6 py-20">Som content</div>
+    <div class="container space-y-6 py-20">
+        <Link href="/login" class="hover:underline">Login</Link>
+    </div>
 </template>

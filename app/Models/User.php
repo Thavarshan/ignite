@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -14,13 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
-    use HasFactory;
-    use HasProfilePhoto;
-    use HasRoles;
-    use HasTeams;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
+    use HasApiTokens, HasFactory, HasProfilePhoto, HasRoles, HasTeams, Notifiable, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -65,5 +60,38 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the threads for the user.
+     */
+    public function threads(): HasMany
+    {
+        return $this->hasMany(Thread::class);
+    }
+
+    /**
+     * Get the tickets made by the user.
+     */
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Thread::class)->where('is_ticket', true);
+    }
+
+    /**
+     * Get the tickets assigned to the user.
+     */
+    public function assignedTickets(): HasMany
+    {
+        return $this->hasMany(Thread::class, 'assigned_to_id')
+            ->where('is_ticket', true);
+    }
+
+    /**
+     * Get the replies made by the user.
+     */
+    public function replies(): HasMany
+    {
+        // return $this->hasMany(Reply::class);
     }
 }

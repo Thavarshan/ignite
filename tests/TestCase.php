@@ -10,10 +10,6 @@ abstract class TestCase extends BaseTestCase
 {
     /**
      * Creates a new user with optional role for testing.
-     *
-     * @param \App\Enums\Role|null $role
-     *
-     * @return \App\Models\User
      */
     protected function createUser(?Role $role = null): User
     {

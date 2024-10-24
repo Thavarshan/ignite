@@ -9,8 +9,6 @@ trait AuthorizesRequests
 {
     /**
      * Determine if the user making the request is a guest.
-     *
-     * @return bool
      */
     public function isGuest(): bool
     {
@@ -19,8 +17,6 @@ trait AuthorizesRequests
 
     /**
      * Determine if the user making the request is authenticated and is the currently authenticated user.
-     *
-     * @return bool
      */
     public function isAuthenticated(): bool
     {
@@ -36,11 +32,7 @@ trait AuthorizesRequests
     /**
      * Determine if the user making the request is authorized to perform given ability on resource.
      *
-     * @param string      $ability
-     * @param array|mixed $arguments
-     * @param bool        $withoutAuthentication
-     *
-     * @return bool
+     * @param  array|mixed  $arguments
      */
     public function isAllowedTo(
         string $ability,
@@ -56,8 +48,6 @@ trait AuthorizesRequests
 
     /**
      * Determine if a user with given email address exists in the database.
-     *
-     * @return bool
      */
     public function isUser(): bool
     {
@@ -69,10 +59,7 @@ trait AuthorizesRequests
     /**
      * Determine if all of the given abilities should be granted for the current user.
      *
-     * @param iterable|string $abilities
-     * @param array|mixed     $arguments
-     *
-     * @return bool
+     * @param  array|mixed  $arguments
      */
     public function check(
         iterable|string $abilities,

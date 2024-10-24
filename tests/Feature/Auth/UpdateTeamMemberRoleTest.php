@@ -19,7 +19,7 @@ class UpdateTeamMemberRoleTest extends TestCase
             ['role' => 'admin']
         );
 
-        $this->put('/teams/' . $user->currentTeam->id . '/members/' . $otherUser->id, [
+        $this->put('/teams/'.$user->currentTeam->id.'/members/'.$otherUser->id, [
             'role' => 'editor',
         ]);
 
@@ -40,7 +40,7 @@ class UpdateTeamMemberRoleTest extends TestCase
 
         $this->actingAs($otherUser);
 
-        $this->put('/teams/' . $user->currentTeam->id . '/members/' . $otherUser->id, [
+        $this->put('/teams/'.$user->currentTeam->id.'/members/'.$otherUser->id, [
             'role' => 'editor',
         ]);
 

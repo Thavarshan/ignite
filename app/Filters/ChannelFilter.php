@@ -16,10 +16,6 @@ class ChannelFilter extends Filter
 
     /**
      * Filter the query by a name.
-     *
-     * @param string $value
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function name(string $value): Builder
     {

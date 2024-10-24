@@ -1,8 +1,9 @@
 <?php
 
-use Inertia\Inertia;
+use App\Http\Controllers\Web\ChannelController;
+use App\Http\Controllers\Web\ThreadController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ChannelController;
+use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('index');
@@ -18,4 +19,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('channels', ChannelController::class);
+    Route::resource('channels.threads', ThreadController::class)
+        ->except(['edit'])
+        ->scoped();
 });

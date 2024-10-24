@@ -20,14 +20,25 @@
     },
     "dependencies": {
         "@radix-icons/vue": "^1.0.0",
+        "@unovis/ts": "^1.4.3-beta.0",
+        "@unovis/vue": "^1.4.3-beta.0",
+        "@vee-validate/zod": "^4.13.2",
+        "@vueuse/core": "^11.1.0",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
         "dayjs": "^1.11.13",
         "dompurify": "^3.0.11",
+        "embla-carousel-vue": "^8.3.0",
         "laravel-precognition-vue-inertia": "^0.5.4",
         "lodash": "^4.17",
+        "lucide-vue-next": "^0.447.0",
         "radix-vue": "^1.9.6",
-        "tailwind-merge": "^2.5.3"
+        "tailwind-merge": "^2.5.3",
+        "v-calendar": "^3.1.2",
+        "vaul-vue": "^0.2.0",
+        "vee-validate": "^4.13.2",
+        "vue-sonner": "^1.2.1",
+        "zod": "^3.23.8"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.14",

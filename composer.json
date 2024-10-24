@@ -15,6 +15,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-pdo": "*",
+        "hashids/hashids": "^5.0",
         "inertiajs/inertia-laravel": "^1.0",
         "jerome/fetch-php": "^2.0",
         "jerome/filterable": "^1.1",
@@ -43,7 +44,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Support/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

@@ -24,7 +24,7 @@
     @inertiaHead
 </head>
 
-<body class="font-sans antialiased min-h-full flex flex-col [overflow-anchor:none]" scroll-region>
+<body class="font-sans antialiased leading-normal min-h-full flex flex-col [overflow-anchor:none]" scroll-region>
     @inertia
 </body>
 
