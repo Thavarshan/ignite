@@ -14,10 +14,6 @@
         "docs:dev": "vitepress dev docs",
         "docs:preview": "vitepress preview docs"
     },
-    "lint-staged": {
-        "**/*.php": "./vendor/bin/pint --preset laravel",
-        "**/*.{js,jsx,ts,tsx,vue}": "eslint --fix"
-    },
     "dependencies": {
         "@radix-icons/vue": "^1.0.0",
         "@unovis/ts": "^1.4.3-beta.0",
