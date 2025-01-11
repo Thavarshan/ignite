@@ -1,4 +1,4 @@
-export interface Paginated<T> {
+export interface PaginatedResource<T> {
     data: T[];
     links: {
         first: string | null;

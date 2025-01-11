@@ -6,7 +6,6 @@ use App\Filters\ChannelFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreChannelRequest;
 use App\Http\Requests\UpdateChannelRequest;
-use App\Http\Resources\ChannelResource;
 use App\Models\Channel;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Inertia\Inertia;
@@ -23,12 +22,10 @@ class ChannelController extends Controller
         $this->authorize('viewAny', Channel::class);
 
         return Inertia::render('channels/index', [
-            'channels' => fn () => ChannelResource::collection(
-                Channel::filter($filter)
-                    ->with('threads')
-                    ->orderBy('name')
-                    ->get()
-            ),
+            'channels' => fn () => Channel::filter($filter)
+                ->with('threads')
+                ->orderBy('name')
+                ->get(),
         ]);
     }
 

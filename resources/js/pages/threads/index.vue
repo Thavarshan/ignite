@@ -2,10 +2,10 @@
 // import ThreadCard from './partials/ThreadCard.vue';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ResourcePaginationSet as PaginationSet } from '@/components/ui/pagination';
+import { PaginationSet } from '@/components/ui/pagination';
 import Default from '@/layouts/default.vue';
 import { Thread } from '@/types/thread';
-import type { Paginated as PaginationType } from '@/types/paginate';
+import type { Pagination as PaginationType } from '@/types/paginate';
 import { truncate } from '@/lib/utils';
 import { router, Link } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
@@ -35,7 +35,7 @@ function changePage(page: number) {
             <Card v-for="thread in threads.data" :key="thread.id">
                 <CardHeader>
                     <Link
-                        :href="route('channels.threads.show', { channel: thread.channel.slug, thread })"
+                        :href="route('channels.threads.show', { channel: thread.channel.slug, thread: thread.slug })"
                         class="hover:underline"
                     >
                         <CardTitle>{{ thread.title }}</CardTitle>

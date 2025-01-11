@@ -15,7 +15,6 @@ class StoreThreadRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        dd('Hello!');
         return $this->isAllowedTo('create', Thread::class);
     }
 
@@ -29,7 +28,6 @@ class StoreThreadRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string'],
-            'user_id' => ['required', 'exists:users,id'],
             'channel_id' => ['sometimes', 'exists:channels,id'],
             'is_ticket' => ['nullable', 'boolean'],
             'assigned_to' => ['sometimes', 'exists:users,id'],

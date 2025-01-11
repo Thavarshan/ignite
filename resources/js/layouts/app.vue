@@ -31,14 +31,15 @@ import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { ref } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
+import type { Team } from '@/types/team';
 
 defineProps<{
-    title: string;
+    title?: string;
 }>();
 
 const showingNavigationDropdown = ref(false);
 
-const switchToTeam = (team) => {
+const switchToTeam = (team: Team) => {
     router.put(
         route('current-team.update'),
         {

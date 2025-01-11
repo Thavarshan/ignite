@@ -5,19 +5,21 @@ namespace App\Models;
 use App\Enums\Priority;
 use App\Enums\Status;
 use App\Observers\ThreadObserver;
+use App\Traits\HasPath;
 use Filterable\Interfaces\Filterable as FilterableInterface;
 use Filterable\Traits\Filterable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 #[ObservedBy(ThreadObserver::class)]
 class Thread extends Model implements FilterableInterface
 {
-    use Filterable, HasFactory, HasSlug;
+    use Filterable, HasFactory, HasPath, HasSlug;
 
     /**
      * The attributes that are mass assignable.
@@ -92,6 +94,24 @@ class Thread extends Model implements FilterableInterface
     }
 
     /**
+     * Get the replies for the thread.
+     */
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    /**
+     * Add a reply to the thread.
+     */
+    public function addReply(User $user, array $attributes): Reply
+    {
+        return $this->replies()->create(
+            array_merge($attributes, ['user_id' => $user->id])
+        );
+    }
+
+    /**
      * Determine if the thread is a ticket.
      */
     public function isTicket(): bool
@@ -117,5 +137,13 @@ class Thread extends Model implements FilterableInterface
         return SlugOptions::create()
             ->generateSlugsFrom('title')
             ->saveSlugsTo('slug');
+    }
+
+    /**
+     * Get additional route parameters for the model.
+     */
+    public function getAdditionalRouteParameters(): array
+    {
+        return ['channel' => $this->channel->slug];
     }
 }

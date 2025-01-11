@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasPath;
 use Filterable\Interfaces\Filterable;
 use Filterable\Traits\Filterable as HasFilters;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,7 @@ use Spatie\Sluggable\SlugOptions;
 
 class Channel extends Model implements Filterable
 {
-    use HasFactory, HasFilters, HasSlug;
+    use HasFactory, HasFilters, HasPath, HasSlug;
 
     /**
      * The attributes that are mass assignable.

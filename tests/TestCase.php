@@ -21,4 +21,14 @@ abstract class TestCase extends BaseTestCase
 
         return $user;
     }
+
+    /**
+     * Sign in the given user or create a new one.
+     */
+    protected function signIn(?User $user = null): self
+    {
+        $this->actingAs($user ?: $this->createUser(Role::ADMIN));
+
+        return $this;
+    }
 }

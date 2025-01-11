@@ -37,13 +37,16 @@ class GetThreadTest extends TestCase
 
         $response->assertOk();
 
-        $response->assertInertia(fn (Assert $page) => $page
-            ->component('threads/show')
-            ->has('thread', fn (Assert $prop) => $prop
-                ->where('id', $thread->id)
-                ->where('views', 1)
-                ->etc()
-            )
+        $response->assertInertia(
+            fn (Assert $page) => $page
+                ->component('threads/show')
+                ->has(
+                    'thread',
+                    fn (Assert $prop) => $prop
+                        ->where('id', $thread->id)
+                        ->where('views', 1)
+                        ->etc()
+                )
         );
 
         $thread->refresh();

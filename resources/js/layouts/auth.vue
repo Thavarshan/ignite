@@ -7,13 +7,31 @@
         </div>
         <div class="hidden bg-muted lg:block max-h-screen overflow-hidden">
             <!-- Stars background here -->
-            <img
-                src="https://images.unsplash.com/photo-1617309215127-ebeb4eddeba5?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Ignite"
-                width="1920"
-                height="1080"
-                class="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-            />
+            <div class="stars-background" />
         </div>
     </div>
 </template>
+
+<style scoped>
+.stars-background {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+</style>

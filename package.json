@@ -9,6 +9,7 @@
         "tsc": "vue-tsc",
         "lint": "eslint . --ext .ts,.vue --ignore-path .gitignore",
         "lint:fix": "npm run lint -- --fix",
+        "format": "prettier --write ./resources/js",
         "docs:build": "vitepress build docs",
         "prepare": "husky",
         "docs:dev": "vitepress dev docs",

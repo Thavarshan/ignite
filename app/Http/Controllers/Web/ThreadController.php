@@ -6,8 +6,6 @@ use App\Filters\ThreadFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreThreadRequest;
 use App\Http\Requests\UpdateThreadRequest;
-use App\Http\Resources\ChannelResource;
-use App\Http\Resources\ThreadResource;
 use App\Models\Channel;
 use App\Models\Thread;
 use Inertia\Inertia;
@@ -22,12 +20,12 @@ class ThreadController extends Controller
         $this->authorize('viewAny', Thread::class);
 
         return Inertia::render('threads/index', [
-            'threads' => fn () => ThreadResource::collection(Thread::filter($filter)
+            'threads' => fn () => Thread::filter($filter)
                 ->with(['user:id,name', 'channel'])
                 ->where('is_ticket', false)
                 ->whereNull('locked_at')
                 ->latest()
-                ->paginate(10)),
+                ->paginate(10),
         ]);
     }
 
@@ -39,7 +37,7 @@ class ThreadController extends Controller
         $this->authorize('create', Thread::class);
 
         return Inertia::render('threads/create', [
-            'channels' => fn () => ChannelResource::collection(Channel::all()),
+            'channels' => fn () => Channel::all(),
         ]);
     }
 
@@ -58,7 +56,7 @@ class ThreadController extends Controller
 
         $thread->save();
 
-        return redirect()->route('threads.show', [$channel, $thread]);
+        return redirect($thread->fresh()->path);
     }
 
     /**
@@ -71,11 +69,11 @@ class ThreadController extends Controller
         $thread->increment('views');
 
         return Inertia::render('threads/show', [
-            'thread' => fn () => new ThreadResource($thread->load([
+            'thread' => fn () => $thread->load([
                 'user',
                 'channel',
                 // 'replies',
-            ])),
+            ]),
         ]);
     }
 
@@ -86,7 +84,7 @@ class ThreadController extends Controller
     {
         $thread->update($request->validated());
 
-        return redirect()->route('threads.show', [$channel, $thread]);
+        return redirect($thread->fresh()->path);
     }
 
     /**
@@ -98,6 +96,6 @@ class ThreadController extends Controller
 
         $thread->delete();
 
-        return redirect()->route('threads.index', $channel);
+        return redirect()->route('channels.threads.index', $channel);
     }
 }

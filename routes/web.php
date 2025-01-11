@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\Web\ChannelController;
 use App\Http\Controllers\Web\ThreadController;
 use Illuminate\Support\Facades\Route;
@@ -21,5 +22,8 @@ Route::middleware([
     Route::resource('channels', ChannelController::class);
     Route::resource('channels.threads', ThreadController::class)
         ->except(['edit'])
+        ->scoped();
+    Route::resource('channels.threads.replies', ReplyController::class)
+        ->only(['update', 'destroy', 'store'])
         ->scoped();
 });
