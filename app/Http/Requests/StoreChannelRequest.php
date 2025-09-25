@@ -2,20 +2,16 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Traits\AuthorizesRequests;
-use App\Models\Channel;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreChannelRequest extends FormRequest
 {
-    use AuthorizesRequests;
-
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->isAllowedTo('create', Channel::class);
+        return true;
     }
 
     /**
@@ -26,7 +22,7 @@ class StoreChannelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'unique:channels,name'],
             'description' => ['nullable', 'string'],
         ];
     }

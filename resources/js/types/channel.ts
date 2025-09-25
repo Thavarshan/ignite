@@ -1,9 +1,8 @@
-export interface Channel {
+export interface channel {
     id: number;
     name: string;
     slug: string;
-    description?: string | null;
-    threads_count?: number;
+    description: string;
     created_at: string;
     updated_at: string;
 }

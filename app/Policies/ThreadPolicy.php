@@ -2,10 +2,9 @@
 
 namespace App\Policies;
 
-use App\Enums\Permission;
-use App\Enums\Resource;
 use App\Models\Thread;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class ThreadPolicy
 {
@@ -14,7 +13,7 @@ class ThreadPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can(Permission::READ->value.':'.Resource::THREAD->value);
+        return false;
     }
 
     /**
@@ -22,7 +21,7 @@ class ThreadPolicy
      */
     public function view(User $user, Thread $thread): bool
     {
-        return $user->can(Permission::READ->value.':'.Resource::THREAD->value);
+        return false;
     }
 
     /**
@@ -30,7 +29,7 @@ class ThreadPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(Permission::CREATE->value.':'.Resource::THREAD->value);
+        return false;
     }
 
     /**
@@ -38,7 +37,7 @@ class ThreadPolicy
      */
     public function update(User $user, Thread $thread): bool
     {
-        return $user->can(Permission::UPDATE->value.':'.Resource::THREAD->value);
+        return false;
     }
 
     /**
@@ -46,6 +45,22 @@ class ThreadPolicy
      */
     public function delete(User $user, Thread $thread): bool
     {
-        return $user->can(Permission::DELETE->value.':'.Resource::THREAD->value);
+        return false;
+    }
+
+    /**
+     * Determine whether the user can restore the model.
+     */
+    public function restore(User $user, Thread $thread): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     */
+    public function forceDelete(User $user, Thread $thread): bool
+    {
+        return false;
     }
 }

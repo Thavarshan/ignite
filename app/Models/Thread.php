@@ -2,54 +2,47 @@
 
 namespace App\Models;
 
-use App\Enums\Priority;
-use App\Enums\Status;
-use App\Observers\ThreadObserver;
-use App\Traits\HasPath;
-use Filterable\Interfaces\Filterable as FilterableInterface;
-use Filterable\Traits\Filterable;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use App\Models\Traits\HasSlug;
+use Filterable\Contracts\Filterable;
+use Filterable\Traits\Filterable as HasFilters;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
 
-#[ObservedBy(ThreadObserver::class)]
-class Thread extends Model implements FilterableInterface
+class Thread extends Model implements Filterable
 {
-    use Filterable, HasFactory, HasPath, HasSlug;
+    /** @use HasFactory<\Database\Factories\ThreadFactory> */
+    use HasFactory, HasFilters, HasSlug;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = [
         'title',
-        'body',
-        'is_ticket',
-        'status',
-        'priority',
-        'assigned_to_id',
-        'user_id',
-        'channel_id',
         'slug',
-        'views',
-        'replies_count',
-        'last_reply_at',
+        'body',
+        'channel_id',
+        'user_id',
         'locked_at',
-        'pinned_at',
-        'flagged_at',
     ];
 
     /**
-     * The attributes that should be used to generate the slug.
-     *
-     * @var array
+     * Get the channel that owns the thread.
      */
-    protected $sluggableAttribute = 'title';
+    public function channel(): BelongsTo
+    {
+        return $this->belongsTo(Channel::class);
+    }
+
+    /**
+     * Get the author that owns the thread.
+     */
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     /**
      * Get the attributes that should be cast.
@@ -59,91 +52,15 @@ class Thread extends Model implements FilterableInterface
     protected function casts(): array
     {
         return [
-            'is_ticket' => 'boolean',
-            'last_reply_at' => 'datetime',
             'locked_at' => 'datetime',
-            'pinned_at' => 'datetime',
-            'flagged_at' => 'datetime',
-            'status' => Status::class,
-            'priority' => Priority::class,
         ];
     }
 
     /**
-     * Get the user that created the thread.
-     */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the user that the thread is assigned to.
-     */
-    public function assignedTo(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'assigned_to_id');
-    }
-
-    /**
-     * Get the channel that the thread belongs to.
-     */
-    public function channel(): BelongsTo
-    {
-        return $this->belongsTo(Channel::class);
-    }
-
-    /**
-     * Get the replies for the thread.
-     */
-    public function replies(): HasMany
-    {
-        return $this->hasMany(Reply::class);
-    }
-
-    /**
-     * Add a reply to the thread.
-     */
-    public function addReply(User $user, array $attributes): Reply
-    {
-        return $this->replies()->create(
-            array_merge($attributes, ['user_id' => $user->id])
-        );
-    }
-
-    /**
-     * Determine if the thread is a ticket.
-     */
-    public function isTicket(): bool
-    {
-        return (bool) $this->is_ticket;
-    }
-
-    /**
      * Get the route key for the model.
-     *
-     * @return string
      */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
-    }
-
-    /**
-     * Get the options for generating the slug.
-     */
-    public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('title')
-            ->saveSlugsTo('slug');
-    }
-
-    /**
-     * Get additional route parameters for the model.
-     */
-    public function getAdditionalRouteParameters(): array
-    {
-        return ['channel' => $this->channel->slug];
     }
 }

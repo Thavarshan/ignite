@@ -2,33 +2,28 @@
 
 namespace App\Models;
 
-use App\Traits\HasPath;
-use Filterable\Interfaces\Filterable;
+use App\Models\Traits\HasSlug;
+use Filterable\Contracts\Filterable;
 use Filterable\Traits\Filterable as HasFilters;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
 
 class Channel extends Model implements Filterable
 {
-    use HasFactory, HasFilters, HasPath, HasSlug;
+    /** @use HasFactory<\Database\Factories\ChannelFactory> */
+    use HasFactory, HasFilters, HasSlug;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
-    protected $fillable = ['name', 'slug', 'description'];
-
-    /**
-     * Get the route key for the model.
-     */
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+    ];
 
     /**
      * Get the threads for the channel.
@@ -39,12 +34,10 @@ class Channel extends Model implements Filterable
     }
 
     /**
-     * Get the options for generating the slug.
+     * Get the route key for the model.
      */
-    public function getSlugOptions(): SlugOptions
+    public function getRouteKeyName(): string
     {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug');
+        return 'slug';
     }
 }

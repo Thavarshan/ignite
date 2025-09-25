@@ -17,10 +17,7 @@ class ThreadFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence,
-            'body' => $this->faker->paragraph,
-            'status' => $this->faker->randomElement(['open', 'closed', 'pending']),
-            'priority' => $this->faker->randomElement(['low', 'medium', 'high']),
+            //
         ];
     }
 }

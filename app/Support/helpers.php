@@ -1,20 +1,14 @@
 <?php
 
-use App\Services\HashIdService;
-use Hashids\HashidsInterface;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 
-if (! function_exists('uid')) {
+if (! function_exists('has_attribute')) {
     /**
-     * Generate a new and unique code.
+     * Determine if the model table has given column.
      */
-    function uid(?int $id = null): string|HashidsInterface
+    function has_attribute(Model $model, string $column): bool
     {
-        $hasher = app(HashIdService::class);
-
-        if ($id === null) {
-            return $hasher->createHasher();
-        }
-
-        return $hasher->encode($id);
+        return Schema::hasColumn($model->getTable(), $column);
     }
 }

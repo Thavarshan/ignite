@@ -1,26 +1,14 @@
 {
-    // use the app's formattting rules over a developer's personal
-    "editor.formatOnSave": false,
-    "javascript.format.enable": false,
-
-    "cSpell.words": [
-        "axios",
-        "barryvdh",
-        "categorisable",
-        "categorisables",
-        "composables",
-        "datatable",
-        "fetchify",
-        "iconfield",
-        "inputicon",
-        "inputtext",
-        "netwatch",
-        "pinia",
-        "primeicons",
-        "primevue",
-        "splitbutton",
-        "templatable",
-        "vueuse",
-        "ziggy"
-    ]
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/*.js": {
+            "when": "$(basename).ts"
+        },
+        "**/*.js.map": true,
+        ".mule": true
+    }
 }

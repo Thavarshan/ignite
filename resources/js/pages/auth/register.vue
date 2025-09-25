@@ -1,95 +1,111 @@
 <script setup lang="ts">
-import Auth from '@/layouts/auth.vue';
+import RegisteredUserController from '@/actions/App/Http/Controllers/Auth/RegisteredUserController';
+import InputError from '@/components/InputError.vue';
+import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
-import { Input, InputError } from '@/components/ui/input';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import { Checkbox } from '@/components/ui/checkbox';
+import AuthBase from '@/layouts/AuthLayout.vue';
+import { login } from '@/routes';
+import { Form, Head } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
-
-const form = useForm({
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-    terms: false,
-});
-
-const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
-};
 </script>
 
 <template>
-    <Head title="Create Account" />
-    <Auth>
-        <div class="mx-auto grid max-w-sm gap-6">
-            <div class="grid gap-2 text-center">
-                <h1 class="text-3xl font-bold">Create Account</h1>
-                <p class="text-balance text-muted-foreground text-sm">
-                    Enter your email address below to create an account. This helps us securely verify your identity for
-                    access.
-                </p>
-            </div>
-            <form @submit.prevent="submit" class="grid gap-4">
+    <AuthBase
+        title="Create an account"
+        description="Enter your details below to create your account"
+    >
+        <Head title="Register" />
+
+        <Form
+            v-bind="RegisteredUserController.store.form()"
+            :reset-on-success="['password', 'password_confirmation']"
+            v-slot="{ errors, processing }"
+            class="flex flex-col gap-6"
+        >
+            <div class="grid gap-6">
                 <div class="grid gap-2">
                     <Label for="name">Name</Label>
                     <Input
                         id="name"
-                        type="name"
-                        v-model="form.name"
-                        placeholder="John Doe"
+                        type="text"
                         required
+                        autofocus
+                        :tabindex="1"
                         autocomplete="name"
+                        name="name"
+                        placeholder="Full name"
                     />
-                    <InputError :message="form.errors.email" />
+                    <InputError :message="errors.name" />
                 </div>
+
                 <div class="grid gap-2">
-                    <Label for="email">Email</Label>
+                    <Label for="email">Email address</Label>
                     <Input
                         id="email"
                         type="email"
-                        v-model="form.email"
-                        placeholder="m@example.com"
                         required
+                        :tabindex="2"
                         autocomplete="email"
+                        name="email"
+                        placeholder="email@example.com"
                     />
-                    <InputError :message="form.errors.email" />
+                    <InputError :message="errors.email" />
                 </div>
+
                 <div class="grid gap-2">
                     <Label for="password">Password</Label>
-                    <Input id="password" type="password" v-model="form.password" required />
-                    <InputError :message="form.errors.password" />
+                    <Input
+                        id="password"
+                        type="password"
+                        required
+                        :tabindex="3"
+                        autocomplete="new-password"
+                        name="password"
+                        placeholder="Password"
+                    />
+                    <InputError :message="errors.password" />
                 </div>
+
                 <div class="grid gap-2">
-                    <Label for="password_confirmation">Confirm Password</Label>
-                    <Input id="password_confirmation" type="password" v-model="form.password_confirmation" required />
-                    <InputError :message="form.errors.password_confirmation" />
+                    <Label for="password_confirmation">Confirm password</Label>
+                    <Input
+                        id="password_confirmation"
+                        type="password"
+                        required
+                        :tabindex="4"
+                        autocomplete="new-password"
+                        name="password_confirmation"
+                        placeholder="Confirm password"
+                    />
+                    <InputError :message="errors.password_confirmation" />
                 </div>
-                <div class="flex items-center space-x-2">
-                    <Checkbox id="terms" v-model:checked="form.terms" name="terms" required />
-                    <Label for="terms">
-                        I agree to the <Link :href="route('terms.show')" class="underline">terms</Link> and
-                        <Link :href="route('policy.show')" class="underline">conditions</Link>.</Label
-                    >
-                </div>
+
                 <Button
                     type="submit"
-                    class="w-full"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
+                    class="mt-2 w-full"
+                    tabindex="5"
+                    :disabled="processing"
+                    data-test="register-user-button"
                 >
-                    <LoaderCircle v-if="form.processing" class="size-5 -ml-6 mr-2 animate-spin" />
-                    Register
+                    <LoaderCircle
+                        v-if="processing"
+                        class="h-4 w-4 animate-spin"
+                    />
+                    Create account
                 </Button>
-                <Button variant="outline" class="w-full"> Register with Google </Button>
-            </form>
-            <div class="mt-4 text-center text-sm">
-                Already have an account?
-                <Link :href="route('login')" class="underline"> Sign in </Link>
             </div>
-        </div>
-    </Auth>
+
+            <div class="text-center text-sm text-muted-foreground">
+                Already have an account?
+                <TextLink
+                    :href="login()"
+                    class="underline underline-offset-4"
+                    :tabindex="6"
+                    >Log in</TextLink
+                >
+            </div>
+        </Form>
+    </AuthBase>
 </template>

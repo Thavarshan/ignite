@@ -1,6 +1,6 @@
-export { default as LineChart } from './LineChart.vue'
+export { default as LineChart } from "./LineChart.vue"
 
-import type { Spacing } from '@unovis/ts'
+import type { Spacing } from "@unovis/ts"
 
 type KeyOf<T extends Record<string, any>> = Extract<keyof T, string>
 
@@ -10,7 +10,7 @@ export interface BaseChartProps<T extends Record<string, any>> {
    */
   data: T[]
   /**
-   * Select the categories from your data. Used to populate the legend and toolip.
+   * Select the categories from your data. Used to populate the legend and tooltip.
    */
   categories: KeyOf<T>[]
   /**
