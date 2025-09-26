@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use App\Filters\ThreadFilter;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreThreadRequest;
 use App\Http\Requests\UpdateThreadRequest;
 use App\Http\Resources\ThreadResource;
+use App\Jobs\CreateNewThread;
 use App\Models\Channel;
 use App\Models\Thread;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class ThreadController extends Controller
 {
@@ -33,7 +37,7 @@ class ThreadController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('threads/Create');
     }
@@ -41,25 +45,31 @@ class ThreadController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreThreadRequest $request)
+    public function store(StoreThreadRequest $request): RedirectResponse
     {
-        
+        dispatch(new CreateNewThread($request->validated()))->afterResponse();
+
+        return back();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Thread $thread)
+    public function show(Thread $thread): Response
     {
-        //
+        return Inertia::render('threads/Show', [
+            'thread' => new ThreadResource($thread->load(['author', 'channel'])),
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Thread $thread)
+    public function edit(Thread $thread): Response
     {
-        //
+        return Inertia::render('threads/Edit', [
+            'thread' => new ThreadResource($thread->load(['author', 'channel'])),
+        ]);
     }
 
     /**
@@ -67,14 +77,18 @@ class ThreadController extends Controller
      */
     public function update(UpdateThreadRequest $request, Thread $thread)
     {
-        //
+        $thread->update($request->validated());
+
+        return back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Thread $thread)
+    public function destroy(Thread $thread): SymfonyResponse
     {
-        //
+        $thread->delete();
+
+        return Inertia::location(route('threads.index'));
     }
 }
