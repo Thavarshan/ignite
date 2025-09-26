@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         api: __DIR__.'/../routes/api/v1/routes.php',
         commands: __DIR__.'/../routes/console/routes.php',
         health: '/up',
-        apiPrefix: 'api/v1',
+        apiPrefix: 'api',
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);

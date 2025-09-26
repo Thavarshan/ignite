@@ -24,7 +24,7 @@ class DeleteChannelTest extends TestCase
 
     public function test_delete_channel_successfully(): void
     {
-        $response = $this->deleteJson("/api/channels/{$this->channel->slug}");
+        $response = $this->deleteJson(route('api.v1.channels.destroy', ['channel' => $this->channel->slug]));
 
         $response->assertNoContent();
 
@@ -35,7 +35,7 @@ class DeleteChannelTest extends TestCase
 
     public function test_delete_channel_using_slug(): void
     {
-        $response = $this->deleteJson("/api/channels/{$this->channel->slug}");
+        $response = $this->deleteJson(route('api.v1.channels.destroy', ['channel' => $this->channel->slug]));
 
         $response->assertNoContent();
 
@@ -46,14 +46,14 @@ class DeleteChannelTest extends TestCase
 
     public function test_delete_nonexistent_channel_returns_404(): void
     {
-        $response = $this->deleteJson('/api/channels/999');
+        $response = $this->deleteJson(route('api.v1.channels.destroy', ['channel' => 'nonexistent-slug']));
 
         $response->assertNotFound();
     }
 
     public function test_delete_nonexistent_channel_by_slug_returns_404(): void
     {
-        $response = $this->deleteJson('/api/channels/nonexistent-slug');
+        $response = $this->deleteJson(route('api.v1.channels.destroy', ['channel' => 'nonexistent-slug']));
 
         $response->assertNotFound();
     }
@@ -64,7 +64,7 @@ class DeleteChannelTest extends TestCase
 
         $this->assertDatabaseHas('channels', ['id' => $channelId]);
 
-        $this->deleteJson("/api/channels/{$this->channel->slug}");
+        $this->deleteJson(route('api.v1.channels.destroy', ['channel' => $this->channel->slug]));
 
         $this->assertDatabaseCount('channels', 0);
         $this->assertDatabaseMissing('channels', ['id' => $channelId]);
@@ -77,8 +77,8 @@ class DeleteChannelTest extends TestCase
 
         $this->assertDatabaseCount('channels', 3); // Including the one from setUp
 
-        $this->deleteJson("/api/channels/{$channel1->slug}")->assertNoContent();
-        $this->deleteJson("/api/channels/{$channel2->slug}")->assertNoContent();
+        $this->deleteJson(route('api.v1.channels.destroy', ['channel' => $channel1->slug]))->assertNoContent();
+        $this->deleteJson(route('api.v1.channels.destroy', ['channel' => $channel2->slug]))->assertNoContent();
 
         $this->assertDatabaseCount('channels', 1); // Only the one from setUp remains
         $this->assertDatabaseHas('channels', ['id' => $this->channel->id]);
