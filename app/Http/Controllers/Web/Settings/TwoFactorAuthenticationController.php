@@ -4,17 +4,26 @@ namespace App\Http\Controllers\Web\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\TwoFactorAuthenticationRequest;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Inertia\Inertia;
 use Inertia\Response;
 use Laravel\Fortify\Features;
 
-class TwoFactorAuthenticationController extends Controller
+class TwoFactorAuthenticationController extends Controller implements HasMiddleware
 {
-    public function __construct()
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
     {
         if (Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword')) {
-            $this->middleware('password.confirm')->only('show');
+            return [
+                new Middleware('password.confirm'),
+            ];
         }
+
+        return [];
     }
 
     /**

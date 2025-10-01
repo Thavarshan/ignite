@@ -11,15 +11,22 @@ use App\Jobs\CreateNewThread;
 use App\Models\Channel;
 use App\Models\Thread;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Inertia\Inertia;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
-class ThreadController extends Controller
+class ThreadController extends Controller implements HasMiddleware
 {
-    public function __construct()
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        return [
+            new Middleware('auth', except: ['index', 'show']),
+        ];
     }
 
     /**

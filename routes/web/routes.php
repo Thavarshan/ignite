@@ -17,7 +17,9 @@ Route::get('dashboard', function (): Response {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('threads', ThreadController::class);
-Route::post('threads/{thread}/replies', [ThreadReplyController::class, 'store'])->name('threads.replies.store');
+Route::post('threads/{thread}/replies', [ThreadReplyController::class, 'store'])
+    ->middleware(['auth'])
+    ->name('threads.replies.store');
 
 Route::group([
     'as' => 'channels.',
