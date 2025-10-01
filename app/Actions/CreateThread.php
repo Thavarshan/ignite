@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Contracts\CreatesThreads;
 use App\Models\Thread;
+use Illuminate\Support\Facades\DB;
 
 class CreateThread implements CreatesThreads
 {
@@ -12,6 +13,6 @@ class CreateThread implements CreatesThreads
      */
     public function create(array $data): Thread
     {
-        return Thread::create($data);
+        return DB::transaction(fn (): Thread => Thread::create($data));
     }
 }
