@@ -63,10 +63,10 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
-        "lint:php": [
+        "lint": [
             "@php vendor/bin/pint --dirty"
         ],
-        "format:php": [
+        "format": [
             "@php vendor/bin/pint"
         ],
         "dev": [
