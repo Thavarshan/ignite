@@ -75,8 +75,8 @@ jobs:
       - name: Check formatting
         run: npm run format:check
 
-      - name: Build assets
-        run: npm run build -- --mode=production
+      - name: Build client and SSR bundles
+        run: npm run build:ssr
 
       - name: Run test suite
         run: php artisan test
