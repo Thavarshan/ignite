@@ -43,8 +43,8 @@ Update `.env` if you plan to use MySQL, Postgres, or another driver.
 
 | Command                | Purpose                                            |
 | ---------------------- | -------------------------------------------------- |
-| `composer format:php`  | Format backend code with Pint                      |
-| `composer lint:php`    | Lint backend code with Pint (dirty changes)        |
+| `composer format`      | Format backend code with Pint                      |
+| `composer lint`        | Lint backend code with Pint (dirty changes)        |
 | `npm run lint`         | Lint and auto-fix Vue/TypeScript files with ESLint |
 | `npm run format`       | Format frontend assets with Prettier               |
 | `npm run format:check` | Check frontend formatting without modifying files  |
