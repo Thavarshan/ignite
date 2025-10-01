@@ -70,6 +70,7 @@ For Laravel Forge deployments:
 
 1. Ensure the server has PHP 8.4, Node.js 22, and npm 10.
 2. Update the deploy script to run:
+
     ```bash
     composer install --no-dev --prefer-dist --no-interaction
     php artisan migrate --force
@@ -79,6 +80,7 @@ For Laravel Forge deployments:
     php artisan route:cache
     php artisan view:cache
     ```
+
 3. Configure environment variables (`APP_KEY`, database credentials, queue connection, mail driver, etc.).
 4. Point Forge's web directory to `public`.
 

@@ -35,7 +35,7 @@ class ThreadController extends Controller implements HasMiddleware
     public function index(ThreadFilter $filter, ?Channel $channel): Response
     {
         $threads = Thread::filter($filter)
-            ->when($channel?->exists, function ($query) use ($channel) {
+            ->when($channel?->exists, function ($query) use ($channel): void {
                 $query->where('channel_id', $channel->id);
             })
             ->with(['author', 'channel'])
@@ -75,7 +75,12 @@ class ThreadController extends Controller implements HasMiddleware
     {
         return Inertia::render('threads/Show', [
             'channels' => Channel::all(),
-            'thread' => new ThreadResource($thread->load(['author', 'channel', 'replies', 'replies.author'])),
+            'thread' => new ThreadResource($thread->load([
+                'author',
+                'channel',
+                'replies',
+                'replies.author',
+            ])),
         ]);
     }
 
@@ -93,7 +98,7 @@ class ThreadController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateThreadRequest $request, Thread $thread)
+    public function update(UpdateThreadRequest $request, Thread $thread): RedirectResponse
     {
         $thread->update($request->validated());
 

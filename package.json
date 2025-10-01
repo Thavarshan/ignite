@@ -64,7 +64,7 @@
     "lint-staged": {
         "*.php": "vendor/bin/pint --dirty",
         "*.{ts,tsx,js,jsx,vue}": [
-            "eslint --max-warnings=0 --fix",
+            "eslint --max-warnings=0 --no-warn-ignored --fix",
             "prettier --write"
         ],
         "*.{json,css,scss,html,md}": "prettier --write"

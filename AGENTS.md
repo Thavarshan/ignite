@@ -16,16 +16,16 @@ This handbook provides project context and operational guardrails for AI agents 
 
 ## Quick Reference Commands
 
-| Purpose           | Command                                  |
-| ----------------- | ---------------------------------------- |
-| Install PHP deps  | `composer install`                       |
-| Install JS deps   | `npm install`                            |
-| Run feature tests | `php artisan test`                       |
-| Lint backend      | `composer lint:php`                      |
-| Lint frontend     | `npm run lint`                           |
-| Check formatting  | `npm run format:check`                   |
-| Fix formatting    | `composer format:php` / `npm run format` |
-| Build assets      | `npm run build`                          |
+| Purpose           | Command                              |
+| ----------------- | ------------------------------------ |
+| Install PHP deps  | `composer install`                   |
+| Install JS deps   | `npm install`                        |
+| Run feature tests | `php artisan test`                   |
+| Lint backend      | `composer lint`                      |
+| Lint frontend     | `npm run lint`                       |
+| Check formatting  | `npm run format:check`               |
+| Fix formatting    | `composer format` / `npm run format` |
+| Build assets      | `npm run build`                      |
 
 ## Collaboration Checklist
 
