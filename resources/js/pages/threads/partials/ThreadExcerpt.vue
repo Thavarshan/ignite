@@ -46,7 +46,9 @@ defineProps<{
                 </Link>
             </span>
             <span class="mx-2">•</span>
-            <span>{{ diffForHumans(thread.created_at) }}</span>
+            <span>{{ thread.replies_count }} replies</span>
+            <span class="mx-2">•</span>
+            <span>{{ diffForHumans(thread.updated_at) }}</span>
         </div>
     </div>
 </template>

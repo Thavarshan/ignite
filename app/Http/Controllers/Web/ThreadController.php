@@ -85,6 +85,7 @@ class ThreadController extends Controller implements HasMiddleware
     public function edit(Thread $thread): Response
     {
         return Inertia::render('threads/Edit', [
+            'channels' => Channel::all(),
             'thread' => new ThreadResource($thread->load(['author', 'channel'])),
         ]);
     }

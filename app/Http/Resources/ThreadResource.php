@@ -22,6 +22,7 @@ class ThreadResource extends JsonResource
             'channel' => new ChannelResource($this->whenLoaded('channel')),
             'author' => new UserResource($this->whenLoaded('author')),
             'replies' => ReplyResource::collection($this->whenLoaded('replies')),
+            'replies_count' => $this->replies_count,
             'locked' => $this->locked,
             'locked_at' => $this->locked_at,
             'created_at' => $this->created_at,

@@ -148,7 +148,7 @@ const rightNavItems: NavItem[] = [
                     </Sheet>
                 </div>
 
-                <Link :href="index()">
+                <Link :href="index()" class="-ml-1.5">
                     <AppLogo />
                 </Link>
 

@@ -38,6 +38,7 @@ class Thread extends Model implements Filterable
      */
     protected $appends = [
         'locked',
+        'replies_count',
     ];
 
     /**
@@ -82,6 +83,16 @@ class Thread extends Model implements Filterable
         return [
             'locked_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Get the replies count attribute.
+     */
+    public function repliesCount(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): int => $this->replies()->count(),
+        );
     }
 
     /**
