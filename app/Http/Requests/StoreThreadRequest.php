@@ -25,6 +25,7 @@ class StoreThreadRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string'],
             'channel_id' => ['required', 'exists:channels,id'],
+            'user_id' => ['required', 'integer', 'exists:users,id'],
         ];
     }
 

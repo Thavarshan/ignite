@@ -33,7 +33,7 @@ class GetThreadsTest extends TestCase
     {
         $response = $this->get('/api/channels');
 
-        $response->assertOk();
+        $response->assertStatus(200);
         $response->assertJsonCount(3, 'data');
         $response->assertJsonFragment([
             'name' => $this->channels->first()->name,
@@ -45,7 +45,7 @@ class GetThreadsTest extends TestCase
     {
         $response = $this->get('/api/channels?name='.$this->channels->first()->name);
 
-        $response->assertOk();
+        $response->assertStatus(200);
         $response->assertJsonCount(1, 'data');
         $response->assertJsonFragment([
             'name' => $this->channels->first()->name,

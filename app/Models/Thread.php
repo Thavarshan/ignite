@@ -2,17 +2,20 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Fillable;
 use App\Models\Traits\HasSlug;
 use Filterable\Contracts\Filterable;
 use Filterable\Traits\Filterable as HasFilters;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Thread extends Model implements Filterable
 {
     /** @use HasFactory<\Database\Factories\ThreadFactory> */
-    use HasFactory, HasFilters, HasSlug;
+    use Fillable, HasFactory, HasFilters, HasSlug;
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +29,15 @@ class Thread extends Model implements Filterable
         'channel_id',
         'user_id',
         'locked_at',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'locked',
     ];
 
     /**
@@ -45,6 +57,22 @@ class Thread extends Model implements Filterable
     }
 
     /**
+     * Get the replies for the thread.
+     */
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    /**
+     * Add a reply to the thread.
+     */
+    public function addReply(array $attributes): Reply
+    {
+        return $this->replies()->create($attributes);
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -54,6 +82,14 @@ class Thread extends Model implements Filterable
         return [
             'locked_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Determine if this thread is locked.
+     */
+    public function locked(): Attribute
+    {
+        return Attribute::make(fn (): bool => ! is_null($this->locked_at));
     }
 
     /**

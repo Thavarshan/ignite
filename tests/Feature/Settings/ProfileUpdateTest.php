@@ -18,7 +18,7 @@ class ProfileUpdateTest extends TestCase
             ->actingAs($user)
             ->get(route('profile.edit'));
 
-        $response->assertOk();
+        $response->assertStatus(200);
     }
 
     public function test_profile_information_can_be_updated()

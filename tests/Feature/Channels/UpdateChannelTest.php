@@ -32,7 +32,7 @@ class UpdateChannelTest extends TestCase
 
         $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
 
-        $response->assertOk();
+        $response->assertStatus(200);
         $response->assertJson(
             fn (AssertableJson $json): AssertableJson => $json
                 ->where('id', $this->channel->id)
@@ -59,7 +59,7 @@ class UpdateChannelTest extends TestCase
 
         $response = $this->patchJson("/api/channels/{$this->channel->slug}", $updateData);
 
-        $response->assertOk();
+        $response->assertStatus(200);
         $response->assertJson(
             fn (AssertableJson $json): AssertableJson => $json
                 ->where('name', 'Patched Channel')
@@ -79,7 +79,7 @@ class UpdateChannelTest extends TestCase
 
         $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
 
-        $response->assertOk();
+        $response->assertStatus(200);
         $this->assertDatabaseHas('channels', [
             'id' => $this->channel->id,
             'name' => 'New Name Only',
@@ -96,7 +96,7 @@ class UpdateChannelTest extends TestCase
 
         $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
 
-        $response->assertOk();
+        $response->assertStatus(200);
         $this->assertDatabaseHas('channels', [
             'id' => $this->channel->id,
             'name' => 'Original Channel',
@@ -113,7 +113,7 @@ class UpdateChannelTest extends TestCase
 
         $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
 
-        $response->assertOk();
+        $response->assertStatus(200);
         $this->assertDatabaseHas('channels', [
             'id' => $this->channel->id,
             'name' => 'Original Channel',
@@ -183,7 +183,7 @@ class UpdateChannelTest extends TestCase
 
         $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
 
-        $response->assertOk();
+        $response->assertStatus(200);
         $this->assertDatabaseHas('channels', [
             'id' => $this->channel->id,
             'name' => 'Original Channel',

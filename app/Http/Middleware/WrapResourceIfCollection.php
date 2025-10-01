@@ -18,13 +18,15 @@ class WrapResourceIfCollection
     {
         $response = $next($request);
 
-        if ($response instanceof JsonResponse) {
-            $data = $response->getData(true);
+        if (! $response instanceof JsonResponse) {
+            return $response;
+        }
 
-            // Check if this looks like a collection response that should be wrapped
-            if ($this->shouldWrapResponse($data)) {
-                $response->setData(['data' => $data]);
-            }
+        $data = $response->getData(true);
+
+        // Check if this looks like a collection response that should be wrapped
+        if ($this->shouldWrapResponse($data)) {
+            $response->setData(['data' => $data]);
         }
 
         return $response;

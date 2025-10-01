@@ -1,8 +1,10 @@
 import { InertiaLinkProps } from '@inertiajs/vue3';
 import type { LucideIcon } from 'lucide-vue-next';
-import type { User } from './user';
 import type { Channel } from './channel';
+import type { Paginated } from './pagination';
+import type { Reply } from './reply';
 import type { Thread } from './thread';
+import type { User } from './user';
 
 export interface Auth {
     user: User;
@@ -31,4 +33,4 @@ export type AppPageProps<
 
 export type BreadcrumbItemType = BreadcrumbItem;
 
-export { Channel, User, Thread };
+export { Channel, Paginated, Reply, Thread, User };

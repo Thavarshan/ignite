@@ -8,6 +8,8 @@ Route::get('/me', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+Route::apiResource('channels', ChannelController::class)->except(['show']);
+
 Route::group([
     'prefix' => 'v1',
     'as' => 'api.v1.',

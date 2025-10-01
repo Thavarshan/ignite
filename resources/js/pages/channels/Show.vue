@@ -2,7 +2,7 @@
 import type { Channel } from '@/types';
 
 defineProps<{
-    channel: Channel
+    channel: Channel;
 }>();
 </script>
 
@@ -12,4 +12,3 @@ defineProps<{
         {{ channel.name }}
     </div>
 </template>
-

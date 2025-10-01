@@ -13,6 +13,7 @@ export default defineConfig({
         }),
         tailwindcss(),
         wayfinder({
+            routes: true,
             formVariants: true,
         }),
         vue({

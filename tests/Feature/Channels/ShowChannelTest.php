@@ -106,7 +106,7 @@ class ShowChannelTest extends TestCase
         ]);
 
         $this->get("/channels/{$specialChannel->slug}")
-            ->assertOk()
+            ->assertStatus(200)
             ->assertInertia(
                 fn (Assert $page): AssertableJson => $page
                     ->component('channels/Show')
@@ -129,7 +129,7 @@ class ShowChannelTest extends TestCase
 
         foreach ($channels as $channel) {
             $this->get("/channels/{$channel->slug}")
-                ->assertOk()
+                ->assertStatus(200)
                 ->assertInertia(
                     fn (Assert $page): AssertableJson => $page
                         ->component('channels/Show')

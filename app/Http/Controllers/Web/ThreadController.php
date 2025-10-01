@@ -17,19 +17,26 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class ThreadController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(ThreadFilter $filter, ?Channel $channel): Response
     {
         $threads = Thread::filter($filter)
-            ->when($channel, fn ($query) => $query->where('channel_id', $channel->id))
+            ->when($channel?->exists, function ($query) use ($channel) {
+                $query->where('channel_id', $channel->id);
+            })
             ->with(['author', 'channel'])
             ->latest()
             ->paginate();
 
         return Inertia::render('threads/Index', [
-            'channel' => $channel,
+            'channels' => Channel::all(),
             'threads' => ThreadResource::collection($threads),
         ]);
     }
@@ -39,7 +46,9 @@ class ThreadController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('threads/Create');
+        return Inertia::render('threads/Create', [
+            'channels' => Channel::all(),
+        ]);
     }
 
     /**
@@ -58,7 +67,8 @@ class ThreadController extends Controller
     public function show(Thread $thread): Response
     {
         return Inertia::render('threads/Show', [
-            'thread' => new ThreadResource($thread->load(['author', 'channel'])),
+            'channels' => Channel::all(),
+            'thread' => new ThreadResource($thread->load(['author', 'channel', 'replies', 'replies.author'])),
         ]);
     }
 

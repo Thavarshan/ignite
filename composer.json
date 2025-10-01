@@ -1,15 +1,19 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/vue-starter-kit",
+    "name": "jerome/ignite",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Simple forum platform.",
     "keywords": [
         "laravel",
-        "framework"
+        "forum",
+        "inertia",
+        "tailwindcss",
+        "alpinejs"
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
+        "erusev/parsedown": "^1.7",
         "inertiajs/inertia-laravel": "^2.0",
         "jerome/filterable": "^2.0",
         "laravel/fortify": "^1.30",
@@ -58,6 +62,12 @@
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
+        ],
+        "lint:php": [
+            "@php vendor/bin/pint --dirty"
+        ],
+        "format:php": [
+            "@php vendor/bin/pint"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
