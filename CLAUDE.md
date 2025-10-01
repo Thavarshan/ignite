@@ -9,6 +9,7 @@ Use this guide when operating as Claude within the Ignite repository.
 - **Toolchain:** PHP 8.4, Laravel 12, Inertia + Vue 3, Tailwind 4.
 - **Quality Gates:** Pint, ESLint, Prettier, PHPUnit, lint-staged pre-commit hook.
 - **CI/CD:** GitHub Actions (`.github/workflows/ci.yml`) with backend/frontend jobs; deploy target is Laravel Forge.
+- **Security automation:** Dependabot PRs and CI audits (`composer audit`, `npm audit --audit-level=moderate`).
 
 ## Operating Checklist
 
@@ -34,6 +35,7 @@ Use this guide when operating as Claude within the Ignite repository.
 - Summaries should mention test and lint command results.
 - Reference new documentation files when giving onboarding instructions.
 - Provide deployment guidance using the Forge steps documented in `README.md`.
+- Surface any outstanding security alerts or audit failures when summarizing status.
 
 ---
 

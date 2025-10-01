@@ -42,6 +42,9 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
 
+      - name: Audit PHP dependencies
+        run: composer audit --no-interaction --format=table
+
       - name: Prepare environment
         run: |
           cp .env.example .env
@@ -73,6 +76,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Audit Node dependencies
+        run: npm audit --audit-level=moderate
 
       - name: Lint source
         run: npm run lint

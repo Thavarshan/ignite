@@ -57,6 +57,13 @@ Pre-commit hooks (powered by Husky and lint-staged) ensure Pint, ESLint, and Pre
 
 GitHub Actions runs linting, formatting checks, and the PHPUnit suite on every push and pull request targeting `main`. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) for details.
 
+## Security & Observability
+
+- **Dependency monitoring:** Dependabot opens pull requests when Composer or npm dependencies fall behind (`.github/dependabot.yml`).
+- **Automated audits:** CI executes `composer audit` and `npm audit --audit-level=moderate` to surface known vulnerabilities.
+- **Operational logging:** Use `php artisan pail --tail` for structured log streaming during development and triage.
+- **Release hygiene:** Always run `php artisan test`, `composer lint:php`, and `npm run lint` before tagging a release or deploying via Forge.
+
 ## Deployment
 
 For Laravel Forge deployments:

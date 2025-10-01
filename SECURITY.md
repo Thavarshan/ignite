@@ -11,7 +11,8 @@ We currently support the active `main` branch. Please update to the latest commi
     - A description of the vulnerability
     - Steps to reproduce
     - Any relevant logs or screenshots
-3. We will acknowledge receipt within 2 business days and aim to provide an initial response within 7 business days.
+3. We monitor Dependabot alerts and CI security audits (`composer audit`, `npm audit --audit-level=moderate`). If you see an alert that we have not addressed, please include the alert identifier in your report.
+4. We will acknowledge receipt within 2 business days and aim to provide an initial response within 7 business days.
 
 Please allow us a reasonable time to investigate and release a fix before disclosing the vulnerability publicly.
 

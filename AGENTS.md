@@ -12,6 +12,7 @@ This handbook provides project context and operational guardrails for AI agents 
 - **Test suite:** `php artisan test`
 - **Formatting / linting:** `composer lint:php`, `npm run lint`, `npm run format:check`
 - **Pre-commit hook:** Husky + lint-staged (`npm run lint:staged`)
+- **Dependency hygiene:** Dependabot PRs + CI audits (`composer audit`, `npm audit --audit-level=moderate`)
 
 ## Quick Reference Commands
 
@@ -39,6 +40,7 @@ This handbook provides project context and operational guardrails for AI agents 
 - CI runs linting, formatting checks, and PHPUnit on pushes/PRs to `main`.
 - Laravel Forge deployments should follow the script documented in `README.md`.
 - When reporting status, include results from `php artisan test`, `npm run lint`, and `npm run format:check`.
+- Flag any failing security audits or unresolved Dependabot alerts.
 
 ---
 
