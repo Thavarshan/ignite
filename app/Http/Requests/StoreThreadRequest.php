@@ -36,10 +36,10 @@ class StoreThreadRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        parent::prepareForValidation();
-
         $this->merge([
             'user_id' => $this->user()->id,
         ]);
+
+        parent::prepareForValidation();
     }
 }

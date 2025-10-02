@@ -17,6 +17,8 @@ class ReplyResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
+            'user_id' => $this->user_id,
+            'thread_id' => $this->thread_id,
             'author' => new UserResource($this->whenLoaded('author')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

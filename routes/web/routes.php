@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\ChannelController;
+use App\Http\Controllers\Web\ReplyController;
 use App\Http\Controllers\Web\ThreadController;
 use App\Http\Controllers\Web\ThreadReplyController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,7 @@ Route::get('dashboard', function (): Response {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('threads', ThreadController::class);
+Route::resource('replies', ReplyController::class)->only(['destroy', 'update']);
 Route::post('threads/{thread}/replies', [ThreadReplyController::class, 'store'])
     ->middleware(['auth'])
     ->name('threads.replies.store');

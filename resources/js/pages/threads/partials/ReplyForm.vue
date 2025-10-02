@@ -66,13 +66,13 @@ function handleSuccess() {
                 id="body"
                 name="body"
                 required
-                autofocus
                 :tabindex="1"
                 placeholder="Have something to say?"
                 class="min-h-40"
             />
             <InputError :message="errors.email" />
             <Button
+                size="sm"
                 type="submit"
                 class="mt-4"
                 :tabindex="4"

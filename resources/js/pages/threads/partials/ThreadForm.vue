@@ -74,7 +74,7 @@ const syncSelectedChannel = (
 watch(
     () => [channelOptions.value, props.thread?.channel?.id] as const,
     ([channelList, threadChannelId]) => {
-        syncSelectedChannel(channelList, threadChannelId);
+        syncSelectedChannel(channelList, threadChannelId?.toString());
     },
     { immediate: true },
 );
@@ -179,15 +179,16 @@ const handleSuccess = () => emit('success');
                         variant="ghost"
                         size="sm"
                         @click="$inertia.visit(index.url())"
+                        class="cursor-pointer"
                     >
                         Cancel
                     </Button>
                     <Button
                         type="submit"
-                        size="default"
+                        size="sm"
                         :disabled="processing || !hasChannels"
                         :data-test="submitButtonTestId"
-                        class="min-w-24"
+                        class="min-w-24 cursor-pointer"
                     >
                         <LoaderCircle
                             v-if="processing"

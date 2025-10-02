@@ -2,6 +2,7 @@
 import Heading from '@/components/Heading.vue';
 import { Button } from '@/components/ui/button';
 import AppHeaderLayout from '@/layouts/app/AppHeaderLayout.vue';
+import { index as channelIndex } from '@/routes/channels/threads';
 import { index, store } from '@/routes/threads';
 import { Head, Link } from '@inertiajs/vue3';
 import { ArrowLeft } from 'lucide-vue-next';
@@ -37,7 +38,7 @@ function handleSuccess() {
     <Head title="Create Thread" />
 
     <AppHeaderLayout>
-        <div class="mx-auto max-w-7xl">
+        <div>
             <!-- Header Section -->
             <div class="flex items-start justify-between">
                 <Heading
@@ -99,7 +100,16 @@ function handleSuccess() {
                                 class="flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
                             >
                                 <span class="text-muted-foreground/50">#</span>
-                                <span>{{ channel.name }}</span>
+                                <Link
+                                    :href="
+                                        channelIndex.url({
+                                            channel: channel.slug,
+                                        })
+                                    "
+                                    class="hover:underline"
+                                >
+                                    {{ channel.name }}
+                                </Link>
                             </div>
                         </div>
                     </div>

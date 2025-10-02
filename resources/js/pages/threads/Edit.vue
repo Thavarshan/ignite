@@ -38,7 +38,7 @@ function handleSuccess() {
     <Head title="Edit Thread" />
 
     <AppHeaderLayout>
-        <div class="mx-auto max-w-7xl">
+        <div>
             <!-- Header Section -->
             <div class="flex items-start justify-between">
                 <Heading

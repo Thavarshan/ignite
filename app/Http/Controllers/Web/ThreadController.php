@@ -43,7 +43,6 @@ class ThreadController extends Controller implements HasMiddleware
             ->paginate();
 
         return Inertia::render('threads/Index', [
-            'channels' => Channel::all(),
             'threads' => ThreadResource::collection($threads),
         ]);
     }
@@ -61,11 +60,11 @@ class ThreadController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreThreadRequest $request): RedirectResponse
+    public function store(StoreThreadRequest $request): SymfonyResponse
     {
         dispatch(new CreateNewThread($request->validated()))->afterResponse();
 
-        return back();
+        return Inertia::location(route('threads.index'));
     }
 
     /**
@@ -74,7 +73,6 @@ class ThreadController extends Controller implements HasMiddleware
     public function show(Thread $thread): Response
     {
         return Inertia::render('threads/Show', [
-            'channels' => Channel::all(),
             'thread' => new ThreadResource($thread->load([
                 'author',
                 'channel',

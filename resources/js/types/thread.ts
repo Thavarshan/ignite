@@ -9,6 +9,8 @@ export interface Thread {
     locked?: boolean;
     locked_at?: string | null;
     body: string;
+    user_id: number;
+    channel_id: number;
     author?: User | null;
     channel: Channel;
     replies?: Reply[];

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Actions\CreateThread;
+use App\Contracts\CreatesThreads;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
@@ -23,22 +25,56 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->configureJsonResources();
+        $this->configureModels();
+        $this->configureProductionEnvironment();
+
+        $this->registerActions();
+    }
+
+    /**
+     * Configure JSON resource behavior.
+     */
+    protected function configureJsonResources(): void
+    {
         JsonResource::withoutWrapping();
+    }
 
-        $isProduction = $this->app->isProduction();
-
-        if (! $isProduction) {
-            Model::preventLazyLoading();
-            Model::preventSilentlyDiscardingAttributes();
-
-            Model::retrieved(function (Model $model): void {
-                $model->preventsLazyLoading = true;
-            });
+    /**
+     * Configure Eloquent model behavior.
+     */
+    protected function configureModels(): void
+    {
+        if ($this->app->isProduction()) {
+            return;
         }
 
-        if ($isProduction) {
-            DB::prohibitDestructiveCommands();
-            URL::forceScheme('https');
+        Model::preventLazyLoading();
+        Model::preventSilentlyDiscardingAttributes();
+
+        Model::retrieved(function (Model $model): void {
+            $model->preventsLazyLoading = true;
+        });
+    }
+
+    /**
+     * Configure production-specific settings.
+     */
+    protected function configureProductionEnvironment(): void
+    {
+        if (! $this->app->isProduction()) {
+            return;
         }
+
+        DB::prohibitDestructiveCommands();
+        URL::forceScheme('https');
+    }
+
+    /**
+     * Register action implementations.
+     */
+    protected function registerActions(): void
+    {
+        $this->app->bind(CreatesThreads::class, CreateThread::class);
     }
 }

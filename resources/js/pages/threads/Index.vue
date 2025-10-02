@@ -10,14 +10,13 @@ import { Send } from 'lucide-vue-next';
 import { toRefs } from 'vue';
 import ChannelsSidebar from './partials/ChannelsSidebar.vue';
 
-import type { Channel, Paginated, Thread } from '@/types';
+import type { Paginated, Thread } from '@/types';
 
 const props = defineProps<{
     threads: Paginated<Thread>;
-    channels: Channel[];
 }>();
 
-const { threads, channels } = toRefs(props);
+const { threads } = toRefs(props);
 </script>
 
 <template>
@@ -44,7 +43,7 @@ const { threads, channels } = toRefs(props);
             </div>
 
             <div class="col-span-4">
-                <ChannelsSidebar :channels="channels" />
+                <ChannelsSidebar />
             </div>
         </div>
 
