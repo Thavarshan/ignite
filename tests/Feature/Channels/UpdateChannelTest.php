@@ -30,7 +30,7 @@ class UpdateChannelTest extends TestCase
             'description' => 'Updated description',
         ];
 
-        $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
+        $response = $this->putJson("/api/v1/channels/{$this->channel->slug}", $updateData);
 
         $response->assertStatus(200);
         $response->assertJson(
@@ -57,7 +57,7 @@ class UpdateChannelTest extends TestCase
             'name' => 'Patched Channel',
         ];
 
-        $response = $this->patchJson("/api/channels/{$this->channel->slug}", $updateData);
+        $response = $this->patchJson("/api/v1/channels/{$this->channel->slug}", $updateData);
 
         $response->assertStatus(200);
         $response->assertJson(
@@ -77,7 +77,7 @@ class UpdateChannelTest extends TestCase
             'name' => 'New Name Only',
         ];
 
-        $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
+        $response = $this->putJson("/api/v1/channels/{$this->channel->slug}", $updateData);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('channels', [
@@ -94,7 +94,7 @@ class UpdateChannelTest extends TestCase
             'description' => 'New description only',
         ];
 
-        $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
+        $response = $this->putJson("/api/v1/channels/{$this->channel->slug}", $updateData);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('channels', [
@@ -111,7 +111,7 @@ class UpdateChannelTest extends TestCase
             'description' => null,
         ];
 
-        $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
+        $response = $this->putJson("/api/v1/channels/{$this->channel->slug}", $updateData);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('channels', [
@@ -127,7 +127,7 @@ class UpdateChannelTest extends TestCase
             'description' => 'Description without name',
         ];
 
-        $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
+        $response = $this->putJson("/api/v1/channels/{$this->channel->slug}", $updateData);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['name']);
@@ -140,7 +140,7 @@ class UpdateChannelTest extends TestCase
             'description' => 'Empty name update',
         ];
 
-        $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
+        $response = $this->putJson("/api/v1/channels/{$this->channel->slug}", $updateData);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['name']);
@@ -153,7 +153,7 @@ class UpdateChannelTest extends TestCase
             'description' => 'Long name update',
         ];
 
-        $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
+        $response = $this->putJson("/api/v1/channels/{$this->channel->slug}", $updateData);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['name']);
@@ -168,7 +168,7 @@ class UpdateChannelTest extends TestCase
             'description' => 'Trying to use existing name',
         ];
 
-        $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
+        $response = $this->putJson("/api/v1/channels/{$this->channel->slug}", $updateData);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['name']);
@@ -181,7 +181,7 @@ class UpdateChannelTest extends TestCase
             'description' => 'Updated description with same name',
         ];
 
-        $response = $this->putJson("/api/channels/{$this->channel->slug}", $updateData);
+        $response = $this->putJson("/api/v1/channels/{$this->channel->slug}", $updateData);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('channels', [
@@ -198,7 +198,7 @@ class UpdateChannelTest extends TestCase
             'description' => 'Updated description',
         ];
 
-        $response = $this->putJson('/api/channels/999', $updateData);
+        $response = $this->putJson('/api/v1/channels/999', $updateData);
 
         $response->assertNotFound();
     }

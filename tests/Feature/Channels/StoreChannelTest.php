@@ -18,7 +18,7 @@ class StoreChannelTest extends TestCase
             'description' => 'A channel for Laravel discussions',
         ];
 
-        $response = $this->postJson('/api/channels', $channelData);
+        $response = $this->postJson('/api/v1/channels', $channelData);
 
         $response->assertCreated();
         $response->assertJson(
@@ -44,7 +44,7 @@ class StoreChannelTest extends TestCase
             'name' => 'Vue.js',
         ];
 
-        $response = $this->postJson('/api/channels', $channelData);
+        $response = $this->postJson('/api/v1/channels', $channelData);
 
         $response->assertCreated();
         $response->assertJson(
@@ -70,7 +70,7 @@ class StoreChannelTest extends TestCase
             'description' => 'A channel without a name',
         ];
 
-        $response = $this->postJson('/api/channels', $channelData);
+        $response = $this->postJson('/api/v1/channels', $channelData);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['name']);
@@ -83,7 +83,7 @@ class StoreChannelTest extends TestCase
             'description' => 'A channel with empty name',
         ];
 
-        $response = $this->postJson('/api/channels', $channelData);
+        $response = $this->postJson('/api/v1/channels', $channelData);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['name']);
@@ -96,7 +96,7 @@ class StoreChannelTest extends TestCase
             'description' => 'A channel with a very long name',
         ];
 
-        $response = $this->postJson('/api/channels', $channelData);
+        $response = $this->postJson('/api/v1/channels', $channelData);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['name']);
@@ -111,7 +111,7 @@ class StoreChannelTest extends TestCase
             'description' => 'Trying to create a duplicate',
         ];
 
-        $response = $this->postJson('/api/channels', $channelData);
+        $response = $this->postJson('/api/v1/channels', $channelData);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['name']);
@@ -124,7 +124,7 @@ class StoreChannelTest extends TestCase
             'description' => 'A channel for React discussions',
         ];
 
-        $response = $this->postJson('/api/channels', $channelData);
+        $response = $this->postJson('/api/v1/channels', $channelData);
 
         $response->assertCreated();
         $response->assertJson(

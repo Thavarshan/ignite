@@ -31,7 +31,7 @@ class GetThreadsTest extends TestCase
 
     public function test_get_all_channels(): void
     {
-        $response = $this->get('/api/channels');
+        $response = $this->get('/api/v1/channels');
 
         $response->assertStatus(200);
         $response->assertJsonCount(3, 'data');
@@ -43,7 +43,7 @@ class GetThreadsTest extends TestCase
 
     public function test_filter_thread_by_name(): void
     {
-        $response = $this->get('/api/channels?name='.$this->channels->first()->name);
+        $response = $this->get('/api/v1/channels?name='.$this->channels->first()->name);
 
         $response->assertStatus(200);
         $response->assertJsonCount(1, 'data');

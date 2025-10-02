@@ -39,7 +39,6 @@ class ShowThreadTest extends TestCase
                     ->has('thread.channel')
                     ->has('thread.author')
                     ->where('thread.body', '<p>This is a thread body.</p>')
-                    ->has('channels', Channel::count())
             );
     }
 

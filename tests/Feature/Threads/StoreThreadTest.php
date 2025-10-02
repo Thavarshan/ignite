@@ -41,7 +41,7 @@ class StoreThreadTest extends TestCase
         $this->actingAs($user)
             ->from(route('threads.create'))
             ->post(route('threads.store'), $payload)
-            ->assertRedirect(route('threads.create'));
+            ->assertRedirect(route('threads.index'));
 
         Bus::assertDispatched(CreateNewThread::class, function (CreateNewThread $job) use ($user, $payload): bool {
             $dataProperty = new ReflectionProperty($job, 'data');

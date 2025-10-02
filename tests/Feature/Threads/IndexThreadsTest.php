@@ -35,7 +35,6 @@ class IndexThreadsTest extends TestCase
                     ->where('threads.data', function ($threadsData) use ($threads): bool {
                         return collect($threadsData)->pluck('id')->sort()->values()->all() === $threads->pluck('id')->sort()->values()->all();
                     })
-                    ->has('channels', Channel::count())
             );
     }
 
