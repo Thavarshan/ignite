@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { Link, router, usePage } from '@inertiajs/vue3';
-import { LayoutGrid, LogOut, Settings } from 'lucide-vue-next';
-import { computed } from 'vue';
 import {
     DropdownMenuGroup,
     DropdownMenuItem,
@@ -12,6 +9,9 @@ import UserInfo from '@/components/UserInfo.vue';
 import { dashboard, logout } from '@/routes';
 import { edit } from '@/routes/profile';
 import type { User } from '@/types';
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { LayoutGrid, LogOut, Settings } from 'lucide-vue-next';
+import { computed } from 'vue';
 
 type Props = {
     user: User;
@@ -22,7 +22,7 @@ const handleLogout = () => {
 };
 
 const page = usePage();
-const isAdmin = computed(() => !!(page.props.auth as { user?: { is_admin?: boolean } })?.user?.is_admin);
+const isAdmin = computed(() => !!(page.props.auth as { user?: { is_admin?: boolean; }; })?.user?.is_admin);
 
 defineProps<Props>();
 </script>
