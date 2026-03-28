@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import NewPasswordController from '@/actions/App/Http/Controllers/Web/Auth/NewPasswordController';
+import { Form, Head } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import InputError from '@/components/InputError.vue';
+import PasswordInput from '@/components/PasswordInput.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
-import { Form, Head } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { update } from '@/routes/password';
 
 const props = defineProps<{
     token: string;
@@ -25,7 +26,7 @@ const inputEmail = ref(props.email);
         <Head title="Reset password" />
 
         <Form
-            v-bind="NewPasswordController.store.form()"
+            v-bind="update.form()"
             :transform="(data) => ({ ...data, token, email })"
             :reset-on-success="['password', 'password_confirmation']"
             v-slot="{ errors, processing }"
@@ -47,9 +48,8 @@ const inputEmail = ref(props.email);
 
                 <div class="grid gap-2">
                     <Label for="password">Password</Label>
-                    <Input
+                    <PasswordInput
                         id="password"
-                        type="password"
                         name="password"
                         autocomplete="new-password"
                         class="mt-1 block w-full"
@@ -61,11 +61,10 @@ const inputEmail = ref(props.email);
 
                 <div class="grid gap-2">
                     <Label for="password_confirmation">
-                        Confirm Password
+                        Confirm password
                     </Label>
-                    <Input
+                    <PasswordInput
                         id="password_confirmation"
-                        type="password"
                         name="password_confirmation"
                         autocomplete="new-password"
                         class="mt-1 block w-full"
@@ -80,10 +79,7 @@ const inputEmail = ref(props.email);
                     :disabled="processing"
                     data-test="reset-password-button"
                 >
-                    <LoaderCircle
-                        v-if="processing"
-                        class="h-4 w-4 animate-spin"
-                    />
+                    <Spinner v-if="processing" />
                     Reset password
                 </Button>
             </div>

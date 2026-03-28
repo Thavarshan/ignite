@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import RegisteredUserController from '@/actions/App/Http/Controllers/Web/Auth/RegisteredUserController';
+import { Form, Head } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
+import PasswordInput from '@/components/PasswordInput.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Spinner } from '@/components/ui/spinner';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { login } from '@/routes';
-import { Form, Head } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
+import { store } from '@/routes/register';
 </script>
 
 <template>
@@ -19,7 +20,7 @@ import { LoaderCircle } from 'lucide-vue-next';
         <Head title="Register" />
 
         <Form
-            v-bind="RegisteredUserController.store.form()"
+            v-bind="store.form()"
             :reset-on-success="['password', 'password_confirmation']"
             v-slot="{ errors, processing }"
             class="flex flex-col gap-6"
@@ -56,9 +57,8 @@ import { LoaderCircle } from 'lucide-vue-next';
 
                 <div class="grid gap-2">
                     <Label for="password">Password</Label>
-                    <Input
+                    <PasswordInput
                         id="password"
-                        type="password"
                         required
                         :tabindex="3"
                         autocomplete="new-password"
@@ -70,9 +70,8 @@ import { LoaderCircle } from 'lucide-vue-next';
 
                 <div class="grid gap-2">
                     <Label for="password_confirmation">Confirm password</Label>
-                    <Input
+                    <PasswordInput
                         id="password_confirmation"
-                        type="password"
                         required
                         :tabindex="4"
                         autocomplete="new-password"
@@ -89,10 +88,7 @@ import { LoaderCircle } from 'lucide-vue-next';
                     :disabled="processing"
                     data-test="register-user-button"
                 >
-                    <LoaderCircle
-                        v-if="processing"
-                        class="h-4 w-4 animate-spin"
-                    />
+                    <Spinner v-if="processing" />
                     Create account
                 </Button>
             </div>

@@ -16,12 +16,19 @@ class ReplyResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'body' => $this->body,
-            'user_id' => $this->user_id,
             'thread_id' => $this->thread_id,
-            'author' => new UserResource($this->whenLoaded('author')),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'user_id' => $this->user_id,
+            'parent_id' => $this->parent_id,
+            'body' => $this->body,
+            'likes_count' => $this->likes_count,
+            'is_liked' => $this->when(isset($this->is_liked), fn () => $this->is_liked),
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_at' => $this->updated_at?->toIso8601String(),
+            'user' => $this->whenLoaded('user', fn () => [
+                'id' => $this->user?->id,
+                'name' => $this->user?->name,
+            ]),
+            'children' => ReplyResource::collection($this->whenLoaded('children')),
         ];
     }
 }

@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Channel;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Channel>
+ * @extends Factory<Channel>
  */
 class ChannelFactory extends Factory
 {
@@ -18,8 +18,8 @@ class ChannelFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => Str::title($this->faker->word()),
-            'description' => $this->faker->sentence(),
+            'name' => fake()->unique()->words(asText: true),
+            'description' => fake()->optional()->sentence(),
         ];
     }
 }

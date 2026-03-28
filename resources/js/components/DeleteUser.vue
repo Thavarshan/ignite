@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import ProfileController from '@/actions/App/Http/Controllers/Web/Settings/ProfileController';
 import { Form } from '@inertiajs/vue3';
-import { ref } from 'vue';
-
-// Components
-import HeadingSmall from '@/components/HeadingSmall.vue';
+import { useTemplateRef } from 'vue';
+import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
+import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
+import PasswordInput from '@/components/PasswordInput.vue';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -17,15 +16,15 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-const passwordInput = ref<InstanceType<typeof Input> | null>(null);
+const passwordInput = useTemplateRef('passwordInput');
 </script>
 
 <template>
     <div class="space-y-6">
-        <HeadingSmall
+        <Heading
+            variant="small"
             title="Delete account"
             description="Delete your account and all of its resources"
         />
@@ -48,7 +47,7 @@ const passwordInput = ref<InstanceType<typeof Input> | null>(null);
                     <Form
                         v-bind="ProfileController.destroy.form()"
                         reset-on-success
-                        @error="() => passwordInput?.$el?.focus()"
+                        @error="() => passwordInput?.focus()"
                         :options="{
                             preserveScroll: true,
                         }"
@@ -73,9 +72,8 @@ const passwordInput = ref<InstanceType<typeof Input> | null>(null);
                             <Label for="password" class="sr-only"
                                 >Password</Label
                             >
-                            <Input
+                            <PasswordInput
                                 id="password"
-                                type="password"
                                 name="password"
                                 ref="passwordInput"
                                 placeholder="Password"

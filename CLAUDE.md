@@ -1,217 +1,202 @@
-# Ignite AI Collaboration Guide
-
-Use this guide when operating as Claude within the Ignite repository.
-
-## Project Overview
-
-- **Status:** Active (threads module, reply workflow, and repository automation established)
-- **Branching:** Work from `main`; feature branches should rebase frequently.
-- **Toolchain:** PHP 8.4, Laravel 12, Inertia + Vue 3, Tailwind 4.
-- **Quality Gates:** Pint, ESLint, Prettier, PHPUnit, lint-staged pre-commit hook.
-- **CI/CD:** GitHub Actions (`.github/workflows/ci.yml`) with backend/frontend jobs; deploy target is Laravel Forge.
-- **Security automation:** Dependabot PRs and CI audits (`composer audit`, `npm audit --audit-level=moderate`).
-
-## Operating Checklist
-
-1. Install dependencies (`composer install`, `npm install`) before running scripts.
-2. Run quality commands locally: `composer lint:php`, `npm run lint`, `npm run format:check`, `php artisan test`.
-3. Ensure husky hooks pass (`npm run lint:staged`) before committing.
-4. Update documentation (README/CONTRIBUTING/SECURITY) when workflows or expectations change.
-5. Highlight CI status and recent test runs in user updates.
-
-## Quick Commands
-
-| Action         | Command                                  |
-| -------------- | ---------------------------------------- |
-| Test suite     | `php artisan test`                       |
-| Backend lint   | `composer lint:php`                      |
-| Frontend lint  | `npm run lint`                           |
-| Format check   | `npm run format:check`                   |
-| Fix formatting | `composer format:php` / `npm run format` |
-| Build assets   | `npm run build`                          |
-
-## Reporting Expectations
-
-- Summaries should mention test and lint command results.
-- Reference new documentation files when giving onboarding instructions.
-- Provide deployment guidance using the Forge steps documented in `README.md`.
-- Surface any outstanding security alerts or audit failures when summarizing status.
-
----
-
 <laravel-boost-guidelines>
 === foundation rules ===
 
 # Laravel Boost Guidelines
 
-The Laravel Boost guidelines are specifically curated by Laravel maintainers for this application. These guidelines should be followed closely to enhance the user's satisfaction building Laravel applications.
+The Laravel Boost guidelines are specifically curated by Laravel maintainers for this application. These guidelines should be followed closely to ensure the best experience when building Laravel applications.
 
 ## Foundational Context
 
 This application is a Laravel application and its main Laravel ecosystems package & versions are below. You are an expert with them all. Ensure you abide by these specific packages & versions.
 
-- php - 8.4.12
-- inertiajs/inertia-laravel (INERTIA) - v2
+- php - 8.5
+- inertiajs/inertia-laravel (INERTIA_LARAVEL) - v2
+- laravel/ai (AI) - v0
 - laravel/fortify (FORTIFY) - v1
-- laravel/framework (LARAVEL) - v12
+- laravel/framework (LARAVEL) - v13
 - laravel/prompts (PROMPTS) - v0
+- laravel/sanctum (SANCTUM) - v4
 - laravel/wayfinder (WAYFINDER) - v0
+- laravel/boost (BOOST) - v2
 - laravel/mcp (MCP) - v0
+- laravel/pail (PAIL) - v1
 - laravel/pint (PINT) - v1
 - laravel/sail (SAIL) - v1
-- phpunit/phpunit (PHPUNIT) - v11
-- @inertiajs/vue3 (INERTIA) - v2
+- pestphp/pest (PEST) - v4
+- phpunit/phpunit (PHPUNIT) - v12
+- @inertiajs/vue3 (INERTIA_VUE) - v2
 - tailwindcss (TAILWINDCSS) - v4
 - vue (VUE) - v3
-- @laravel/vite-plugin-wayfinder (WAYFINDER) - v0
+- @laravel/vite-plugin-wayfinder (WAYFINDER_VITE) - v0
 - eslint (ESLINT) - v9
 - prettier (PRETTIER) - v3
 
+## Skills Activation
+
+This project has domain-specific skills available. You MUST activate the relevant skill whenever you work in that domain—don't wait until you're stuck.
+
+- `laravel-best-practices` — Apply this skill whenever writing, reviewing, or refactoring Laravel PHP code. This includes creating or modifying controllers, models, migrations, form requests, policies, jobs, scheduled commands, service classes, and Eloquent queries. Triggers for N+1 and query performance issues, caching strategies, authorization and security patterns, validation, error handling, queue and job configuration, route definitions, and architectural decisions. Also use for Laravel code reviews and refactoring existing Laravel code to follow best practices. Covers any task involving Laravel backend PHP code patterns.
+- `wayfinder-development` — Use this skill for Laravel Wayfinder which auto-generates typed functions for Laravel controllers and routes. ALWAYS use this skill when frontend code needs to call backend routes or controller actions. Trigger when: connecting any React/Vue/Svelte/Inertia frontend to Laravel controllers, routes, building end-to-end features with both frontend and backend, wiring up forms or links to backend endpoints, fixing route-related TypeScript errors, importing from @/actions or @/routes, or running wayfinder:generate. Use Wayfinder route functions instead of hardcoded URLs. Covers: wayfinder() vite plugin, .url()/.get()/.post()/.form(), query params, route model binding, tree-shaking. Do not use for backend-only task
+- `pest-testing` — Use this skill for Pest PHP testing in Laravel projects only. Trigger whenever any test is being written, edited, fixed, or refactored — including fixing tests that broke after a code change, adding assertions, converting PHPUnit to Pest, adding datasets, and TDD workflows. Always activate when the user asks how to write something in Pest, mentions test files or directories (tests/Feature, tests/Unit, tests/Browser), or needs browser testing, smoke testing multiple pages for JS errors, or architecture tests. Covers: it()/expect() syntax, datasets, mocking, browser testing (visit/click/fill), smoke testing, arch(), Livewire component tests, RefreshDatabase, and all Pest 4 features. Do not use for factories, seeders, migrations, controllers, models, or non-test PHP code.
+- `inertia-vue-development` — Develops Inertia.js v2 Vue client-side applications. Activates when creating Vue pages, forms, or navigation; using <Link>, <Form>, useForm, or router; working with deferred props, prefetching, or polling; or when user mentions Vue with Inertia, Vue pages, Vue forms, or Vue navigation.
+- `tailwindcss-development` — Always invoke when the user's message includes 'tailwind' in any form. Also invoke for: building responsive grid layouts (multi-column card grids, product grids), flex/grid page structures (dashboards with sidebars, fixed topbars, mobile-toggle navs), styling UI components (cards, tables, navbars, pricing sections, forms, inputs, badges), adding dark mode variants, fixing spacing or typography, and Tailwind v3/v4 work. The core use case: writing or fixing Tailwind utility classes in HTML templates (Blade, JSX, Vue). Skip for backend PHP logic, database queries, API routes, JavaScript with no HTML/CSS component, CSS file audits, build tool configuration, and vanilla CSS.
+- `fortify-development` — ACTIVATE when the user works on authentication in Laravel. This includes login, registration, password reset, email verification, two-factor authentication (2FA/TOTP/QR codes/recovery codes), profile updates, password confirmation, or any auth-related routes and controllers. Activate when the user mentions Fortify, auth, authentication, login, register, signup, forgot password, verify email, 2FA, or references app/Actions/Fortify/, CreateNewUser, UpdateUserProfileInformation, FortifyServiceProvider, config/fortify.php, or auth guards. Fortify is the frontend-agnostic authentication backend for Laravel that registers all auth routes and controllers. Also activate when building SPA or headless authentication, customizing login redirects, overriding response contracts like LoginResponse, or configuring login throttling. Do NOT activate for Laravel Passport (OAuth2 API tokens), Socialite (OAuth social login), or non-auth Laravel features.
+
 ## Conventions
 
-- You must follow all existing code conventions used in this application. When creating or editing a file, check sibling files for the correct structure, approach, naming.
+- You must follow all existing code conventions used in this application. When creating or editing a file, check sibling files for the correct structure, approach, and naming.
 - Use descriptive names for variables and methods. For example, `isRegisteredForDiscounts`, not `discount()`.
 - Check for existing components to reuse before writing a new one.
 
 ## Verification Scripts
 
-- Do not create verification scripts or tinker when tests cover that functionality and prove it works. Unit and feature tests are more important.
+- Do not create verification scripts or tinker when tests cover that functionality and prove they work. Unit and feature tests are more important.
 
 ## Application Structure & Architecture
 
-- Stick to existing directory structure - don't create new base folders without approval.
+- Stick to existing directory structure; don't create new base folders without approval.
 - Do not change the application's dependencies without approval.
 
 ## Frontend Bundling
 
 - If the user doesn't see a frontend change reflected in the UI, it could mean they need to run `npm run build`, `npm run dev`, or `composer run dev`. Ask them.
 
-## Replies
-
-- Be concise in your explanations - focus on what's important rather than explaining obvious details.
-
 ## Documentation Files
 
 - You must only create documentation files if explicitly requested by the user.
 
+## Replies
+
+- Be concise in your explanations - focus on what's important rather than explaining obvious details.
+
 === boost rules ===
 
-## Laravel Boost
+# Laravel Boost
 
-- Laravel Boost is an MCP server that comes with powerful tools designed specifically for this application. Use them.
+## Tools
+
+- Laravel Boost is an MCP server with tools designed specifically for this application. Prefer Boost tools over manual alternatives like shell commands or file reads.
+- Use `database-query` to run read-only queries against the database instead of writing raw SQL in tinker.
+- Use `database-schema` to inspect table structure before writing migrations or models.
+- Use `get-absolute-url` to resolve the correct scheme, domain, and port for project URLs. Always use this before sharing a URL with the user.
+- Use `browser-logs` to read browser logs, errors, and exceptions. Only recent logs are useful, ignore old entries.
+
+## Searching Documentation (IMPORTANT)
+
+- Always use `search-docs` before making code changes. Do not skip this step. It returns version-specific docs based on installed packages automatically.
+- Pass a `packages` array to scope results when you know which packages are relevant.
+- Use multiple broad, topic-based queries: `['rate limiting', 'routing rate limiting', 'routing']`. Expect the most relevant results first.
+- Do not add package names to queries because package info is already shared. Use `test resource table`, not `filament 4 test resource table`.
+
+### Search Syntax
+
+1. Use words for auto-stemmed AND logic: `rate limit` matches both "rate" AND "limit".
+2. Use `"quoted phrases"` for exact position matching: `"infinite scroll"` requires adjacent words in order.
+3. Combine words and phrases for mixed queries: `middleware "rate limit"`.
+4. Use multiple queries for OR logic: `queries=["authentication", "middleware"]`.
 
 ## Artisan
 
-- Use the `list-artisan-commands` tool when you need to call an Artisan command to double check the available parameters.
+- Run Artisan commands directly via the command line (e.g., `php artisan route:list`). Use `php artisan list` to discover available commands and `php artisan [command] --help` to check parameters.
+- Inspect routes with `php artisan route:list`. Filter with: `--method=GET`, `--name=users`, `--path=api`, `--except-vendor`, `--only-vendor`.
+- Read configuration values using dot notation: `php artisan config:show app.name`, `php artisan config:show database.default`. Or read config files directly from the `config/` directory.
+- To check environment variables, read the `.env` file directly.
 
-## URLs
+## Tinker
 
-- Whenever you share a project URL with the user you should use the `get-absolute-url` tool to ensure you're using the correct scheme, domain / IP, and port.
-
-## Tinker / Debugging
-
-- You should use the `tinker` tool when you need to execute PHP to debug code or query Eloquent models directly.
-- Use the `database-query` tool when you only need to read from the database.
-
-## Reading Browser Logs With the `browser-logs` Tool
-
-- You can read browser logs, errors, and exceptions using the `browser-logs` tool from Boost.
-- Only recent browser logs will be useful - ignore old logs.
-
-## Searching Documentation (Critically Important)
-
-- Boost comes with a powerful `search-docs` tool you should use before any other approaches. This tool automatically passes a list of installed packages and their versions to the remote Boost API, so it returns only version-specific documentation specific for the user's circumstance. You should pass an array of packages to filter on if you know you need docs for particular packages.
-- The 'search-docs' tool is perfect for all Laravel related packages, including Laravel, Inertia, Livewire, Filament, Tailwind, Pest, Nova, Nightwatch, etc.
-- You must use this tool to search for Laravel-ecosystem documentation before falling back to other approaches.
-- Search the documentation before making code changes to ensure we are taking the correct approach.
-- Use multiple, broad, simple, topic based queries to start. For example: `['rate limiting', 'routing rate limiting', 'routing']`.
-- Do not add package names to queries - package information is already shared. For example, use `test resource table`, not `filament 4 test resource table`.
-
-### Available Search Syntax
-
-- You can and should pass multiple queries at once. The most relevant results will be returned first.
-
-1. Simple Word Searches with auto-stemming - query=authentication - finds 'authenticate' and 'auth'
-2. Multiple Words (AND Logic) - query=rate limit - finds knowledge containing both "rate" AND "limit"
-3. Quoted Phrases (Exact Position) - query="infinite scroll" - Words must be adjacent and in that order
-4. Mixed Queries - query=middleware "rate limit" - "middleware" AND exact phrase "rate limit"
-5. Multiple Queries - queries=["authentication", "middleware"] - ANY of these terms
+- Execute PHP in app context for debugging and testing code. Do not create models without user approval, prefer tests with factories instead. Prefer existing Artisan commands over custom tinker code.
+- Always use single quotes to prevent shell expansion: `php artisan tinker --execute 'Your::code();'`
+  - Double quotes for PHP strings inside: `php artisan tinker --execute 'User::where("active", true)->count();'`
 
 === php rules ===
 
-## PHP
+# PHP
 
-- Always use curly braces for control structures, even if it has one line.
+- Always use curly braces for control structures, even for single-line bodies.
+- Use PHP 8 constructor property promotion: `public function __construct(public GitHub $github) { }`. Do not leave empty zero-parameter `__construct()` methods unless the constructor is private.
+- Use explicit return type declarations and type hints for all method parameters: `function isAccessible(User $user, ?string $path = null): bool`
+- Use TitleCase for Enum keys: `FavoritePerson`, `BestLake`, `Monthly`.
+- Prefer PHPDoc blocks over inline comments. Only add inline comments for exceptionally complex logic.
+- Use array shape type definitions in PHPDoc blocks.
 
-### Constructors
+=== tests rules ===
 
-- Use PHP 8 constructor property promotion in `__construct()`.
-    - <code-snippet>public function \_\_construct(public GitHub $github) { }</code-snippet>
-- Do not allow empty `__construct()` methods with zero parameters.
+# Test Enforcement
 
-### Type Declarations
-
-- Always use explicit return type declarations for methods and functions.
-- Use appropriate PHP type hints for method parameters.
-
-<code-snippet name="Explicit Return Types and Method Params" lang="php">
-protected function isAccessible(User $user, ?string $path = null): bool
-{
-    ...
-}
-</code-snippet>
-
-## Comments
-
-- Prefer PHPDoc blocks over comments. Never use comments within the code itself unless there is something _very_ complex going on.
-
-## PHPDoc Blocks
-
-- Add useful array shape type definitions for arrays when appropriate.
-
-## Enums
-
-- Typically, keys in an Enum should be TitleCase. For example: `FavoritePerson`, `BestLake`, `Monthly`.
+- Every change must be programmatically tested. Write a new test or update an existing test, then run the affected tests to make sure they pass.
+- Run the minimum number of tests needed to ensure code quality and speed. Use `php artisan test --compact` with a specific filename or filter.
 
 === inertia-laravel/core rules ===
 
-## Inertia Core
+# Inertia
 
-- Inertia.js components should be placed in the `resources/js/Pages` directory unless specified differently in the JS bundler (vite.config.js).
-- Use `Inertia::render()` for server-side routing instead of traditional Blade views.
-- Use `search-docs` for accurate guidance on all things Inertia.
+- Inertia creates fully client-side rendered SPAs without modern SPA complexity, leveraging existing server-side patterns.
+- Components live in `resources/js/pages` (unless specified in `vite.config.js`). Use `Inertia::render()` for server-side routing instead of Blade views.
+- ALWAYS use `search-docs` tool for version-specific Inertia documentation and updated code examples.
+- IMPORTANT: Activate `inertia-vue-development` when working with Inertia Vue client-side patterns.
 
-<code-snippet lang="php" name="Inertia::render Example">
-// routes/web.php example
-Route::get('/users', function () {
-    return Inertia::render('Users/Index', [
-        'users' => User::all()
-    ]);
-});
-</code-snippet>
+# Inertia v2
 
-=== inertia-laravel/v2 rules ===
-
-## Inertia v2
-
-- Make use of all Inertia features from v1 & v2. Check the documentation before making any changes to ensure we are taking the correct approach.
-
-### Inertia v2 New Features
-
-- Polling
-- Prefetching
-- Deferred props
-- Infinite scrolling using merging props and `WhenVisible`
-- Lazy loading data on scroll
-
-### Deferred Props & Empty States
-
-- When using deferred props on the frontend, you should add a nice empty state with pulsing / animated skeleton.
-
-### Inertia Form General Guidance
-
-- The recommended way to build forms when using Inertia is with the `<Form>` component - a useful example is below. Use `search-docs` with a query of `form component` for guidance.
-- Forms can also be built using the `useForm` helper for more programmatic control, or to follow existing conventions. Use `search-docs` with a query of `useForm helper` for guidance.
-- `resetOnError`, `resetOnSuccess`, and `setDefaultsOnSuccess` are available on the `<Form>` component. Use `search-docs` with a query of 'form component resetting' for guidance.
+- Use all Inertia features from v1 and v2. Check the documentation before making changes to ensure the correct approach.
+- New features: deferred props, infinite scroll, merging props, polling, prefetching, once props, flash data.
+- When using deferred props, add an empty state with a pulsing or animated skeleton.
 
 === laravel/core rules ===
+
+# Do Things the Laravel Way
+
+- Use `php artisan make:` commands to create new files (i.e. migrations, controllers, models, etc.). You can list available Artisan commands using `php artisan list` and check their parameters with `php artisan [command] --help`.
+- If you're creating a generic PHP class, use `php artisan make:class`.
+- Pass `--no-interaction` to all Artisan commands to ensure they work without user input. You should also pass the correct `--options` to ensure correct behavior.
+
+### Model Creation
+
+- When creating new models, create useful factories and seeders for them too. Ask the user if they need any other things, using `php artisan make:model --help` to check the available options.
+
+## APIs & Eloquent Resources
+
+- For APIs, default to using Eloquent API Resources and API versioning unless existing API routes do not, then you should follow existing application convention.
+
+## URL Generation
+
+- When generating links to other pages, prefer named routes and the `route()` function.
+
+## Testing
+
+- When creating models for tests, use the factories for the models. Check if the factory has custom states that can be used before manually setting up the model.
+- Faker: Use methods such as `$this->faker->word()` or `fake()->randomDigit()`. Follow existing conventions whether to use `$this->faker` or `fake()`.
+- When creating tests, make use of `php artisan make:test [options] {name}` to create a feature test, and pass `--unit` to create a unit test. Most tests should be feature tests.
+
+## Vite Error
+
+- If you receive an "Illuminate\Foundation\ViteException: Unable to locate file in Vite manifest" error, you can run `npm run build` or ask the user to run `npm run dev` or `composer run dev`.
+
+=== wayfinder/core rules ===
+
+# Laravel Wayfinder
+
+Use Wayfinder to generate TypeScript functions for Laravel routes. Import from `@/actions/` (controllers) or `@/routes/` (named routes).
+
+=== pint/core rules ===
+
+# Laravel Pint Code Formatter
+
+- If you have modified any PHP files, you must run `vendor/bin/pint --dirty --format agent` before finalizing changes to ensure your code matches the project's expected style.
+- Do not run `vendor/bin/pint --test --format agent`, simply run `vendor/bin/pint --format agent` to fix any formatting issues.
+
+=== pest/core rules ===
+
+## Pest
+
+- This project uses Pest for testing. Create tests: `php artisan make:test --pest {name}`.
+- Run tests: `php artisan test --compact` or filter: `php artisan test --compact --filter=testName`.
+- Do NOT delete tests without approval.
+
+=== inertia-vue/core rules ===
+
+# Inertia + Vue
+
+Vue components must have a single root element.
+- IMPORTANT: Activate `inertia-vue-development` when working with Inertia Vue client-side patterns.
+
+</laravel-boost-guidelines>

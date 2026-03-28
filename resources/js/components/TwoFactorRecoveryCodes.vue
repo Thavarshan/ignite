@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { Form } from '@inertiajs/vue3';
+import { Eye, EyeOff, LockKeyhole, RefreshCw } from 'lucide-vue-next';
+import { nextTick, onMounted, ref, useTemplateRef } from 'vue';
 import AlertError from '@/components/AlertError.vue';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,13 +13,10 @@ import {
 } from '@/components/ui/card';
 import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
 import { regenerateRecoveryCodes } from '@/routes/two-factor';
-import { Form } from '@inertiajs/vue3';
-import { Eye, EyeOff, LockKeyhole, RefreshCw } from 'lucide-vue-next';
-import { nextTick, onMounted, ref } from 'vue';
 
 const { recoveryCodesList, fetchRecoveryCodes, errors } = useTwoFactorAuth();
 const isRecoveryCodesVisible = ref<boolean>(false);
-const recoveryCodeSectionRef = ref<HTMLDivElement | null>(null);
+const recoveryCodeSectionRef = useTemplateRef('recoveryCodeSectionRef');
 
 const toggleRecoveryCodesVisibility = async () => {
     if (!isRecoveryCodesVisible.value && !recoveryCodesList.value.length) {
@@ -42,7 +42,7 @@ onMounted(async () => {
     <Card class="w-full">
         <CardHeader>
             <CardTitle class="flex gap-3">
-                <LockKeyhole class="size-4" />2FA Recovery Codes
+                <LockKeyhole class="size-4" />2FA recovery codes
             </CardTitle>
             <CardDescription>
                 Recovery codes let you regain access if you lose your 2FA
@@ -58,8 +58,8 @@ onMounted(async () => {
                         :is="isRecoveryCodesVisible ? EyeOff : Eye"
                         class="size-4"
                     />
-                    {{ isRecoveryCodesVisible ? 'Hide' : 'View' }} Recovery
-                    Codes
+                    {{ isRecoveryCodesVisible ? 'Hide' : 'View' }} recovery
+                    codes
                 </Button>
 
                 <Form
@@ -75,7 +75,7 @@ onMounted(async () => {
                         type="submit"
                         :disabled="processing"
                     >
-                        <RefreshCw /> Regenerate Codes
+                        <RefreshCw /> Regenerate codes
                     </Button>
                 </Form>
             </div>
@@ -114,7 +114,7 @@ onMounted(async () => {
                         Each recovery code can be used once to access your
                         account and will be removed after use. If you need more,
                         click
-                        <span class="font-bold">Regenerate Codes</span> above.
+                        <span class="font-bold">Regenerate codes</span> above.
                     </p>
                 </div>
             </div>

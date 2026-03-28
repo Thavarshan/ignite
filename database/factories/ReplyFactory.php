@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Reply>
+ * @extends Factory<Reply>
  */
 class ReplyFactory extends Factory
 {
@@ -19,10 +20,18 @@ class ReplyFactory extends Factory
     public function definition(): array
     {
         return [
-            'body' => $this->faker->paragraph(),
-            'user_id' => User::factory(),
             'thread_id' => Thread::factory(),
-            'flagged_at' => null,
+            'user_id' => User::factory(),
+            'parent_id' => null,
+            'body' => fake()->paragraphs(2, true),
         ];
+    }
+
+    public function asChild(Reply $parent): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'thread_id' => $parent->thread_id,
+            'parent_id' => $parent->id,
+        ]);
     }
 }

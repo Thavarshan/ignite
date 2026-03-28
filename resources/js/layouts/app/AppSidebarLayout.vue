@@ -3,14 +3,11 @@ import AppContent from '@/components/AppContent.vue';
 import AppShell from '@/components/AppShell.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
 import AppSidebarHeader from '@/components/AppSidebarHeader.vue';
-import { Toaster } from '@/components/ui/sonner';
-import 'vue-sonner/style.css';
+import type { BreadcrumbItem } from '@/types';
 
-import type { BreadcrumbItemType } from '@/types';
-
-interface Props {
-    breadcrumbs?: BreadcrumbItemType[];
-}
+type Props = {
+    breadcrumbs?: BreadcrumbItem[];
+};
 
 withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
@@ -18,7 +15,6 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <Toaster />
     <AppShell variant="sidebar">
         <AppSidebar />
         <AppContent variant="sidebar" class="overflow-x-hidden">

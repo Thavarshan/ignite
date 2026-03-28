@@ -2,14 +2,11 @@
 import AppContent from '@/components/AppContent.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppShell from '@/components/AppShell.vue';
-import { Toaster } from '@/components/ui/sonner';
-import 'vue-sonner/style.css';
+import type { BreadcrumbItem } from '@/types';
 
-import type { BreadcrumbItemType } from '@/types';
-
-interface Props {
-    breadcrumbs?: BreadcrumbItemType[];
-}
+type Props = {
+    breadcrumbs?: BreadcrumbItem[];
+};
 
 withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
@@ -17,10 +14,9 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <Toaster />
-    <AppShell class="mx-auto max-w-4xl flex-col pb-20">
+    <AppShell variant="header">
         <AppHeader :breadcrumbs="breadcrumbs" />
-        <AppContent class="mt-10 max-w-full">
+        <AppContent variant="header">
             <slot />
         </AppContent>
     </AppShell>

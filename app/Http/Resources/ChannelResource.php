@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ChannelResource extends JsonResource
@@ -20,11 +19,9 @@ class ChannelResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
-            'threads' => $this->whenLoaded('threads', function (): AnonymousResourceCollection {
-                return ThreadResource::collection($this->threads);
-            }),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'threads_count' => $this->when(isset($this->threads_count), $this->threads_count),
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }
 }

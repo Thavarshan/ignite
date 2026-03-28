@@ -3,12 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Channel;
+use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Parsedown;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Thread>
+ * @extends Factory<Thread>
  */
 class ThreadFactory extends Factory
 {
@@ -19,15 +19,16 @@ class ThreadFactory extends Factory
      */
     public function definition(): array
     {
-        $parsedown = new Parsedown;
-
         return [
-            'title' => $this->faker->sentence,
-            'slug' => $this->faker->unique()->slug,
-            'body' => $parsedown->text($this->faker->paragraphs(6, true)),
             'channel_id' => Channel::factory(),
             'user_id' => User::factory(),
-            'locked_at' => null,
+            'title' => fake()->unique()->sentence(6),
+            'body' => fake()->paragraphs(3, true),
+            'locked' => false,
+            'pinned' => false,
+            'replies_count' => 0,
+            'visits' => fake()->numberBetween(0, 500),
+            'last_posted_at' => now(),
         ];
     }
 }

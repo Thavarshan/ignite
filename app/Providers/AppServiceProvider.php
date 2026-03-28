@@ -2,13 +2,14 @@
 
 namespace App\Providers;
 
-use App\Actions\CreateThread;
-use App\Contracts\CreatesThreads;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\CarbonImmutable;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,56 +26,44 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->configureJsonResources();
-        $this->configureModels();
-        $this->configureProductionEnvironment();
-
-        $this->registerActions();
+        $this->configureDefaults();
+        $this->configureRateLimiting();
     }
 
     /**
-     * Configure JSON resource behavior.
+     * Configure default behaviors for production-ready applications.
      */
-    protected function configureJsonResources(): void
+    protected function configureDefaults(): void
     {
-        JsonResource::withoutWrapping();
+        Date::use(CarbonImmutable::class);
+
+        DB::prohibitDestructiveCommands(
+            app()->isProduction(),
+        );
+
+        Password::defaults(
+            fn (): ?Password => app()->isProduction()
+            ? Password::min(12)
+                ->mixedCase()
+                ->letters()
+                ->numbers()
+                ->symbols()
+                ->uncompromised()
+            : null,
+        );
     }
 
     /**
-     * Configure Eloquent model behavior.
+     * Configure the rate limiters for the application.
      */
-    protected function configureModels(): void
+    protected function configureRateLimiting(): void
     {
-        if ($this->app->isProduction()) {
-            return;
-        }
-
-        Model::preventLazyLoading();
-        Model::preventSilentlyDiscardingAttributes();
-
-        Model::retrieved(function (Model $model): void {
-            $model->preventsLazyLoading = true;
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
-    }
 
-    /**
-     * Configure production-specific settings.
-     */
-    protected function configureProductionEnvironment(): void
-    {
-        if (! $this->app->isProduction()) {
-            return;
-        }
-
-        DB::prohibitDestructiveCommands();
-        URL::forceScheme('https');
-    }
-
-    /**
-     * Register action implementations.
-     */
-    protected function registerActions(): void
-    {
-        $this->app->bind(CreatesThreads::class, CreateThread::class);
+        RateLimiter::for('create-content', function (Request $request) {
+            return Limit::perMinute(10)->by($request->user()?->id ?: $request->ip());
+        });
     }
 }

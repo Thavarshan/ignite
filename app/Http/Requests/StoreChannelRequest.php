@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Channel;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreChannelRequest extends FormRequest
 {
@@ -11,19 +13,20 @@ class StoreChannelRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()?->can('create', Channel::class) ?? false;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', 'unique:channels,name'],
-            'description' => ['nullable', 'string'],
+            'name' => ['required', 'string', 'max:255'],
+            'slug' => ['nullable', 'string', 'max:255', 'alpha_dash:ascii', Rule::unique(Channel::class, 'slug')],
+            'description' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

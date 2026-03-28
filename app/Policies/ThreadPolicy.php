@@ -10,17 +10,17 @@ class ThreadPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Thread $thread): bool
+    public function view(?User $user, Thread $thread): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,7 +28,7 @@ class ThreadPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -36,7 +36,20 @@ class ThreadPolicy
      */
     public function update(User $user, Thread $thread): bool
     {
-        return false;
+        return $user->isAdmin() || $user->id === $thread->user_id;
+    }
+
+    /**
+     * Determine whether the user can moderate the model (lock/pin).
+     */
+    public function moderate(User $user, Thread $thread): bool
+    {
+        return $user->isAdmin();
+    }
+
+    public function markBestReply(User $user, Thread $thread): bool
+    {
+        return $user->isAdmin() || $user->id === $thread->user_id;
     }
 
     /**
@@ -44,7 +57,7 @@ class ThreadPolicy
      */
     public function delete(User $user, Thread $thread): bool
     {
-        return false;
+        return $user->isAdmin() || $user->id === $thread->user_id;
     }
 
     /**
@@ -52,7 +65,7 @@ class ThreadPolicy
      */
     public function restore(User $user, Thread $thread): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
@@ -60,6 +73,6 @@ class ThreadPolicy
      */
     public function forceDelete(User $user, Thread $thread): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 }

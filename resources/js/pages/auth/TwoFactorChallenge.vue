@@ -1,38 +1,33 @@
 <script setup lang="ts">
+import { Form, Head } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
-    PinInput,
-    PinInputGroup,
-    PinInputSlot,
-} from '@/components/ui/pin-input';
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSlot,
+} from '@/components/ui/input-otp';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { store } from '@/routes/two-factor/login';
-import { Form, Head } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import type { TwoFactorConfigContent } from '@/types';
 
-interface AuthConfigContent {
-    title: string;
-    description: string;
-    toggleText: string;
-}
-
-const authConfigContent = computed<AuthConfigContent>(() => {
+const authConfigContent = computed<TwoFactorConfigContent>(() => {
     if (showRecoveryInput.value) {
         return {
-            title: 'Recovery Code',
+            title: 'Recovery code',
             description:
                 'Please confirm access to your account by entering one of your emergency recovery codes.',
-            toggleText: 'login using an authentication code',
+            buttonText: 'login using an authentication code',
         };
     }
 
     return {
-        title: 'Authentication Code',
+        title: 'Authentication code',
         description:
             'Enter the authentication code provided by your authenticator application.',
-        toggleText: 'login using a recovery code',
+        buttonText: 'login using a recovery code',
     };
 });
 
@@ -41,11 +36,10 @@ const showRecoveryInput = ref<boolean>(false);
 const toggleRecoveryMode = (clearErrors: () => void): void => {
     showRecoveryInput.value = !showRecoveryInput.value;
     clearErrors();
-    code.value = [];
+    code.value = '';
 };
 
-const code = ref<number[]>([]);
-const codeValue = computed<string>(() => code.value.join(''));
+const code = ref<string>('');
 </script>
 
 <template>
@@ -53,7 +47,7 @@ const codeValue = computed<string>(() => code.value.join(''));
         :title="authConfigContent.title"
         :description="authConfigContent.description"
     >
-        <Head title="Two-Factor Authentication" />
+        <Head title="Two-factor authentication" />
 
         <div class="space-y-6">
             <template v-if="!showRecoveryInput">
@@ -61,31 +55,29 @@ const codeValue = computed<string>(() => code.value.join(''));
                     v-bind="store.form()"
                     class="space-y-4"
                     reset-on-error
-                    @error="code = []"
+                    @error="code = ''"
                     #default="{ errors, processing, clearErrors }"
                 >
-                    <input type="hidden" name="code" :value="codeValue" />
+                    <input type="hidden" name="code" :value="code" />
                     <div
                         class="flex flex-col items-center justify-center space-y-3 text-center"
                     >
                         <div class="flex w-full items-center justify-center">
-                            <PinInput
+                            <InputOTP
                                 id="otp"
-                                placeholder="○"
                                 v-model="code"
-                                type="number"
-                                otp
+                                :maxlength="6"
+                                :disabled="processing"
+                                autofocus
                             >
-                                <PinInputGroup>
-                                    <PinInputSlot
-                                        v-for="(id, index) in 6"
-                                        :key="id"
-                                        :index="index"
-                                        :disabled="processing"
-                                        autofocus
+                                <InputOTPGroup>
+                                    <InputOTPSlot
+                                        v-for="index in 6"
+                                        :key="index"
+                                        :index="index - 1"
                                     />
-                                </PinInputGroup>
-                            </PinInput>
+                                </InputOTPGroup>
+                            </InputOTP>
                         </div>
                         <InputError :message="errors.code" />
                     </div>
@@ -99,7 +91,7 @@ const codeValue = computed<string>(() => code.value.join(''));
                             class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
                             @click="() => toggleRecoveryMode(clearErrors)"
                         >
-                            {{ authConfigContent.toggleText }}
+                            {{ authConfigContent.buttonText }}
                         </button>
                     </div>
                 </Form>
@@ -131,7 +123,7 @@ const codeValue = computed<string>(() => code.value.join(''));
                             class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
                             @click="() => toggleRecoveryMode(clearErrors)"
                         >
-                            {{ authConfigContent.toggleText }}
+                            {{ authConfigContent.buttonText }}
                         </button>
                     </div>
                 </Form>

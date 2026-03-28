@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import EmailVerificationNotificationController from '@/actions/App/Http/Controllers/Web/Auth/EmailVerificationNotificationController';
+import { Form, Head } from '@inertiajs/vue3';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { logout } from '@/routes';
-import { Form, Head } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
+import { send } from '@/routes/verification';
 
 defineProps<{
     status?: string;
@@ -28,12 +28,12 @@ defineProps<{
         </div>
 
         <Form
-            v-bind="EmailVerificationNotificationController.store.form()"
+            v-bind="send.form()"
             class="space-y-6 text-center"
             v-slot="{ processing }"
         >
             <Button :disabled="processing" variant="secondary">
-                <LoaderCircle v-if="processing" class="h-4 w-4 animate-spin" />
+                <Spinner v-if="processing" />
                 Resend verification email
             </Button>
 

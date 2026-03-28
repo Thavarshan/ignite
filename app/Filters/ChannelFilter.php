@@ -4,21 +4,45 @@ namespace App\Filters;
 
 use Filterable\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class ChannelFilter extends Filter
 {
     /**
-     * Registered filters to operate upon.
+     * Request keys that map straight to filter methods.
      *
      * @var array<int, string>
      */
-    protected array $filters = ['name'];
+    protected array $filters = ['q', 'slug'];
+
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->enableFeature('validation');
+
+        $this->setValidationRules([
+            'q' => ['nullable', 'string', 'max:255'],
+            'slug' => ['nullable', 'string', 'max:255'],
+        ]);
+    }
 
     /**
-     * Filter the query by a given name value.
+     * Search channels by name or description.
      */
-    protected function name(string $value): Builder
+    protected function q(string $term): void
     {
-        return $this->getBuilder()->where('name', $value);
+        $this->getBuilder()->where(function (Builder $query) use ($term): void {
+            $query->where('name', 'like', "%{$term}%")
+                ->orWhere('description', 'like', "%{$term}%");
+        });
+    }
+
+    /**
+     * Filter channels by slug.
+     */
+    protected function slug(string $slug): void
+    {
+        $this->getBuilder()->where('slug', $slug);
     }
 }

@@ -7,12 +7,12 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { toUrl } from '@/lib/utils';
-import { type NavItem } from '@/types';
+import type { NavItem } from '@/types';
 
-interface Props {
+type Props = {
     items: NavItem[];
     class?: string;
-}
+};
 
 defineProps<Props>();
 </script>

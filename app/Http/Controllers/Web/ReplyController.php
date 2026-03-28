@@ -3,29 +3,40 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreReplyRequest;
 use App\Http\Requests\UpdateReplyRequest;
 use App\Models\Reply;
+use App\Models\Thread;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ReplyController extends Controller
 {
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReplyRequest $request, Reply $reply): RedirectResponse
+    public function store(StoreReplyRequest $request, Thread $thread): RedirectResponse
+    {
+        Reply::query()->create([
+            ...$request->validated(),
+            'thread_id' => $thread->id,
+            'user_id' => $request->user()->id,
+        ]);
+
+        return to_route('threads.show', $thread);
+    }
+
+    public function update(UpdateReplyRequest $request, Thread $thread, Reply $reply): RedirectResponse
     {
         $reply->update($request->validated());
 
-        return back();
+        return to_route('threads.show', $thread);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Reply $reply): RedirectResponse
+    public function destroy(Request $request, Thread $thread, Reply $reply): RedirectResponse
     {
+        Gate::authorize('delete', $reply);
+
         $reply->delete();
 
-        return back();
+        return to_route('threads.show', $thread);
     }
 }

@@ -16,19 +16,30 @@ class ThreadResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'channel_id' => $this->channel_id,
+            'user_id' => $this->user_id,
             'title' => $this->title,
             'slug' => $this->slug,
             'body' => $this->body,
-            'user_id' => $this->user_id,
-            'channel_id' => $this->channel_id,
-            'channel' => new ChannelResource($this->whenLoaded('channel')),
-            'author' => new UserResource($this->whenLoaded('author')),
-            'replies' => ReplyResource::collection($this->whenLoaded('replies')),
-            'replies_count' => $this->replies_count,
             'locked' => $this->locked,
-            'locked_at' => $this->locked_at,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'pinned' => $this->pinned,
+            'replies_count' => $this->replies_count,
+            'best_reply_id' => $this->best_reply_id,
+            'likes_count' => $this->likes_count,
+            'visits' => $this->visits,
+            'last_posted_at' => $this->last_posted_at?->toIso8601String(),
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_at' => $this->updated_at?->toIso8601String(),
+            'channel' => $this->whenLoaded('channel', fn () => [
+                'id' => $this->channel?->id,
+                'name' => $this->channel?->name,
+                'slug' => $this->channel?->slug,
+            ]),
+            'user' => $this->whenLoaded('user', fn () => [
+                'id' => $this->user?->id,
+                'name' => $this->user?->name,
+            ]),
+            'best_reply' => $this->whenLoaded('bestReply'),
         ];
     }
 }

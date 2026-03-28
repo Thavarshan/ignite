@@ -8,18 +8,26 @@ use App\Http\Requests\StoreChannelRequest;
 use App\Http\Requests\UpdateChannelRequest;
 use App\Http\Resources\ChannelResource;
 use App\Models\Channel;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class ChannelController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(ChannelFilter $filter): AnonymousResourceCollection
+    public function index(Request $request, ChannelFilter $filter): AnonymousResourceCollection
     {
-        $channels = Channel::filter($filter)->get();
+        Gate::authorize('viewAny', Channel::class);
+
+        $channels = Channel::query()
+            ->filter($filter)
+            ->orderBy('name')
+            ->paginate(15)
+            ->withQueryString();
 
         return ChannelResource::collection($channels);
     }
@@ -27,38 +35,42 @@ class ChannelController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreChannelRequest $request): JsonResource
+    public function store(StoreChannelRequest $request): JsonResponse
     {
-        $channel = Channel::create($request->validated());
+        $channel = Channel::query()->create($request->validated());
 
-        return new ChannelResource($channel);
+        return ChannelResource::make($channel)
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Channel $channel): JsonResource
+    public function show(Request $request, Channel $channel): ChannelResource
     {
-        $channel->load('threads');
+        Gate::authorize('view', $channel);
 
-        return new ChannelResource($channel);
+        return ChannelResource::make($channel);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateChannelRequest $request, Channel $channel): JsonResource
+    public function update(UpdateChannelRequest $request, Channel $channel): ChannelResource
     {
         $channel->update($request->validated());
 
-        return new ChannelResource($channel);
+        return ChannelResource::make($channel->refresh());
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Channel $channel): SymfonyResponse
+    public function destroy(Request $request, Channel $channel): Response
     {
+        Gate::authorize('delete', $channel);
+
         $channel->delete();
 
         return response()->noContent();

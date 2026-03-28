@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Thread;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateThreadRequest extends FormRequest
 {
@@ -11,18 +13,28 @@ class UpdateThreadRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return $this->user()?->can('update', $this->thread) ?? false;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, array<int, string|Rule>>
      */
     public function rules(): array
     {
-        return [
-            //
+        $rules = [
+            'channel_id' => ['required', 'integer', 'exists:channels,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'slug' => ['nullable', 'string', 'max:255', 'alpha_dash:ascii', Rule::unique(Thread::class, 'slug')->ignore($this->thread)],
+            'body' => ['required', 'string'],
         ];
+
+        if ($this->user()?->isAdmin()) {
+            $rules['locked'] = ['sometimes', 'boolean'];
+            $rules['pinned'] = ['sometimes', 'boolean'];
+        }
+
+        return $rules;
     }
 }

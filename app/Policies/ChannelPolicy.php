@@ -10,17 +10,17 @@ class ChannelPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Channel $channel): bool
+    public function view(?User $user, Channel $channel): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,7 +28,7 @@ class ChannelPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
@@ -36,7 +36,7 @@ class ChannelPolicy
      */
     public function update(User $user, Channel $channel): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
@@ -44,7 +44,7 @@ class ChannelPolicy
      */
     public function delete(User $user, Channel $channel): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**

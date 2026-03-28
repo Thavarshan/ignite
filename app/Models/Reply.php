@@ -2,52 +2,74 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Fillable;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\Concerns\Flaggable;
+use App\Models\Concerns\Likeable;
+use App\Notifications\ReplyAdded;
+use App\Notifications\ThreadReplied;
+use App\Notifications\UserMentioned;
+use App\Policies\ReplyPolicy;
+use App\Services\MentionParser;
+use Filterable\Traits\Filterable;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[UsePolicy(ReplyPolicy::class)]
 class Reply extends Model
 {
     /** @use HasFactory<\Database\Factories\ReplyFactory> */
-    use Fillable, HasFactory;
+    use Filterable, Flaggable, HasFactory, Likeable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $fillable = [
-        'body',
-        'user_id',
         'thread_id',
-        'flagged_at',
+        'user_id',
+        'parent_id',
+        'body',
+        'likes_count',
     ];
 
     /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
+     * Register model event callbacks.
      */
-    protected $appends = [
-        'flagged',
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    protected static function booted(): void
     {
-        return [
-            'flagged_at' => 'datetime',
-        ];
+        static::created(function (Reply $reply): void {
+            $reply->thread->incrementRepliesCount();
+            $reply->thread->subscribe($reply->user);
+
+            // Notify thread subscribers (excluding the replier)
+            $reply->thread->subscriptions()
+                ->where('user_id', '!=', $reply->user_id)
+                ->with('user')
+                ->get()
+                ->each(fn ($sub) => $sub->user->notify(new ThreadReplied($reply->thread, $reply)));
+
+            // Notify parent reply author for nested replies
+            if ($reply->parent_id && $reply->parent->user_id !== $reply->user_id) {
+                $reply->parent->user->notify(new ReplyAdded($reply->parent, $reply));
+            }
+
+            // Notify mentioned users
+            $mentioned = (new MentionParser)->parse($reply->body);
+            $mentioned->reject(fn (User $u) => $u->id === $reply->user_id)
+                ->each(fn (User $u) => $u->notify(new UserMentioned($reply, $reply->user->name)));
+        });
+
+        static::deleted(function (Reply $reply): void {
+            $reply->thread->decrementRepliesCount();
+        });
     }
 
     /**
-     * Get the thread that owns the thread.
+     * Get the thread this reply belongs to.
      */
     public function thread(): BelongsTo
     {
@@ -55,18 +77,26 @@ class Reply extends Model
     }
 
     /**
-     * Get the author that owns the thread.
+     * Get the user who authored the reply.
      */
-    public function author(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     /**
-     * Determine if this thread is locked.
+     * Get the parent reply (for nested replies).
      */
-    public function flagged(): Attribute
+    public function parent(): BelongsTo
     {
-        return Attribute::make(fn (): bool => ! is_null($this->flagged_at));
+        return $this->belongsTo(Reply::class, 'parent_id');
+    }
+
+    /**
+     * Get the child replies nested under this reply.
+     */
+    public function children(): HasMany
+    {
+        return $this->hasMany(Reply::class, 'parent_id');
     }
 }
