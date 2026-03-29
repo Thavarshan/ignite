@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Head, Link } from '@inertiajs/vue3';
+import { Plus } from 'lucide-vue-next';
 import EmptyState from '@/components/forum/EmptyState.vue';
 import LaravelPagination from '@/components/forum/LaravelPagination.vue';
 import ThreadCard from '@/components/forum/ThreadCard.vue';
@@ -12,8 +14,6 @@ import type {
     PaginatedResponse,
     Thread,
 } from '@/types';
-import { Head, Link } from '@inertiajs/vue3';
-import { Plus } from 'lucide-vue-next';
 
 defineProps<{
     threads: PaginatedResponse<Thread>;

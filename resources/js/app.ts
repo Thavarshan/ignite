@@ -1,8 +1,8 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { initializeTheme } from '@/composables/useAppearance';
+import type { DefineComponent } from 'vue';
 import '../css/app.css';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Ignite';

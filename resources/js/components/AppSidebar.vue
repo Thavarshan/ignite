@@ -22,9 +22,9 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
 import { index as channelsIndex } from '@/routes/channels';
 import { index as threadsIndex } from '@/routes/threads';
+import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
 const page = usePage();

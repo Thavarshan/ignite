@@ -3,18 +3,18 @@ import { router } from '@inertiajs/vue3';
 import axios from 'axios';
 import { Bell, Check, CheckCheck, Trash2 } from 'lucide-vue-next';
 import { computed, onMounted, ref } from 'vue';
-import {
-    destroy as notificationsDestroy,
-    index as notificationsIndex,
-    read as notificationsRead,
-    readAll as notificationsReadAll,
-} from '@/actions/App/Http/Controllers/Api/NotificationController';
 import { Button } from '@/components/ui/button';
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
+import {
+    destroy as notificationsDestroy,
+    index as notificationsIndex,
+    read as notificationsRead,
+    readAll as notificationsReadAll,
+} from '@/actions/App/Http/Controllers/Api/NotificationController';
 import { show } from '@/routes/threads';
 import type { AppNotification } from '@/types';
 

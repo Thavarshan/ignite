@@ -2,16 +2,6 @@
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { Edit, Eye, Lock, MoreHorizontal, Pin, Trash2 } from 'lucide-vue-next';
 import { computed } from 'vue';
-import { flagThread } from '@/actions/App/Http/Controllers/Web/FlagController';
-import {
-    destroy as likeDestroy,
-    store as likeStore,
-} from '@/actions/App/Http/Controllers/Web/ThreadLikeController';
-import {
-    destroy as subscribeDestroy,
-    store as subscribeStore,
-} from '@/actions/App/Http/Controllers/Web/ThreadSubscriptionController';
-import UserProfileController from '@/actions/App/Http/Controllers/Web/UserProfileController';
 import ChannelBadge from '@/components/forum/ChannelBadge.vue';
 import FlagButton from '@/components/forum/FlagButton.vue';
 import LikeButton from '@/components/forum/LikeButton.vue';
@@ -32,6 +22,16 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { getInitials } from '@/composables/useInitials';
 import ForumLayout from '@/layouts/ForumLayout.vue';
+import { flagThread } from '@/actions/App/Http/Controllers/Web/FlagController';
+import {
+    destroy as likeDestroy,
+    store as likeStore,
+} from '@/actions/App/Http/Controllers/Web/ThreadLikeController';
+import {
+    destroy as subscribeDestroy,
+    store as subscribeStore,
+} from '@/actions/App/Http/Controllers/Web/ThreadSubscriptionController';
+import UserProfileController from '@/actions/App/Http/Controllers/Web/UserProfileController';
 import { show as channelShow } from '@/routes/channels';
 import { destroy as destroyThread, edit, index } from '@/routes/threads';
 import type { BreadcrumbItem, Reply, Thread } from '@/types';

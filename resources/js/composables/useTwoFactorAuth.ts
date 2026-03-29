@@ -1,6 +1,6 @@
-import type { ComputedRef, Ref } from 'vue';
 import { computed, ref } from 'vue';
 import { qrCode, recoveryCodes, secretKey } from '@/routes/two-factor';
+import type { ComputedRef, Ref } from 'vue';
 
 export type UseTwoFactorAuthReturn = {
     qrCodeSvg: Ref<string | null>;

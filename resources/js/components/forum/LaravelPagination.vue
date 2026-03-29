@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { PaginationMeta } from '@/types';
 import { Link } from '@inertiajs/vue3';
+import type { PaginationMeta } from '@/types';
 
 defineProps<{
     meta: PaginationMeta;

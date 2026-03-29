@@ -4,8 +4,8 @@ import { Hash, MessageSquare, TrendingUp } from 'lucide-vue-next';
 import ThreadCard from '@/components/forum/ThreadCard.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { dashboard } from '@/routes';
 import { index as threadsIndex } from '@/routes/threads';
+import { dashboard } from '@/routes';
 import type { BreadcrumbItem, Thread } from '@/types';
 
 defineProps<{
