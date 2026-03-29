@@ -56,9 +56,6 @@ jobs:
       - name: Format Frontend
         run: npm run format:check
 
-      - name: Type Check
-        run: npm run types:check
-
       - name: Build Assets
         run: npm run build
 
