@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { Head } from '@inertiajs/vue3';
+import { CalendarDays, MessageSquare, MessagesSquare } from 'lucide-vue-next';
 import LaravelPagination from '@/components/forum/LaravelPagination.vue';
 import ThreadCard from '@/components/forum/ThreadCard.vue';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getInitials } from '@/composables/useInitials';
 import ForumLayout from '@/layouts/ForumLayout.vue';
 import type { BreadcrumbItem, PaginatedResponse, Thread } from '@/types';
-import { Head } from '@inertiajs/vue3';
-import { CalendarDays, MessageSquare, MessagesSquare } from 'lucide-vue-next';
 
 interface ProfileUser {
     id: number;

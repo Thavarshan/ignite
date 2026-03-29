@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import axios from 'axios';
+import { Flag } from 'lucide-vue-next';
+import { ref } from 'vue';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -18,9 +21,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import axios from 'axios';
-import { Flag } from 'lucide-vue-next';
-import { ref } from 'vue';
 
 const props = defineProps<{
     url: string;

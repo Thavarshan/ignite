@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { Edit, Eye, Lock, MoreHorizontal, Pin, Trash2 } from 'lucide-vue-next';
+import { computed } from 'vue';
 import { flagThread } from '@/actions/App/Http/Controllers/Web/FlagController';
 import {
     destroy as likeDestroy,
@@ -32,9 +35,6 @@ import ForumLayout from '@/layouts/ForumLayout.vue';
 import { show as channelShow } from '@/routes/channels';
 import { destroy as destroyThread, edit, index } from '@/routes/threads';
 import type { BreadcrumbItem, Reply, Thread } from '@/types';
-import { Head, Link, router, usePage } from '@inertiajs/vue3';
-import { Edit, Eye, Lock, MoreHorizontal, Pin, Trash2 } from 'lucide-vue-next';
-import { computed } from 'vue';
 
 const props = defineProps<{
     thread: Thread;

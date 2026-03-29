@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Link } from '@inertiajs/vue3';
+import { CheckCircle, Lock, Pin } from 'lucide-vue-next';
 import UserProfileController from '@/actions/App/Http/Controllers/Web/UserProfileController';
 import ChannelBadge from '@/components/forum/ChannelBadge.vue';
 import ThreadMeta from '@/components/forum/ThreadMeta.vue';
@@ -6,8 +8,6 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getInitials } from '@/composables/useInitials';
 import { show } from '@/routes/threads';
 import type { Thread } from '@/types';
-import { Link } from '@inertiajs/vue3';
-import { CheckCircle, Lock, Pin } from 'lucide-vue-next';
 
 defineProps<{
     thread: Thread;

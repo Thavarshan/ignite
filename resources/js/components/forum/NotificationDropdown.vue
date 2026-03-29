@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3';
+import axios from 'axios';
+import { Bell, Check, CheckCheck, Trash2 } from 'lucide-vue-next';
+import { computed, onMounted, ref } from 'vue';
 import {
     destroy as notificationsDestroy,
     index as notificationsIndex,
@@ -13,10 +17,6 @@ import {
 } from '@/components/ui/popover';
 import { show } from '@/routes/threads';
 import type { AppNotification } from '@/types';
-import { router } from '@inertiajs/vue3';
-import axios from 'axios';
-import { Bell, Check, CheckCheck, Trash2 } from 'lucide-vue-next';
-import { computed, onMounted, ref } from 'vue';
 
 const notifications = ref<AppNotification[]>([]);
 const loading = ref(false);

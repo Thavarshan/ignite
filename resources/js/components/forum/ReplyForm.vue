@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { useForm } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
 import MarkdownEditor from '@/components/MarkdownEditor.vue';
 import { Button } from '@/components/ui/button';
 import { store } from '@/routes/replies';
-import { useForm } from '@inertiajs/vue3';
 
 const props = defineProps<{
     threadSlug: string;

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Head, router, useForm, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import InputError from '@/components/InputError.vue';
 import MarkdownEditor from '@/components/MarkdownEditor.vue';
 import { Button } from '@/components/ui/button';
@@ -15,8 +17,6 @@ import {
 import ForumLayout from '@/layouts/ForumLayout.vue';
 import { index, store } from '@/routes/threads';
 import type { BreadcrumbItem, Channel, Thread } from '@/types';
-import { Head, router, useForm, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
 
 defineProps<{
     thread: Thread;

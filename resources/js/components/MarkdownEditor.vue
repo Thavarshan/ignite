@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import MarkdownContent from '@/components/MarkdownContent.vue';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
-import { ref } from 'vue';
 
 const model = defineModel<string>({ default: '' });
 

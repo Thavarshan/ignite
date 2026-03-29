@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Head, useForm } from '@inertiajs/vue3';
 import Heading from '@/components/Heading.vue';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -10,7 +11,6 @@ import {
     update as updateNotifications,
 } from '@/routes/notifications';
 import type { BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/vue3';
 
 const props = defineProps<{
     preferences: Record<string, boolean>;

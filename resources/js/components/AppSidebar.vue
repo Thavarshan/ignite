@@ -1,4 +1,14 @@
 <script setup lang="ts">
+import { Link, usePage } from '@inertiajs/vue3';
+import {
+    BookOpen,
+    Flag,
+    FolderGit2,
+    Hash,
+    LayoutGrid,
+    MessageSquare,
+} from 'lucide-vue-next';
+import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -16,16 +26,6 @@ import { dashboard } from '@/routes';
 import { index as channelsIndex } from '@/routes/channels';
 import { index as threadsIndex } from '@/routes/threads';
 import type { NavItem } from '@/types';
-import { Link, usePage } from '@inertiajs/vue3';
-import {
-    BookOpen,
-    Flag,
-    FolderGit2,
-    Hash,
-    LayoutGrid,
-    MessageSquare,
-} from 'lucide-vue-next';
-import { computed } from 'vue';
 
 const page = usePage();
 const auth = computed(

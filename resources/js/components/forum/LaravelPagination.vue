@@ -31,8 +31,9 @@ defineProps<{
                             ? 'px-3'
                             : 'min-w-8 px-2.5',
                     ]"
-                    v-html="link.label"
-                />
+                >
+                    <span v-html="link.label" />
+                </Link>
                 <span
                     v-else-if="link.label.includes('...')"
                     class="flex h-8 min-w-8 items-center justify-center text-xs"

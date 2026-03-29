@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3';
+import axios from 'axios';
+import { CheckCircle, ExternalLink } from 'lucide-vue-next';
 import { resolve } from '@/actions/App/Http/Controllers/Api/Admin/FlagController';
 import FlagControllerInvokable from '@/actions/App/Http/Controllers/Web/Admin/FlagController';
 import RelativeTime from '@/components/forum/RelativeTime.vue';
@@ -7,9 +10,6 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { show as threadShow } from '@/routes/threads';
 import type { BreadcrumbItem } from '@/types';
-import { router } from '@inertiajs/vue3';
-import axios from 'axios';
-import { CheckCircle, ExternalLink } from 'lucide-vue-next';
 
 interface FlagData {
     id: number;

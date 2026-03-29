@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { Link, usePage } from '@inertiajs/vue3';
+import { Hash, Menu, MessageSquare, Search } from 'lucide-vue-next';
+import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
@@ -30,9 +33,6 @@ import { dashboard } from '@/routes';
 import { index as channelsIndex } from '@/routes/channels';
 import { index as threadsIndex } from '@/routes/threads';
 import type { BreadcrumbItem, NavItem } from '@/types';
-import { Link, usePage } from '@inertiajs/vue3';
-import { Hash, Menu, MessageSquare, Search } from 'lucide-vue-next';
-import { computed } from 'vue';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];

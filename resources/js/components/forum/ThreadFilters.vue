@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3';
+import { Search } from 'lucide-vue-next';
+import { ref, watch } from 'vue';
 import { Input } from '@/components/ui/input';
 import {
     Select,
@@ -8,9 +11,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import type { Channel } from '@/types';
-import { router } from '@inertiajs/vue3';
-import { Search } from 'lucide-vue-next';
-import { ref, watch } from 'vue';
 
 const props = defineProps<{
     channels?: Channel[];

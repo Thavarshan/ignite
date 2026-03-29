@@ -1,4 +1,14 @@
 <script setup lang="ts">
+import { Link, router, usePage } from '@inertiajs/vue3';
+import {
+    CheckCircle,
+    CornerDownRight,
+    Edit,
+    MoreHorizontal,
+    Trash2,
+    X,
+} from 'lucide-vue-next';
+import { computed, ref } from 'vue';
 import { store as bestReplyStore } from '@/actions/App/Http/Controllers/Web/BestReplyController';
 import { flagReply } from '@/actions/App/Http/Controllers/Web/FlagController';
 import {
@@ -28,16 +38,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { getInitials } from '@/composables/useInitials';
 import type { Reply } from '@/types';
-import { Link, router, usePage } from '@inertiajs/vue3';
-import {
-    CheckCircle,
-    CornerDownRight,
-    Edit,
-    MoreHorizontal,
-    Trash2,
-    X,
-} from 'lucide-vue-next';
-import { computed, ref } from 'vue';
 
 const props = defineProps<{
     reply: Reply;

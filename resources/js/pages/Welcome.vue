@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { ArrowRight, Hash, MessageSquare, Users } from 'lucide-vue-next';
+import { computed } from 'vue';
 import ChannelCard from '@/components/forum/ChannelCard.vue';
 import ThreadCard from '@/components/forum/ThreadCard.vue';
 import { Button } from '@/components/ui/button';
@@ -9,9 +12,6 @@ import {
     index as threadsIndex,
 } from '@/routes/threads';
 import type { Channel, Thread } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/vue3';
-import { ArrowRight, Hash, MessageSquare, Users } from 'lucide-vue-next';
-import { computed } from 'vue';
 
 defineProps<{
     latestThreads: Thread[];
