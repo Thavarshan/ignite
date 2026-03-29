@@ -17,11 +17,20 @@ import { index as channelsIndex } from '@/routes/channels';
 import { index as threadsIndex } from '@/routes/threads';
 import type { NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Flag, FolderGit2, Hash, LayoutGrid, MessageSquare } from 'lucide-vue-next';
+import {
+    BookOpen,
+    Flag,
+    FolderGit2,
+    Hash,
+    LayoutGrid,
+    MessageSquare,
+} from 'lucide-vue-next';
 import { computed } from 'vue';
 
 const page = usePage();
-const auth = computed(() => page.props.auth as { user?: { is_admin?: boolean } } | undefined);
+const auth = computed(
+    () => page.props.auth as { user?: { is_admin?: boolean } } | undefined,
+);
 
 const mainNavItems: NavItem[] = [
     {
@@ -79,7 +88,11 @@ const footerNavItems: NavItem[] = [
 
         <SidebarContent>
             <NavMain :items="mainNavItems" />
-            <NavMain v-if="auth?.user?.is_admin" :items="adminNavItems" label="Admin" />
+            <NavMain
+                v-if="auth?.user?.is_admin"
+                :items="adminNavItems"
+                label="Admin"
+            />
         </SidebarContent>
 
         <SidebarFooter>

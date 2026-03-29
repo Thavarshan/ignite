@@ -27,7 +27,9 @@ const activeTab = ref('write');
             <Textarea
                 :id="id"
                 v-model="model"
-                :placeholder="placeholder ?? 'Write your content using Markdown...'"
+                :placeholder="
+                    placeholder ?? 'Write your content using Markdown...'
+                "
                 :rows="rows ?? 8"
                 class="resize-y font-mono text-sm"
                 :class="{ 'border-destructive': hasError }"
@@ -38,10 +40,7 @@ const activeTab = ref('write');
             <div
                 class="min-h-30 rounded-md border border-input bg-background px-3 py-2"
             >
-                <MarkdownContent
-                    v-if="model.trim()"
-                    :content="model"
-                />
+                <MarkdownContent v-if="model.trim()" :content="model" />
                 <p v-else class="text-sm text-muted-foreground">
                     Nothing to preview
                 </p>

@@ -55,7 +55,9 @@ async function submit() {
         reset();
     } catch (e: unknown) {
         if (axios.isAxiosError(e) && e.response?.status === 422) {
-            error.value = e.response.data.message ?? 'You have already flagged this content.';
+            error.value =
+                e.response.data.message ??
+                'You have already flagged this content.';
         } else {
             error.value = 'Something went wrong. Please try again.';
         }
@@ -66,7 +68,10 @@ async function submit() {
 </script>
 
 <template>
-    <Dialog v-model:open="open" @update:open="(val: boolean) => !val && reset()">
+    <Dialog
+        v-model:open="open"
+        @update:open="(val: boolean) => !val && reset()"
+    >
         <DialogTrigger as-child>
             <Button
                 variant="ghost"
@@ -81,7 +86,8 @@ async function submit() {
             <DialogHeader>
                 <DialogTitle>Report content</DialogTitle>
                 <DialogDescription>
-                    Help us keep the community safe by reporting content that violates our guidelines.
+                    Help us keep the community safe by reporting content that
+                    violates our guidelines.
                 </DialogDescription>
             </DialogHeader>
 
@@ -94,7 +100,9 @@ async function submit() {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="spam">Spam</SelectItem>
-                            <SelectItem value="inappropriate">Inappropriate</SelectItem>
+                            <SelectItem value="inappropriate"
+                                >Inappropriate</SelectItem
+                            >
                             <SelectItem value="off-topic">Off-topic</SelectItem>
                             <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
@@ -102,7 +110,9 @@ async function submit() {
                 </div>
 
                 <div class="space-y-2">
-                    <label class="text-sm font-medium">Description (optional)</label>
+                    <label class="text-sm font-medium"
+                        >Description (optional)</label
+                    >
                     <Textarea
                         v-model="description"
                         placeholder="Provide additional details..."
@@ -115,12 +125,11 @@ async function submit() {
 
             <DialogFooter>
                 <DialogClose as-child>
-                    <Button variant="outline" :disabled="submitting">Cancel</Button>
+                    <Button variant="outline" :disabled="submitting"
+                        >Cancel</Button
+                    >
                 </DialogClose>
-                <Button
-                    :disabled="!reason || submitting"
-                    @click="submit"
-                >
+                <Button :disabled="!reason || submitting" @click="submit">
                     {{ submitting ? 'Submitting...' : 'Submit Report' }}
                 </Button>
             </DialogFooter>

@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { store as bestReplyStore } from '@/actions/App/Http/Controllers/Web/BestReplyController';
 import { flagReply } from '@/actions/App/Http/Controllers/Web/FlagController';
-import { destroy, update } from '@/actions/App/Http/Controllers/Web/ReplyController';
-import { destroy as likeDestroy, store as likeStore } from '@/actions/App/Http/Controllers/Web/ReplyLikeController';
+import {
+    destroy,
+    update,
+} from '@/actions/App/Http/Controllers/Web/ReplyController';
+import {
+    destroy as likeDestroy,
+    store as likeStore,
+} from '@/actions/App/Http/Controllers/Web/ReplyLikeController';
 import UserProfileController from '@/actions/App/Http/Controllers/Web/UserProfileController';
 import BestAnswerBadge from '@/components/forum/BestAnswerBadge.vue';
 import FlagButton from '@/components/forum/FlagButton.vue';
@@ -23,7 +29,14 @@ import {
 import { getInitials } from '@/composables/useInitials';
 import type { Reply } from '@/types';
 import { Link, router, usePage } from '@inertiajs/vue3';
-import { CheckCircle, CornerDownRight, Edit, MoreHorizontal, Trash2, X } from 'lucide-vue-next';
+import {
+    CheckCircle,
+    CornerDownRight,
+    Edit,
+    MoreHorizontal,
+    Trash2,
+    X,
+} from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 
 const props = defineProps<{
@@ -35,11 +48,15 @@ const props = defineProps<{
 }>();
 
 const page = usePage();
-const auth = computed(() => page.props.auth as { user?: { id: number } } | undefined);
+const auth = computed(
+    () => page.props.auth as { user?: { id: number } } | undefined,
+);
 const currentDepth = computed(() => props.depth ?? 0);
 const isBestAnswer = computed(() => props.reply.id === props.bestReplyId);
 const isOwner = computed(() => auth.value?.user?.id === props.reply.user_id);
-const isThreadOwner = computed(() => auth.value?.user?.id === props.threadOwnerId);
+const isThreadOwner = computed(
+    () => auth.value?.user?.id === props.threadOwnerId,
+);
 const showReplyForm = ref(false);
 const editing = ref(false);
 const editBody = ref('');
@@ -57,24 +74,32 @@ function cancelEditing() {
 
 function saveEdit() {
     saving.value = true;
-    router.put(update.url({ thread: props.threadSlug, reply: props.reply.id }), {
-        body: editBody.value,
-    }, {
-        preserveScroll: true,
-        onSuccess: () => {
-            editing.value = false;
-            editBody.value = '';
+    router.put(
+        update.url({ thread: props.threadSlug, reply: props.reply.id }),
+        {
+            body: editBody.value,
         },
-        onFinish: () => {
-            saving.value = false;
+        {
+            preserveScroll: true,
+            onSuccess: () => {
+                editing.value = false;
+                editBody.value = '';
+            },
+            onFinish: () => {
+                saving.value = false;
+            },
         },
-    });
+    );
 }
 
 function markBestAnswer() {
-    router.post(bestReplyStore.url({ thread: props.threadSlug, reply: props.reply.id }), {}, {
-        preserveScroll: true,
-    });
+    router.post(
+        bestReplyStore.url({ thread: props.threadSlug, reply: props.reply.id }),
+        {},
+        {
+            preserveScroll: true,
+        },
+    );
 }
 
 function deleteReply() {
@@ -82,9 +107,12 @@ function deleteReply() {
         return;
     }
 
-    router.delete(destroy.url({ thread: props.threadSlug, reply: props.reply.id }), {
-        preserveScroll: true,
-    });
+    router.delete(
+        destroy.url({ thread: props.threadSlug, reply: props.reply.id }),
+        {
+            preserveScroll: true,
+        },
+    );
 }
 </script>
 
@@ -123,12 +151,24 @@ function deleteReply() {
             <!-- Body -->
             <div class="mt-2">
                 <template v-if="editing">
-                    <MarkdownEditor v-model="editBody" placeholder="Edit your reply..." />
+                    <MarkdownEditor
+                        v-model="editBody"
+                        placeholder="Edit your reply..."
+                    />
                     <div class="mt-2 flex items-center gap-2">
-                        <Button size="sm" :disabled="saving || !editBody.trim()" @click="saveEdit">
+                        <Button
+                            size="sm"
+                            :disabled="saving || !editBody.trim()"
+                            @click="saveEdit"
+                        >
                             {{ saving ? 'Saving...' : 'Save' }}
                         </Button>
-                        <Button variant="ghost" size="sm" :disabled="saving" @click="cancelEditing">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            :disabled="saving"
+                            @click="cancelEditing"
+                        >
                             <X class="mr-1 size-3.5" />
                             Cancel
                         </Button>
@@ -142,8 +182,12 @@ function deleteReply() {
                 <LikeButton
                     :liked="reply.is_liked ?? false"
                     :count="reply.likes_count"
-                    :like-url="likeStore.url({ thread: threadSlug, reply: reply.id })"
-                    :unlike-url="likeDestroy.url({ thread: threadSlug, reply: reply.id })"
+                    :like-url="
+                        likeStore.url({ thread: threadSlug, reply: reply.id })
+                    "
+                    :unlike-url="
+                        likeDestroy.url({ thread: threadSlug, reply: reply.id })
+                    "
                 />
 
                 <Button
@@ -170,7 +214,9 @@ function deleteReply() {
 
                 <FlagButton
                     v-if="auth?.user && !isOwner"
-                    :url="flagReply.url({ thread: threadSlug, reply: reply.id })"
+                    :url="
+                        flagReply.url({ thread: threadSlug, reply: reply.id })
+                    "
                 />
 
                 <DropdownMenu v-if="isOwner">
@@ -189,7 +235,10 @@ function deleteReply() {
                             Edit
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem @click="deleteReply" class="text-destructive">
+                        <DropdownMenuItem
+                            @click="deleteReply"
+                            class="text-destructive"
+                        >
                             <Trash2 class="mr-2 size-4" />
                             Delete
                         </DropdownMenuItem>

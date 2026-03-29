@@ -8,7 +8,12 @@ defineProps<{
 </script>
 
 <template>
-    <nav v-if="meta.last_page > 1" role="navigation" aria-label="Pagination" class="flex justify-center">
+    <nav
+        v-if="meta.last_page > 1"
+        role="navigation"
+        aria-label="Pagination"
+        class="flex justify-center"
+    >
         <ul class="flex items-center gap-1">
             <li v-for="link in meta.links" :key="link.label">
                 <Link
@@ -19,9 +24,10 @@ defineProps<{
                     class="inline-flex h-8 items-center justify-center rounded-md text-xs font-medium transition-colors"
                     :class="[
                         link.active
-                            ? 'bg-primary text-primary-foreground min-w-8 px-2.5'
+                            ? 'min-w-8 bg-primary px-2.5 text-primary-foreground'
                             : 'hover:bg-accent hover:text-accent-foreground',
-                        link.label.includes('Previous') || link.label.includes('Next')
+                        link.label.includes('Previous') ||
+                        link.label.includes('Next')
                             ? 'px-3'
                             : 'min-w-8 px-2.5',
                     ]"
@@ -37,7 +43,8 @@ defineProps<{
                     v-else
                     class="inline-flex h-8 items-center justify-center rounded-md text-xs font-medium opacity-50"
                     :class="[
-                        link.label.includes('Previous') || link.label.includes('Next')
+                        link.label.includes('Previous') ||
+                        link.label.includes('Next')
                             ? 'px-3'
                             : 'min-w-8 px-2.5',
                     ]"

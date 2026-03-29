@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Reply;
+use App\Models\Thread;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -10,7 +11,7 @@ class StoreReplyRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        /** @var \App\Models\Thread $thread */
+        /** @var Thread $thread */
         $thread = $this->route('thread');
 
         return $this->user()?->can('create', [Reply::class, $thread]) ?? false;
@@ -23,7 +24,7 @@ class StoreReplyRequest extends FormRequest
      */
     public function rules(): array
     {
-        /** @var \App\Models\Thread $thread */
+        /** @var Thread $thread */
         $thread = $this->route('thread');
 
         return [

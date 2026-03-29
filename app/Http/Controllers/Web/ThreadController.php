@@ -10,6 +10,7 @@ use App\Http\Resources\ChannelResource;
 use App\Http\Resources\ReplyResource;
 use App\Http\Resources\ThreadResource;
 use App\Models\Channel;
+use App\Models\Like;
 use App\Models\Reply;
 use App\Models\Thread;
 use Illuminate\Http\RedirectResponse;
@@ -102,7 +103,7 @@ class ThreadController extends Controller
                 ->merge($replies->flatMap(fn ($r) => $r->children->pluck('id')))
                 ->all();
 
-            $likedReplyIds = \App\Models\Like::query()
+            $likedReplyIds = Like::query()
                 ->where('user_id', $user->id)
                 ->where('likeable_type', Reply::class)
                 ->whereIn('likeable_id', $allReplyIds)

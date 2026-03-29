@@ -5,7 +5,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { edit as editNotifications, update as updateNotifications } from '@/routes/notifications';
+import {
+    edit as editNotifications,
+    update as updateNotifications,
+} from '@/routes/notifications';
 import type { BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 
@@ -28,7 +31,8 @@ const notificationTypes = [
     {
         key: 'thread_replied' as const,
         label: 'Thread replies',
-        description: 'When someone replies to a thread you created or are subscribed to',
+        description:
+            'When someone replies to a thread you created or are subscribed to',
     },
     {
         key: 'best_answer_marked' as const,
@@ -76,11 +80,16 @@ function submit() {
                             <Checkbox
                                 :id="type.key"
                                 :checked="form[type.key]"
-                                @update:checked="(val: boolean) => form[type.key] = val"
+                                @update:checked="
+                                    (val: boolean) => (form[type.key] = val)
+                                "
                                 class="mt-0.5"
                             />
                             <div>
-                                <Label :for="type.key" class="text-sm font-medium">
+                                <Label
+                                    :for="type.key"
+                                    class="text-sm font-medium"
+                                >
                                     {{ type.label }}
                                 </Label>
                                 <p class="text-xs text-muted-foreground">

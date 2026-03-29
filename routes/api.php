@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\ThreadController;
 use App\Http\Controllers\Api\ThreadLikeController;
 use App\Http\Controllers\Api\ThreadSubscriptionController;
 use App\Http\Controllers\Api\UserProfileController;
+use App\Http\Middleware\EnsureUserIsAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -57,7 +58,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])
         Route::post('threads/{thread}/replies/{reply}/restore', [ReplyController::class, 'restore'])->withTrashed()->name('threads.replies.restore');
         Route::delete('threads/{thread}/replies/{reply}/force-delete', [ReplyController::class, 'forceDelete'])->withTrashed()->name('threads.replies.force-delete');
 
-        Route::middleware(\App\Http\Middleware\EnsureUserIsAdmin::class)->prefix('admin')->name('admin.')->group(function (): void {
+        Route::middleware(EnsureUserIsAdmin::class)->prefix('admin')->name('admin.')->group(function (): void {
             Route::get('flags', [AdminFlagController::class, 'index'])->name('flags.index');
             Route::post('flags/{flag}/resolve', [AdminFlagController::class, 'resolve'])->name('flags.resolve');
         });

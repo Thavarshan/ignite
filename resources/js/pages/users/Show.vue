@@ -26,10 +26,13 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: props.profileUser.name, href: '#' },
 ];
 
-const memberSince = new Date(props.profileUser.created_at).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-});
+const memberSince = new Date(props.profileUser.created_at).toLocaleDateString(
+    'en-US',
+    {
+        year: 'numeric',
+        month: 'long',
+    },
+);
 </script>
 
 <template>
@@ -41,13 +44,19 @@ const memberSince = new Date(props.profileUser.created_at).toLocaleDateString('e
             <div class="rounded-lg border border-border/60 bg-card p-6">
                 <div class="flex items-center gap-4">
                     <Avatar class="size-16">
-                        <AvatarFallback class="bg-neutral-100 text-lg font-medium text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
+                        <AvatarFallback
+                            class="bg-neutral-100 text-lg font-medium text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300"
+                        >
                             {{ getInitials(profileUser.name) }}
                         </AvatarFallback>
                     </Avatar>
                     <div>
-                        <h1 class="text-xl font-semibold text-foreground">{{ profileUser.name }}</h1>
-                        <div class="mt-1 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                        <h1 class="text-xl font-semibold text-foreground">
+                            {{ profileUser.name }}
+                        </h1>
+                        <div
+                            class="mt-1 flex flex-wrap items-center gap-4 text-sm text-muted-foreground"
+                        >
                             <span class="flex items-center gap-1.5">
                                 <CalendarDays class="size-4" />
                                 Member since {{ memberSince }}
@@ -81,7 +90,10 @@ const memberSince = new Date(props.profileUser.created_at).toLocaleDateString('e
                     />
                 </div>
 
-                <div v-else class="rounded-lg border border-border/60 px-4 py-8 text-center">
+                <div
+                    v-else
+                    class="rounded-lg border border-border/60 px-4 py-8 text-center"
+                >
                     <p class="text-sm text-muted-foreground">No threads yet.</p>
                 </div>
             </div>

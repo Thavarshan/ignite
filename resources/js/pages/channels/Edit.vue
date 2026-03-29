@@ -89,7 +89,11 @@ function deleteChannel() {
 
                     <Dialog>
                         <DialogTrigger as-child>
-                            <Button type="button" variant="destructive" size="sm">
+                            <Button
+                                type="button"
+                                variant="destructive"
+                                size="sm"
+                            >
                                 Delete
                             </Button>
                         </DialogTrigger>
@@ -97,14 +101,18 @@ function deleteChannel() {
                             <DialogHeader>
                                 <DialogTitle>Delete Channel</DialogTitle>
                                 <DialogDescription>
-                                    Are you sure? All threads in this channel will be affected.
+                                    Are you sure? All threads in this channel
+                                    will be affected.
                                 </DialogDescription>
                             </DialogHeader>
                             <DialogFooter>
                                 <DialogClose as-child>
                                     <Button variant="outline">Cancel</Button>
                                 </DialogClose>
-                                <Button variant="destructive" @click="deleteChannel">
+                                <Button
+                                    variant="destructive"
+                                    @click="deleteChannel"
+                                >
                                     Delete
                                 </Button>
                             </DialogFooter>

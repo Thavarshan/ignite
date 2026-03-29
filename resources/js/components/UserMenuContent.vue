@@ -22,7 +22,11 @@ const handleLogout = () => {
 };
 
 const page = usePage();
-const isAdmin = computed(() => !!(page.props.auth as { user?: { is_admin?: boolean; }; })?.user?.is_admin);
+const isAdmin = computed(
+    () =>
+        !!(page.props.auth as { user?: { is_admin?: boolean } })?.user
+            ?.is_admin,
+);
 
 defineProps<Props>();
 </script>

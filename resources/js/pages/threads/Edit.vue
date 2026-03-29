@@ -34,7 +34,11 @@ const props = defineProps<{
 }>();
 
 const page = usePage();
-const isAdmin = computed(() => !!(page.props.auth as { user?: { is_admin?: boolean } })?.user?.is_admin);
+const isAdmin = computed(
+    () =>
+        !!(page.props.auth as { user?: { is_admin?: boolean } })?.user
+            ?.is_admin,
+);
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Forum', href: index() },
@@ -108,15 +112,34 @@ function deleteThread() {
                     <InputError :message="form.errors.body" />
                 </div>
 
-                <div v-if="isAdmin" class="space-y-3 rounded-lg border border-border/60 p-4">
+                <div
+                    v-if="isAdmin"
+                    class="space-y-3 rounded-lg border border-border/60 p-4"
+                >
                     <Label class="text-sm font-medium">Admin Options</Label>
                     <div class="flex items-center gap-2">
-                        <Checkbox id="pinned" :checked="form.pinned" @update:checked="(val: boolean) => form.pinned = val" />
-                        <Label for="pinned" class="text-sm font-normal">Pin this thread</Label>
+                        <Checkbox
+                            id="pinned"
+                            :checked="form.pinned"
+                            @update:checked="
+                                (val: boolean) => (form.pinned = val)
+                            "
+                        />
+                        <Label for="pinned" class="text-sm font-normal"
+                            >Pin this thread</Label
+                        >
                     </div>
                     <div class="flex items-center gap-2">
-                        <Checkbox id="locked" :checked="form.locked" @update:checked="(val: boolean) => form.locked = val" />
-                        <Label for="locked" class="text-sm font-normal">Lock this thread</Label>
+                        <Checkbox
+                            id="locked"
+                            :checked="form.locked"
+                            @update:checked="
+                                (val: boolean) => (form.locked = val)
+                            "
+                        />
+                        <Label for="locked" class="text-sm font-normal"
+                            >Lock this thread</Label
+                        >
                     </div>
                 </div>
 
@@ -136,7 +159,11 @@ function deleteThread() {
 
                     <Dialog>
                         <DialogTrigger as-child>
-                            <Button type="button" variant="destructive" size="sm">
+                            <Button
+                                type="button"
+                                variant="destructive"
+                                size="sm"
+                            >
                                 Delete Thread
                             </Button>
                         </DialogTrigger>
@@ -144,14 +171,18 @@ function deleteThread() {
                             <DialogHeader>
                                 <DialogTitle>Delete Thread</DialogTitle>
                                 <DialogDescription>
-                                    Are you sure you want to delete this thread? This action cannot be undone.
+                                    Are you sure you want to delete this thread?
+                                    This action cannot be undone.
                                 </DialogDescription>
                             </DialogHeader>
                             <DialogFooter>
                                 <DialogClose as-child>
                                     <Button variant="outline">Cancel</Button>
                                 </DialogClose>
-                                <Button variant="destructive" @click="deleteThread">
+                                <Button
+                                    variant="destructive"
+                                    @click="deleteThread"
+                                >
                                     Delete
                                 </Button>
                             </DialogFooter>

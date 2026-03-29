@@ -9,7 +9,12 @@ import { Button } from '@/components/ui/button';
 import ForumLayout from '@/layouts/ForumLayout.vue';
 import { index as channelsIndex, show } from '@/routes/channels';
 import { create as threadCreate } from '@/routes/threads';
-import type { BreadcrumbItem, Channel, PaginatedResponse, Thread } from '@/types';
+import type {
+    BreadcrumbItem,
+    Channel,
+    PaginatedResponse,
+    Thread,
+} from '@/types';
 
 const props = defineProps<{
     channel: Channel;

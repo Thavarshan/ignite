@@ -50,7 +50,9 @@ async function markAsRead(id: string) {
 
 async function markAllRead() {
     await axios.post(notificationsReadAll.url());
-    notifications.value.forEach((n) => (n.read_at = n.read_at ?? new Date().toISOString()));
+    notifications.value.forEach(
+        (n) => (n.read_at = n.read_at ?? new Date().toISOString()),
+    );
 }
 
 async function remove(id: string) {
@@ -114,7 +116,7 @@ onMounted(fetchNotifications);
                 <Bell class="size-5 opacity-80 group-hover:opacity-100" />
                 <span
                     v-if="unreadCount > 0"
-                    class="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-medium text-primary-foreground"
+                    class="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-medium text-primary-foreground"
                 >
                     {{ unreadCount > 9 ? '9+' : unreadCount }}
                 </span>
@@ -137,13 +139,23 @@ onMounted(fetchNotifications);
             </div>
 
             <div class="max-h-80 overflow-y-auto">
-                <div v-if="loading && !notifications.length" class="px-4 py-8 text-center">
+                <div
+                    v-if="loading && !notifications.length"
+                    class="px-4 py-8 text-center"
+                >
                     <p class="text-sm text-muted-foreground">Loading...</p>
                 </div>
 
-                <div v-else-if="!notifications.length" class="px-4 py-8 text-center">
-                    <Bell class="mx-auto mb-2 size-6 text-muted-foreground/50" />
-                    <p class="text-sm text-muted-foreground">No notifications</p>
+                <div
+                    v-else-if="!notifications.length"
+                    class="px-4 py-8 text-center"
+                >
+                    <Bell
+                        class="mx-auto mb-2 size-6 text-muted-foreground/50"
+                    />
+                    <p class="text-sm text-muted-foreground">
+                        No notifications
+                    </p>
                 </div>
 
                 <div v-else>
@@ -156,14 +168,22 @@ onMounted(fetchNotifications);
                     >
                         <div
                             class="mt-1.5 size-2 shrink-0 rounded-full"
-                            :class="notification.read_at ? 'bg-transparent' : 'bg-primary'"
+                            :class="
+                                notification.read_at
+                                    ? 'bg-transparent'
+                                    : 'bg-primary'
+                            "
                         />
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm">
                                 {{ notificationText(notification) }}
                             </p>
                             <p class="mt-0.5 text-xs text-muted-foreground">
-                                {{ new Date(notification.created_at).toLocaleDateString() }}
+                                {{
+                                    new Date(
+                                        notification.created_at,
+                                    ).toLocaleDateString()
+                                }}
                             </p>
                         </div>
                         <div class="flex shrink-0 items-center gap-1">

@@ -15,11 +15,13 @@ defineProps<{
 }>();
 
 const page = usePage();
-const isAdmin = computed(() => !!(page.props.auth as { user?: { is_admin?: boolean } })?.user?.is_admin);
+const isAdmin = computed(
+    () =>
+        !!(page.props.auth as { user?: { is_admin?: boolean } })?.user
+            ?.is_admin,
+);
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Channels', href: index() },
-];
+const breadcrumbs: BreadcrumbItem[] = [{ title: 'Channels', href: index() }];
 </script>
 
 <template>

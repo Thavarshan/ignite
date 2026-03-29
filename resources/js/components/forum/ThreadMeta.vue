@@ -12,7 +12,10 @@ defineProps<{
 
 <template>
     <div class="flex items-center gap-4 text-xs text-muted-foreground">
-        <span class="flex items-center gap-1" :title="`${repliesCount} replies`">
+        <span
+            class="flex items-center gap-1"
+            :title="`${repliesCount} replies`"
+        >
             <MessageSquare class="size-3.5" />
             {{ repliesCount }}
         </span>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Policies\FlagPolicy;
+use Database\Factories\FlagFactory;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 #[UsePolicy(FlagPolicy::class)]
 class Flag extends Model
 {
-    /** @use HasFactory<\Database\Factories\FlagFactory> */
+    /** @use HasFactory<FlagFactory> */
     use HasFactory;
 
     /**

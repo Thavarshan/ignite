@@ -7,6 +7,7 @@ use App\Models\Concerns\HasSlug;
 use App\Models\Concerns\Likeable;
 use App\Models\Concerns\Subscribable;
 use App\Policies\ThreadPolicy;
+use Database\Factories\ThreadFactory;
 use Filterable\Traits\Filterable;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[UsePolicy(ThreadPolicy::class)]
 class Thread extends Model
 {
-    /** @use HasFactory<\Database\Factories\ThreadFactory> */
+    /** @use HasFactory<ThreadFactory> */
     use Filterable, Flaggable, HasFactory, HasSlug, Likeable, SoftDeletes, Subscribable;
 
     /**

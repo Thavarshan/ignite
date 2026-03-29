@@ -8,7 +8,12 @@ import ThreadFilters from '@/components/forum/ThreadFilters.vue';
 import { Button } from '@/components/ui/button';
 import ForumLayout from '@/layouts/ForumLayout.vue';
 import { create, index } from '@/routes/threads';
-import type { BreadcrumbItem, Channel, PaginatedResponse, Thread } from '@/types';
+import type {
+    BreadcrumbItem,
+    Channel,
+    PaginatedResponse,
+    Thread,
+} from '@/types';
 
 const props = defineProps<{
     threads: PaginatedResponse<Thread>;
@@ -20,9 +25,7 @@ const props = defineProps<{
     };
 }>();
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Forum', href: index() },
-];
+const breadcrumbs: BreadcrumbItem[] = [{ title: 'Forum', href: index() }];
 </script>
 
 <template>

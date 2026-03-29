@@ -24,7 +24,11 @@ defineProps<{
 }>();
 
 const page = usePage();
-const isAdmin = computed(() => !!(page.props.auth as { user?: { is_admin?: boolean } })?.user?.is_admin);
+const isAdmin = computed(
+    () =>
+        !!(page.props.auth as { user?: { is_admin?: boolean } })?.user
+            ?.is_admin,
+);
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Forum', href: index() },
@@ -93,15 +97,34 @@ function submit() {
                     <InputError :message="form.errors.body" />
                 </div>
 
-                <div v-if="isAdmin" class="space-y-3 rounded-lg border border-border/60 p-4">
+                <div
+                    v-if="isAdmin"
+                    class="space-y-3 rounded-lg border border-border/60 p-4"
+                >
                     <Label class="text-sm font-medium">Admin Options</Label>
                     <div class="flex items-center gap-2">
-                        <Checkbox id="pinned" :checked="form.pinned" @update:checked="(val: boolean) => form.pinned = val" />
-                        <Label for="pinned" class="text-sm font-normal">Pin this thread</Label>
+                        <Checkbox
+                            id="pinned"
+                            :checked="form.pinned"
+                            @update:checked="
+                                (val: boolean) => (form.pinned = val)
+                            "
+                        />
+                        <Label for="pinned" class="text-sm font-normal"
+                            >Pin this thread</Label
+                        >
                     </div>
                     <div class="flex items-center gap-2">
-                        <Checkbox id="locked" :checked="form.locked" @update:checked="(val: boolean) => form.locked = val" />
-                        <Label for="locked" class="text-sm font-normal">Lock this thread</Label>
+                        <Checkbox
+                            id="locked"
+                            :checked="form.locked"
+                            @update:checked="
+                                (val: boolean) => (form.locked = val)
+                            "
+                        />
+                        <Label for="locked" class="text-sm font-normal"
+                            >Lock this thread</Label
+                        >
                     </div>
                 </div>
 

@@ -59,10 +59,7 @@ defineProps<{
             </div>
 
             <div class="mt-1 flex flex-wrap items-center gap-2">
-                <ChannelBadge
-                    v-if="thread.channel"
-                    :channel="thread.channel"
-                />
+                <ChannelBadge v-if="thread.channel" :channel="thread.channel" />
                 <span class="text-xs text-muted-foreground">
                     <Link
                         v-if="thread.user"

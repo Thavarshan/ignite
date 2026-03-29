@@ -33,16 +33,16 @@ function applyFilters() {
     const query: Record<string, string> = {};
 
     if (search.value) {
-query.q = search.value;
-}
+        query.q = search.value;
+    }
 
     if (sortBy.value && sortBy.value !== 'latest') {
-query.sort_by = sortBy.value;
-}
+        query.sort_by = sortBy.value;
+    }
 
     if (channel.value && channel.value !== 'all') {
-query.channel = channel.value;
-}
+        query.channel = channel.value;
+    }
 
     router.get(props.routeUrl, query, {
         preserveState: true,
@@ -60,7 +60,9 @@ function onSearchInput() {
 </script>
 
 <template>
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div
+        class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+    >
         <div class="flex flex-wrap items-center gap-2">
             <Select
                 v-if="showChannelFilter !== false && channels?.length"
@@ -94,7 +96,9 @@ function onSearchInput() {
         </div>
 
         <div class="relative">
-            <Search class="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+            <Search
+                class="absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground"
+            />
             <Input
                 v-model="search"
                 placeholder="Search threads..."

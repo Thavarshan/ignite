@@ -29,7 +29,10 @@ interface FlagData {
 }
 
 defineProps<{
-    flags: { data: FlagData[]; meta: { current_page: number; last_page: number } };
+    flags: {
+        data: FlagData[];
+        meta: { current_page: number; last_page: number };
+    };
     status: string;
 }>();
 
@@ -39,7 +42,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 function filterByStatus(status: string) {
-    router.get(FlagControllerInvokable.url(), { status }, { preserveState: true });
+    router.get(
+        FlagControllerInvokable.url(),
+        { status },
+        { preserveState: true },
+    );
 }
 
 async function resolveFlag(flagId: number) {
@@ -84,7 +91,10 @@ function viewFlaggable(flag: FlagData) {
                 </div>
             </div>
 
-            <div v-if="flags.data.length === 0" class="rounded-lg border border-border/60 px-4 py-12 text-center">
+            <div
+                v-if="flags.data.length === 0"
+                class="rounded-lg border border-border/60 px-4 py-12 text-center"
+            >
                 <p class="text-muted-foreground">No flagged content found.</p>
             </div>
 
@@ -100,24 +110,48 @@ function viewFlaggable(flag: FlagData) {
                                 <Badge variant="outline" class="text-xs">
                                     {{ flag.flaggable?.type ?? 'Unknown' }}
                                 </Badge>
-                                <Badge variant="destructive" class="text-xs" v-if="flag.reason === 'spam' || flag.reason === 'inappropriate'">
+                                <Badge
+                                    variant="destructive"
+                                    class="text-xs"
+                                    v-if="
+                                        flag.reason === 'spam' ||
+                                        flag.reason === 'inappropriate'
+                                    "
+                                >
                                     {{ flag.reason }}
                                 </Badge>
-                                <Badge variant="secondary" class="text-xs" v-else>
+                                <Badge
+                                    variant="secondary"
+                                    class="text-xs"
+                                    v-else
+                                >
                                     {{ flag.reason }}
                                 </Badge>
-                                <span v-if="flag.flaggable?.title" class="text-sm font-medium">
+                                <span
+                                    v-if="flag.flaggable?.title"
+                                    class="text-sm font-medium"
+                                >
                                     {{ flag.flaggable.title }}
                                 </span>
                             </div>
-                            <p class="line-clamp-2 text-sm text-muted-foreground">
+                            <p
+                                class="line-clamp-2 text-sm text-muted-foreground"
+                            >
                                 {{ flag.flaggable?.body }}
                             </p>
-                            <p v-if="flag.description" class="text-sm italic text-muted-foreground">
+                            <p
+                                v-if="flag.description"
+                                class="text-sm text-muted-foreground italic"
+                            >
                                 "{{ flag.description }}"
                             </p>
-                            <div class="flex items-center gap-3 text-xs text-muted-foreground">
-                                <span>Reported by {{ flag.user?.name ?? 'Unknown' }}</span>
+                            <div
+                                class="flex items-center gap-3 text-xs text-muted-foreground"
+                            >
+                                <span
+                                    >Reported by
+                                    {{ flag.user?.name ?? 'Unknown' }}</span
+                                >
                                 <RelativeTime :date="flag.created_at" />
                             </div>
                         </div>
@@ -140,7 +174,11 @@ function viewFlaggable(flag: FlagData) {
                                 Resolve
                             </Button>
                             <span v-else class="text-xs text-muted-foreground">
-                                Resolved{{ flag.resolver ? ` by ${flag.resolver.name}` : '' }}
+                                Resolved{{
+                                    flag.resolver
+                                        ? ` by ${flag.resolver.name}`
+                                        : ''
+                                }}
                             </span>
                         </div>
                     </div>

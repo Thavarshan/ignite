@@ -35,7 +35,9 @@ function submit() {
     <form @submit.prevent="submit" class="space-y-3">
         <MarkdownEditor
             v-model="form.body"
-            :placeholder="parentId ? 'Write a reply...' : 'Share your thoughts...'"
+            :placeholder="
+                parentId ? 'Write a reply...' : 'Share your thoughts...'
+            "
             :rows="parentId ? 4 : 6"
             :has-error="!!form.errors.body"
         />

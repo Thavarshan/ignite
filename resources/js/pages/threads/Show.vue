@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { flagThread } from '@/actions/App/Http/Controllers/Web/FlagController';
-import { destroy as likeDestroy, store as likeStore } from '@/actions/App/Http/Controllers/Web/ThreadLikeController';
-import { destroy as subscribeDestroy, store as subscribeStore } from '@/actions/App/Http/Controllers/Web/ThreadSubscriptionController';
+import {
+    destroy as likeDestroy,
+    store as likeStore,
+} from '@/actions/App/Http/Controllers/Web/ThreadLikeController';
+import {
+    destroy as subscribeDestroy,
+    store as subscribeStore,
+} from '@/actions/App/Http/Controllers/Web/ThreadSubscriptionController';
 import UserProfileController from '@/actions/App/Http/Controllers/Web/UserProfileController';
 import ChannelBadge from '@/components/forum/ChannelBadge.vue';
 import FlagButton from '@/components/forum/FlagButton.vue';
@@ -38,7 +44,12 @@ const props = defineProps<{
 }>();
 
 const page = usePage();
-const auth = computed(() => page.props.auth as { user?: { id: number; is_admin?: boolean } } | undefined);
+const auth = computed(
+    () =>
+        page.props.auth as
+            | { user?: { id: number; is_admin?: boolean } }
+            | undefined,
+);
 const isOwner = computed(() => auth.value?.user?.id === props.thread.user_id);
 const isAdmin = computed(() => !!auth.value?.user?.is_admin);
 const canManage = computed(() => isOwner.value || isAdmin.value);
@@ -46,7 +57,12 @@ const canManage = computed(() => isOwner.value || isAdmin.value);
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Forum', href: index() },
     ...(props.thread.channel
-        ? [{ title: props.thread.channel.name, href: channelShow(props.thread.channel.slug) }]
+        ? [
+              {
+                  title: props.thread.channel.name,
+                  href: channelShow(props.thread.channel.slug),
+              },
+          ]
         : []),
     { title: props.thread.title, href: '#' },
 ];
@@ -61,8 +77,8 @@ const otherReplies = computed(() =>
 
 function deleteThread() {
     if (!confirm('Are you sure you want to delete this thread?')) {
-return;
-}
+        return;
+    }
 
     router.delete(destroyThread.url(props.thread.slug));
 }
@@ -101,12 +117,18 @@ return;
                                     <AvatarFallback
                                         class="bg-neutral-100 text-[10px] font-medium text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300"
                                     >
-                                        {{ getInitials(thread.user?.name ?? '') }}
+                                        {{
+                                            getInitials(thread.user?.name ?? '')
+                                        }}
                                     </AvatarFallback>
                                 </Avatar>
                                 <Link
                                     v-if="thread.user"
-                                    :href="UserProfileController.url(thread.user.id)"
+                                    :href="
+                                        UserProfileController.url(
+                                            thread.user.id,
+                                        )
+                                    "
                                     class="text-sm text-muted-foreground hover:text-primary hover:underline"
                                 >
                                     {{ thread.user.name }}
@@ -137,7 +159,9 @@ return;
                             <SubscribeButton
                                 :subscribed="isSubscribed ?? false"
                                 :subscribe-url="subscribeStore.url(thread.slug)"
-                                :unsubscribe-url="subscribeDestroy.url(thread.slug)"
+                                :unsubscribe-url="
+                                    subscribeDestroy.url(thread.slug)
+                                "
                             />
                             <FlagButton
                                 v-if="!isOwner"
@@ -183,7 +207,9 @@ return;
 
             <!-- Best answer -->
             <div v-if="bestReply" class="space-y-2">
-                <h2 class="text-sm font-medium text-green-600 dark:text-green-400">
+                <h2
+                    class="text-sm font-medium text-green-600 dark:text-green-400"
+                >
                     Best Answer
                 </h2>
                 <ReplyCard
@@ -203,7 +229,10 @@ return;
                     {{ thread.replies_count === 1 ? 'Reply' : 'Replies' }}
                 </h2>
 
-                <div v-if="otherReplies.length" class="divide-y divide-border/40">
+                <div
+                    v-if="otherReplies.length"
+                    class="divide-y divide-border/40"
+                >
                     <ReplyCard
                         v-for="reply in otherReplies"
                         :key="reply.id"
@@ -216,8 +245,13 @@ return;
             </div>
 
             <!-- Reply form -->
-            <div v-if="thread.locked" class="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-800 dark:bg-amber-950">
-                <p class="flex items-center gap-2 text-sm text-amber-700 dark:text-amber-400">
+            <div
+                v-if="thread.locked"
+                class="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-800 dark:bg-amber-950"
+            >
+                <p
+                    class="flex items-center gap-2 text-sm text-amber-700 dark:text-amber-400"
+                >
                     <Lock class="size-4" />
                     This thread is locked. No further replies are allowed.
                 </p>
@@ -230,9 +264,15 @@ return;
                 <ReplyForm :thread-slug="thread.slug" />
             </div>
 
-            <div v-else class="rounded-lg border border-border/60 px-4 py-6 text-center">
+            <div
+                v-else
+                class="rounded-lg border border-border/60 px-4 py-6 text-center"
+            >
                 <p class="text-sm text-muted-foreground">
-                    <Link href="/login" class="font-medium text-primary hover:underline">
+                    <Link
+                        href="/login"
+                        class="font-medium text-primary hover:underline"
+                    >
                         Sign in
                     </Link>
                     to join the discussion.
