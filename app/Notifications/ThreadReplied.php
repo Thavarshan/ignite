@@ -5,10 +5,11 @@ namespace App\Notifications;
 use App\Models\Reply;
 use App\Models\Thread;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ThreadReplied extends Notification
+class ThreadReplied extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -45,7 +46,7 @@ class ThreadReplied extends Notification
             ->subject("New reply to: {$this->thread->title}")
             ->line("{$this->reply->user->name} replied to your thread \"{$this->thread->title}\".")
             ->line(str($this->reply->body)->limit(200))
-            ->action('View Thread', url("/threads/{$this->thread->slug}"));
+            ->action('View Thread', route('threads.show', $this->thread));
     }
 
     /**

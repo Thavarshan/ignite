@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Services\MentionParser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +21,7 @@ class ThreadResource extends JsonResource
             'user_id' => $this->user_id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'body' => $this->body,
+            'body' => app(MentionParser::class)->linkify($this->body),
             'locked' => $this->locked,
             'pinned' => $this->pinned,
             'replies_count' => $this->replies_count,

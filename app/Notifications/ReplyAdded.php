@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\Models\Reply;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ReplyAdded extends Notification
+class ReplyAdded extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -44,7 +45,7 @@ class ReplyAdded extends Notification
             ->subject('New reply to your comment')
             ->line("{$this->childReply->user->name} replied to your comment.")
             ->line(str($this->childReply->body)->limit(200))
-            ->action('View Thread', url("/threads/{$this->parentReply->thread_id}"));
+            ->action('View Thread', route('threads.show', $this->parentReply->thread));
     }
 
     /**

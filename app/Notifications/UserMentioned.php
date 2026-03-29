@@ -5,10 +5,11 @@ namespace App\Notifications;
 use App\Models\Reply;
 use App\Models\Thread;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserMentioned extends Notification
+class UserMentioned extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -42,11 +43,14 @@ class UserMentioned extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         $type = $this->mentionable instanceof Thread ? 'thread' : 'reply';
+        $thread = $this->mentionable instanceof Thread
+            ? $this->mentionable
+            : $this->mentionable->thread;
 
         return (new MailMessage)
             ->subject("{$this->mentionerName} mentioned you")
             ->line("You were mentioned by {$this->mentionerName} in a {$type}.")
-            ->action('View', url('/'));
+            ->action('View', route('threads.show', $thread));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Services\MentionParser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,7 +20,7 @@ class ReplyResource extends JsonResource
             'thread_id' => $this->thread_id,
             'user_id' => $this->user_id,
             'parent_id' => $this->parent_id,
-            'body' => $this->body,
+            'body' => app(MentionParser::class)->linkify($this->body),
             'likes_count' => $this->likes_count,
             'is_liked' => $this->when(isset($this->is_liked), fn () => $this->is_liked),
             'created_at' => $this->created_at?->toIso8601String(),

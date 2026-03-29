@@ -9,6 +9,7 @@ use App\Notifications\ThreadReplied;
 use App\Notifications\UserMentioned;
 use App\Policies\ReplyPolicy;
 use App\Services\MentionParser;
+use Database\Factories\ReplyFactory;
 use Filterable\Traits\Filterable;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[UsePolicy(ReplyPolicy::class)]
 class Reply extends Model
 {
-    /** @use HasFactory<\Database\Factories\ReplyFactory> */
+    /** @use HasFactory<ReplyFactory> */
     use Filterable, Flaggable, HasFactory, Likeable, SoftDeletes;
 
     /**
@@ -35,6 +36,18 @@ class Reply extends Model
         'body',
         'likes_count',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'likes_count' => 'int',
+        ];
+    }
 
     /**
      * Register model event callbacks.

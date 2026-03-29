@@ -9,16 +9,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 trait Likeable
 {
     /**
-     * Boot the trait.
-     */
-    public static function bootLikeable(): void
-    {
-        static::created(function ($model): void {
-            // Ensure likes_count starts at 0
-        });
-    }
-
-    /**
      * Get all likes for the model.
      */
     public function likes(): MorphMany

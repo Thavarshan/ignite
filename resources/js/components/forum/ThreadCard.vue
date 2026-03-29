@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import UserProfileController from '@/actions/App/Http/Controllers/Web/UserProfileController';
 import ChannelBadge from '@/components/forum/ChannelBadge.vue';
 import ThreadMeta from '@/components/forum/ThreadMeta.vue';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -65,7 +66,7 @@ defineProps<{
                 <span class="text-xs text-muted-foreground">
                     <Link
                         v-if="thread.user"
-                        :href="`/users/${thread.user.id}`"
+                        :href="UserProfileController.url(thread.user.id)"
                         class="hover:text-primary hover:underline"
                     >
                         {{ thread.user.name }}

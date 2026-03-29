@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import {
+    destroy as notificationsDestroy,
+    index as notificationsIndex,
+    read as notificationsRead,
+    readAll as notificationsReadAll,
+} from '@/actions/App/Http/Controllers/Api/NotificationController';
 import { Button } from '@/components/ui/button';
 import {
     Popover,
@@ -24,7 +30,7 @@ async function fetchNotifications() {
     loading.value = true;
 
     try {
-        const { data } = await axios.get('/api/notifications');
+        const { data } = await axios.get(notificationsIndex.url());
         notifications.value = data.data;
     } catch {
         // Silently handle auth/network errors
@@ -34,7 +40,7 @@ async function fetchNotifications() {
 }
 
 async function markAsRead(id: string) {
-    await axios.post(`/api/notifications/${id}/read`);
+    await axios.post(notificationsRead.url(id));
     const notification = notifications.value.find((n) => n.id === id);
 
     if (notification) {
@@ -43,12 +49,12 @@ async function markAsRead(id: string) {
 }
 
 async function markAllRead() {
-    await axios.post('/api/notifications/read-all');
+    await axios.post(notificationsReadAll.url());
     notifications.value.forEach((n) => (n.read_at = n.read_at ?? new Date().toISOString()));
 }
 
 async function remove(id: string) {
-    await axios.delete(`/api/notifications/${id}`);
+    await axios.delete(notificationsDestroy.url(id));
     notifications.value = notifications.value.filter((n) => n.id !== id);
 }
 

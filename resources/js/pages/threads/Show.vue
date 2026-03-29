@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { flagThread } from '@/actions/App/Http/Controllers/Web/FlagController';
+import { destroy as likeDestroy, store as likeStore } from '@/actions/App/Http/Controllers/Web/ThreadLikeController';
+import { destroy as subscribeDestroy, store as subscribeStore } from '@/actions/App/Http/Controllers/Web/ThreadSubscriptionController';
+import UserProfileController from '@/actions/App/Http/Controllers/Web/UserProfileController';
 import ChannelBadge from '@/components/forum/ChannelBadge.vue';
 import FlagButton from '@/components/forum/FlagButton.vue';
 import LikeButton from '@/components/forum/LikeButton.vue';
@@ -20,7 +24,7 @@ import { Separator } from '@/components/ui/separator';
 import { getInitials } from '@/composables/useInitials';
 import ForumLayout from '@/layouts/ForumLayout.vue';
 import { show as channelShow } from '@/routes/channels';
-import { edit, index } from '@/routes/threads';
+import { destroy as destroyThread, edit, index } from '@/routes/threads';
 import type { BreadcrumbItem, Reply, Thread } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { Edit, Eye, Lock, MoreHorizontal, Pin, Trash2 } from 'lucide-vue-next';
@@ -60,7 +64,7 @@ function deleteThread() {
 return;
 }
 
-    router.delete(`/threads/${props.thread.slug}`);
+    router.delete(destroyThread.url(props.thread.slug));
 }
 </script>
 
@@ -102,7 +106,7 @@ return;
                                 </Avatar>
                                 <Link
                                     v-if="thread.user"
-                                    :href="`/users/${thread.user.id}`"
+                                    :href="UserProfileController.url(thread.user.id)"
                                     class="text-sm text-muted-foreground hover:text-primary hover:underline"
                                 >
                                     {{ thread.user.name }}
@@ -127,17 +131,17 @@ return;
                             <LikeButton
                                 :liked="isLiked ?? false"
                                 :count="thread.likes_count"
-                                :like-url="`/api/threads/${thread.slug}/like`"
-                                :unlike-url="`/api/threads/${thread.slug}/like`"
+                                :like-url="likeStore.url(thread.slug)"
+                                :unlike-url="likeDestroy.url(thread.slug)"
                             />
                             <SubscribeButton
                                 :subscribed="isSubscribed ?? false"
-                                :subscribe-url="`/api/threads/${thread.slug}/subscribe`"
-                                :unsubscribe-url="`/api/threads/${thread.slug}/subscribe`"
+                                :subscribe-url="subscribeStore.url(thread.slug)"
+                                :unsubscribe-url="subscribeDestroy.url(thread.slug)"
                             />
                             <FlagButton
                                 v-if="!isOwner"
-                                :url="`/api/threads/${thread.slug}/flag`"
+                                :url="flagThread.url(thread.slug)"
                             />
                         </template>
 

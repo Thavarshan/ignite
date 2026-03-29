@@ -9,7 +9,6 @@ use App\Models\Channel;
 use App\Models\Thread;
 use Inertia\Inertia;
 use Inertia\Response;
-use Laravel\Fortify\Features;
 
 class WelcomeController extends Controller
 {
@@ -33,7 +32,6 @@ class WelcomeController extends Controller
             ->get();
 
         return Inertia::render('Welcome', [
-            'canRegister' => Features::enabled(Features::registration()),
             'latestThreads' => ThreadResource::collection($latestThreads)->resolve(),
             'popularChannels' => ChannelResource::collection($popularChannels)->resolve(),
         ]);

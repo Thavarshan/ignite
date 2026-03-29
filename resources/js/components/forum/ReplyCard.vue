@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { store as bestReplyStore } from '@/actions/App/Http/Controllers/Web/BestReplyController';
+import { flagReply } from '@/actions/App/Http/Controllers/Web/FlagController';
 import { destroy, update } from '@/actions/App/Http/Controllers/Web/ReplyController';
+import { destroy as likeDestroy, store as likeStore } from '@/actions/App/Http/Controllers/Web/ReplyLikeController';
+import UserProfileController from '@/actions/App/Http/Controllers/Web/UserProfileController';
 import BestAnswerBadge from '@/components/forum/BestAnswerBadge.vue';
 import FlagButton from '@/components/forum/FlagButton.vue';
 import LikeButton from '@/components/forum/LikeButton.vue';
@@ -105,7 +108,7 @@ function deleteReply() {
                 </Avatar>
                 <Link
                     v-if="reply.user"
-                    :href="`/users/${reply.user.id}`"
+                    :href="UserProfileController.url(reply.user.id)"
                     class="text-sm font-medium text-foreground hover:text-primary hover:underline"
                 >
                     {{ reply.user.name }}
@@ -139,8 +142,8 @@ function deleteReply() {
                 <LikeButton
                     :liked="reply.is_liked ?? false"
                     :count="reply.likes_count"
-                    :like-url="`/api/replies/${reply.id}/like`"
-                    :unlike-url="`/api/replies/${reply.id}/like`"
+                    :like-url="likeStore.url({ thread: threadSlug, reply: reply.id })"
+                    :unlike-url="likeDestroy.url({ thread: threadSlug, reply: reply.id })"
                 />
 
                 <Button
@@ -167,7 +170,7 @@ function deleteReply() {
 
                 <FlagButton
                     v-if="auth?.user && !isOwner"
-                    :url="`/api/replies/${reply.id}/flag`"
+                    :url="flagReply.url({ thread: threadSlug, reply: reply.id })"
                 />
 
                 <DropdownMenu v-if="isOwner">

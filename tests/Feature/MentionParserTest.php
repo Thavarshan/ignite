@@ -3,52 +3,53 @@
 use App\Models\User;
 use App\Services\MentionParser;
 
-test('it extracts mentioned users from text', function () {
-    $user = User::factory()->create(['name' => 'taylor']);
-    User::factory()->create(['name' => 'nuno']);
+test('linkify replaces a valid mention with a profile link', function () {
+    $user = User::factory()->create(['name' => 'Taylor']);
 
-    $result = (new MentionParser)->parse('Hello @taylor, have you seen this?');
+    $result = app(MentionParser::class)->linkify('Hello @Taylor, welcome!');
 
-    expect($result)->toHaveCount(1)
-        ->and($result->first()->id)->toBe($user->id);
+    expect($result)->toBe("Hello [@Taylor](/users/{$user->id}), welcome!");
 });
 
-test('it extracts multiple mentioned users', function () {
-    User::factory()->create(['name' => 'taylor']);
-    User::factory()->create(['name' => 'nuno']);
+test('linkify replaces multiple mentions', function () {
+    $taylor = User::factory()->create(['name' => 'Taylor']);
+    $nuno = User::factory()->create(['name' => 'Nuno']);
 
-    $result = (new MentionParser)->parse('Hey @taylor and @nuno!');
+    $result = app(MentionParser::class)->linkify('Thanks @Taylor and @Nuno!');
 
-    expect($result)->toHaveCount(2);
+    expect($result)
+        ->toContain("[@Taylor](/users/{$taylor->id})")
+        ->toContain("[@Nuno](/users/{$nuno->id})");
 });
 
-test('it ignores non-existent users', function () {
-    User::factory()->create(['name' => 'taylor']);
+test('linkify leaves non-existent user mentions as plain text', function () {
+    $result = app(MentionParser::class)->linkify('Hey @ghost, are you there?');
 
-    $result = (new MentionParser)->parse('Hey @taylor and @ghost');
-
-    expect($result)->toHaveCount(1);
+    expect($result)->toBe('Hey @ghost, are you there?');
 });
 
-test('it returns empty collection when no mentions', function () {
-    $result = (new MentionParser)->parse('No mentions here.');
+test('linkify returns body unchanged when no mentions exist', function () {
+    $body = 'Just a normal message with no mentions.';
 
-    expect($result)->toBeEmpty();
+    $result = app(MentionParser::class)->linkify($body);
+
+    expect($result)->toBe($body);
 });
 
-test('it deduplicates repeated mentions', function () {
-    User::factory()->create(['name' => 'taylor']);
+test('linkify handles mix of valid and invalid mentions', function () {
+    $user = User::factory()->create(['name' => 'Ada']);
 
-    $result = (new MentionParser)->parse('@taylor said @taylor again');
+    $result = app(MentionParser::class)->linkify('Hey @Ada and @nobody!');
 
-    expect($result)->toHaveCount(1);
+    expect($result)
+        ->toContain("[@Ada](/users/{$user->id})")
+        ->toContain('@nobody');
 });
 
-test('it handles usernames with hyphens', function () {
-    $user = User::factory()->create(['name' => 'joe-doe']);
+test('linkify handles duplicate mentions only once', function () {
+    $user = User::factory()->create(['name' => 'Taylor']);
 
-    $result = (new MentionParser)->parse('Cc @joe-doe');
+    $result = app(MentionParser::class)->linkify('@Taylor said hi to @Taylor');
 
-    expect($result)->toHaveCount(1)
-        ->and($result->first()->id)->toBe($user->id);
+    expect($result)->toBe("[@Taylor](/users/{$user->id}) said hi to [@Taylor](/users/{$user->id})");
 });

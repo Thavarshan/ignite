@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Settings\NotificationUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,17 +18,10 @@ class NotificationController extends Controller
         ]);
     }
 
-    public function update(Request $request): RedirectResponse
+    public function update(NotificationUpdateRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'thread_replied' => ['required', 'boolean'],
-            'best_answer_marked' => ['required', 'boolean'],
-            'user_mentioned' => ['required', 'boolean'],
-            'reply_added' => ['required', 'boolean'],
-        ]);
-
         $request->user()->update([
-            'notification_preferences' => $data,
+            'notification_preferences' => $request->validated(),
         ]);
 
         return to_route('notifications.edit');

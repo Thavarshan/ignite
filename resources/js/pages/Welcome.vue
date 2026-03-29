@@ -11,13 +11,13 @@ import { ArrowRight, Hash, MessageSquare, Users } from 'lucide-vue-next';
 import { computed } from 'vue';
 
 defineProps<{
-    canRegister: boolean;
     latestThreads: Thread[];
     popularChannels: Channel[];
 }>();
 
 const page = usePage();
 const auth = computed(() => page.props.auth as { user?: { id: number } } | undefined);
+const canRegister = computed(() => page.props.canRegister as boolean);
 </script>
 
 <template>

@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { resolve } from '@/actions/App/Http/Controllers/Api/Admin/FlagController';
+import FlagControllerInvokable from '@/actions/App/Http/Controllers/Web/Admin/FlagController';
 import RelativeTime from '@/components/forum/RelativeTime.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
+import { show as threadShow } from '@/routes/threads';
 import type { BreadcrumbItem } from '@/types';
 import { router } from '@inertiajs/vue3';
 import axios from 'axios';
@@ -32,21 +35,21 @@ defineProps<{
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Admin', href: '#' },
-    { title: 'Flagged Content', href: '/admin/flags' },
+    { title: 'Flagged Content', href: FlagControllerInvokable.url() },
 ];
 
 function filterByStatus(status: string) {
-    router.get('/admin/flags', { status }, { preserveState: true });
+    router.get(FlagControllerInvokable.url(), { status }, { preserveState: true });
 }
 
 async function resolveFlag(flagId: number) {
-    await axios.post(`/api/admin/flags/${flagId}/resolve`);
+    await axios.post(resolve.url(flagId));
     router.reload({ only: ['flags'] });
 }
 
 function viewFlaggable(flag: FlagData) {
     if (flag.flaggable?.slug) {
-        router.visit(`/threads/${flag.flaggable.slug}`);
+        router.visit(threadShow.url(flag.flaggable.slug));
     }
 }
 </script>

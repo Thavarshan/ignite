@@ -5,10 +5,11 @@ namespace App\Notifications;
 use App\Models\Reply;
 use App\Models\Thread;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BestAnswerMarked extends Notification
+class BestAnswerMarked extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -44,7 +45,7 @@ class BestAnswerMarked extends Notification
         return (new MailMessage)
             ->subject('Your reply was marked as best answer!')
             ->line("Your reply on \"{$this->thread->title}\" was marked as the best answer.")
-            ->action('View Thread', url("/threads/{$this->thread->slug}"));
+            ->action('View Thread', route('threads.show', $this->thread));
     }
 
     /**
