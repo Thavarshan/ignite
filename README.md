@@ -79,7 +79,9 @@ composer run dev:ssr
 ## Testing
 
 ```bash
-composer run test       # Lint + type-check + Pest tests
+composer run test       # PHP lint + Pest tests
+composer run ci:check   # Frontend lint, formatting, type-check, and PHP checks
+npm run build           # Verify production assets (also run in CI)
 ```
 
 Run a specific test:
