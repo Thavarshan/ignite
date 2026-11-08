@@ -79,7 +79,9 @@ composer run dev:ssr
 ## Testing
 
 ```bash
-composer run test       # Lint + type-check + Pest tests
+composer run test       # PHP lint + Pest tests
+npm run build           # Generates Wayfinder types and verifies production assets
+composer run ci:check   # Frontend lint, formatting, type-check, and PHP checks
 ```
 
 Run a specific test:
