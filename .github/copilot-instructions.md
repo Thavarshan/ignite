@@ -11,7 +11,7 @@ Laravel 13 · Inertia v2 · Vue 3 · Tailwind v4 · Fortify v1 · Wayfinder · P
 ```bash
 composer run dev          # Start full stack: PHP server + queue + pail logs + Vite
 composer run dev:ssr      # Same with SSR enabled
-composer run ci:check && npm run build  # Frontend + PHP checks and production build (full CI equivalent)
+npm run build && composer run ci:check  # Production build, then frontend + PHP checks (full CI equivalent)
 php artisan test --compact --filter=TestName   # Run a specific test
 vendor/bin/pint --dirty --format agent        # Auto-fix PHP style after edits
 npm run build             # Needed after frontend changes if dev server isn't running

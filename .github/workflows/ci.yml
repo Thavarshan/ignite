@@ -53,14 +53,14 @@ jobs:
       - name: Lint Frontend
         run: npm run lint:check
 
-      - name: Type Check
-        run: npm run types:check
-
       - name: Format Frontend
         run: npm run format:check
 
       - name: Build Assets
         run: npm run build
+
+      - name: Type Check
+        run: npm run types:check
 
       - name: Tests
         run: ./vendor/bin/pest

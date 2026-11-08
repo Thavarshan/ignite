@@ -80,8 +80,8 @@ composer run dev:ssr
 
 ```bash
 composer run test       # PHP lint + Pest tests
+npm run build           # Generates Wayfinder types and verifies production assets
 composer run ci:check   # Frontend lint, formatting, type-check, and PHP checks
-npm run build           # Verify production assets (also run in CI)
 ```
 
 Run a specific test:
